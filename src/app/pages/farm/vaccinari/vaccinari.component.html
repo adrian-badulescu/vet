@@ -1,0 +1,254 @@
+<div class="container-fluid">
+    <app-page-title title="Vaccinari" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <!-- <apx-chart #chart [series]="simplePieChart.series" [chart]="simplePieChart.chart" [labels]="simplePieChart.labels" [dataLabels]="simplePieChart.dataLabels" [legend]="simplePieChart.legend" [colors]="simplePieChart.colors" [responsive]="simplePieChart.responsive">
+            </apx-chart> -->
+            <!-- <apx-chart [series]="series" [chart]="simplePieChart.chart" [title]="title"></apx-chart> -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div *ngIf="!list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+                    <div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+                        <div class="ui-widget-header ui-helper-clearfix ewoheader">
+                            <actions (add)="add()" (edit)="edit()" (delete)="delete()" (export)="dt.exportCSV()"></actions>
+                        </div>
+
+                        <p-table #dt [value]="list" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="selectedItems">
+
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <th [pSortableColumn]="'animalId'">Id
+                                        <p-sortIcon [field]="'animalId'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'age'">Varsta
+                                        <p-sortIcon [field]="'age'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'sex'">Sex
+                                        <p-sortIcon [field]="'sex'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'gestating'">Gestantie
+                                        <p-sortIcon [field]="'gestating'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'weight'">Greutate
+                                        <p-sortIcon [field]="'weight'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'height'">Inaltime
+                                        <p-sortIcon [field]="'height'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'vaccineApplied'">Vaccin aplicat
+                                        <p-sortIcon [field]="'vaccineApplied'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'vaccineDate'">Data vaccin
+                                        <p-sortIcon [field]="'vaccineDate'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'vaccineApplied2'">Rappel vaccin
+                                        <p-sortIcon [field]="'vaccineApplied2'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'boosterVaccine'">Data rappel
+                                        <p-sortIcon [field]="'boosterVaccine'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                </tr>
+                                <tr class="ewoheaderfilter">
+                                    <th>
+                                        <input pInputText type="animalId" (input)="dt.filter($event.target.value, 'animalId', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="age" (input)="dt.filter($event.target.value, 'age', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="sex" (input)="dt.filter($event.target.value, 'sex', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="gestating" (input)="dt.filter($event.target.value, 'gestating', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="weight" (input)="dt.filter($event.target.value, 'weight', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="height" (input)="dt.filter($event.target.value, 'height', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="vaccineApplied" (input)="dt.filter($event.target.value, 'vaccineApplied', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="vaccineDate" (input)="dt.filter($event.target.value, 'vaccineDate', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="vaccineApplied2" (input)="dt.filter($event.target.value, 'vaccineApplied2', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="boosterVaccine" (input)="dt.filter($event.target.value, 'boosterVaccine', 'contains')">
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                <tr [pSelectableRow]="rowData" (dblclick)="onRowDblClick($event, rowData)">
+                                    <td>{{rowData['animalId']}}</td>
+                                    <td>{{rowData['age']}}</td>
+                                    <td>{{rowData['sex']}}</td>
+                                    <td>{{rowData['gestating'] | boolPipe}}</td>
+                                    <td>{{rowData['weight']}}</td>
+                                    <td>{{rowData['height']}}</td>
+                                    <td>{{rowData['vaccineApplied']}}</td>
+                                    <td>{{rowData['vaccineDate'] | date:'dd/MM/yyyy'}}</td>
+                                    <td>{{rowData['vaccineApplied2']}}</td>
+                                    <td>{{rowData['boosterVaccine'] | date:'dd/MM/yyyy'}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p-dialog header="Detalii" [(visible)]="displayDialog1" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="item" [width]="500">
+
+        <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item">
+                <div class="ui-grid-row">
+                    <form *ngIf="validationform" [formGroup]="validationform">
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id" formControlName="id">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <tabset #tabset>
+                                    <tab heading="Vaccinari">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="animalId">Id animal</label>
+                                                    <input type="text" class="form-control" id="animalId" placeholder="" formControlName="animalId" [ngClass]="{'is-invalid': submitted && form.animalId.errors}">
+                                                    <div *ngIf="submitted && form.animalId.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.animalId.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="age">Varsta</label>
+                                                    <select class="form-control" name="age" id="age" formControlName="age" [ngClass]="{'is-invalid': submitted && form.age.errors}">
+                                                            <option value="">alege specia varsta</option>
+                                                            <option *ngFor="let age of Age" [ngValue]="age">{{age}}</option>
+                                                        </select>
+                                                    <div *ngIf="submitted && form.age.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.age.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="temp">Temperatura</label>
+                                                    <input type="text" class="form-control" id="temp" placeholder="°C" formControlName="temp" [ngClass]="{'is-invalid': submitted && form.temp.errors}">
+                                                    <div *ngIf="submitted && form.temp.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.temp.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="vaccineApplied">Vaccin aplicat</label>
+                                                    <input type="text" class="form-control" id="vaccineApplied" placeholder="" formControlName="vaccineApplied" [ngClass]="{'is-invalid': submitted && form.vaccineApplied.errors}">
+                                                    <div *ngIf="submitted && form.vaccineApplied.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.vaccineApplied.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="vaccineApplied2">Rappel vaccin</label>
+                                                    <input type="text" class="form-control" id="vaccineApplied2" placeholder="" formControlName="vaccineApplied2" [ngClass]="{'is-invalid': submitted && form.vaccineApplied2.errors}">
+                                                    <div *ngIf="submitted && form.vaccineApplied2.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.vaccineApplied2.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="height">Inaltime</label>
+                                                    <input type="text" class="form-control" id="height" placeholder="cm" formControlName="height" [ngClass]="{'is-invalid': submitted && form.height.errors}">
+                                                    <div *ngIf="submitted && form.height.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.height.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="gestating">Sex</label>
+                                                    <select class="form-control" name="sex" id="sex" formControlName="sex" [ngClass]="{'is-invalid': submitted && form.sex.errors}">
+                                                        <option value="">alege sexul</option>
+                                                        <option *ngFor="let sex of Sex" [ngValue]="sex">{{sex}}</option>
+                                                    </select>
+                                                    <div *ngIf="submitted && form.sex.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.sex.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="weight">Greutate</label>
+                                                    <input type="text" class="form-control" id="weight" placeholder="Kg" formControlName="weight" [ngClass]="{'is-invalid': submitted && form.weight.errors}">
+                                                    <div *ngIf="submitted && form.weight.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.weight.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="vaccineDate">Data vaccinarii</label>
+                                                    <input type="date" class="form-control" id="vaccineDate" placeholder="" formControlName="vaccineDate" [ngClass]="{'is-invalid': submitted && form.vaccineDate.errors}">
+                                                    <div *ngIf="submitted && form.vaccineDate.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.vaccineDate.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <label for="boosterVaccine">Data rappel</label>
+                                                    <input type="date" class="form-control" id="boosterVaccine" placeholder="" formControlName="boosterVaccine" [ngClass]="{'is-invalid': submitted && form.boosterVaccine.errors}">
+                                                    <div *ngIf="submitted && form.boosterVaccine.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.boosterVaccine.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+
+
+
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-check" id="checkbox">
+                                                    <input class="form-check-input" type="checkbox" id="gestating" [checked]="gestating()" (change)="handleGestating($event)">
+                                                    <label class="form-check-label pl-0" for="gestating">Gestatie ?</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </tab>
+                                    <tab heading="Fisa observatii">
+                                        <div class="form-group col-lg-12">
+                                            <label for="obs">Descriere</label>
+                                            <textarea type="textarea" class="form-control" id="obs" placeholder="" formControlName="obs" [ngClass]="{ 'is-invalid': submitted && form.obs.errors}" rows="10"></textarea>
+                                            <div *ngIf="submitted && form.obs.errors" class="invalid-feedback">
+                                                <span *ngIf="form.obs.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+                                    </tab>
+                                </tabset>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog1 = false;" label="Renunta"></button>
+                <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="onSubmit(validationform.value)" label="Salveaza"></button>
+            </div>
+        </footer>
+    </p-dialog>

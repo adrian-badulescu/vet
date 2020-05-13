@@ -1,0 +1,361 @@
+<mat-card>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-8"><h4>Calendar pasunat</h4></div>
+    <div *ngIf="pasunatArrLen" class="col-lg-4 float-right"><h4>Intrari in Db: {{pasunatArrLen}}</h4></div>      
+  </div>
+
+ 
+  <div class="row mt-2">
+    
+    <div class="col-lg-1">
+      
+      <div class="row"><p><b>Ianuarie</b></p></div>
+      <div *ngIf="ianValue > 1" class="row">
+        <div class="col-lg-2">{{ianValue}}</div>
+        <div class="col-lg-6">zile</div>         
+      </div>
+      <div *ngIf="ianValue == 1" class="row">
+        <div class="col-lg-2">O</div>
+        <div class="col-lg-6">zi</div> 
+      </div>
+      
+        <mat-card-content id="mat-card-content">         
+
+          <mat-slider [ngClass]="ianValue ? 'when-value' : 'when-no-value'"
+              class="example-margin"
+              [(ngModel)]="ianValue"
+              [disabled]="disabled"
+              [invert]="invert"
+              [max]= "31"
+              [min]= "0"
+              [step]= 1
+              [thumbLabel]="true"
+              [tickInterval]="1"                          
+              [vertical]= "true">
+          </mat-slider>
+        </mat-card-content>
+      <!-- </mat-card> -->
+    </div>
+    <div class="col-lg-1">
+      
+      <div class="row"><p><b>Februarie</b></p></div>
+      <div *ngIf="febValue > 1" class="row">
+        <div class="col-lg-2">{{febValue}}</div>
+        <div class="col-lg-6">zile</div> 
+      </div>
+      <div *ngIf="febValue == 1" class="row">
+        <div class="col-lg-2">O</div>
+        <div class="col-lg-6">zi</div> 
+      </div>
+      <mat-card-content id="mat-card-content">         
+      
+        <mat-slider [ngClass]="febValue ? 'when-value' : 'when-no-value'"
+            class="example-margin"
+            [(ngModel)]="febValue"
+            [disabled]="disabled"
+            [invert]="invert"
+            [max]= "28"
+            [min]= "0"
+            [step]= 1
+            [thumbLabel]="true"
+            [tickInterval]="1"              
+            [vertical]= "true">
+        </mat-slider>
+      </mat-card-content>
+    </div>
+    <div class="col-lg-1">
+      <div class="row"><p><b>Martie</b></p></div>
+      <div *ngIf="marValue > 1" class="row">
+        <div class="col-lg-2">{{marValue}}</div>
+        <div class="col-lg-6">zile</div> 
+      </div>
+      <div *ngIf="marValue == 1" class="row">
+        <div class="col-lg-2">O</div>
+        <div class="col-lg-6">zi</div> 
+      </div>
+      <mat-card-content id="mat-card-content">         
+      
+        <mat-slider [ngClass]="marValue ? 'when-value' : 'when-no-value'"
+            class="example-margin"
+            [(ngModel)]="marValue"
+            [disabled]="disabled"
+            [invert]="invert"
+            [max]= "31"
+            [min]= "0"
+            [step]= 1
+            [thumbLabel]="true"
+            [tickInterval]="1"              
+            [vertical]= "true">
+        </mat-slider>
+      </mat-card-content>
+    </div>
+    <div class="col-lg-1">
+      <div class="row"><p><b>Aprilie</b></p></div>
+      <div *ngIf="aprValue > 1" class="row">
+        <div class="col-lg-2">{{aprValue}}</div>
+        <div class="col-lg-6">zile</div> 
+      </div>
+      <div *ngIf="aprValue == 1" class="row">
+        <div class="col-lg-2">O</div>
+        <div class="col-lg-6">zi</div> 
+      </div>
+      
+      <mat-card-content id="mat-card-content">         
+      
+        <mat-slider [ngClass]="aprValue ? 'when-value' : 'when-no-value'"
+            class="example-margin"
+            [(ngModel)]="aprValue"
+            [disabled]="disabled"
+            [invert]="invert"
+            [max]= "30"
+            [min]= "0"
+            [step]= 1
+            [thumbLabel]="true"
+            [tickInterval]="1"              
+            [vertical]= "true">
+        </mat-slider>
+      </mat-card-content>
+    </div>
+    <div class="col-lg-1">
+      <div class="row"><p><b>Mai</b></p></div>
+      <div *ngIf="maiValue > 1" class="row">
+        <div class="col-lg-2">{{maiValue}}</div>
+        <div class="col-lg-6">zile</div> 
+      </div>
+      <div *ngIf="maiValue == 1" class="row">
+        <div class="col-lg-2">O</div>
+        <div class="col-lg-6">zi</div> 
+      </div>
+      
+      <mat-card-content id="mat-card-content">         
+      
+        <mat-slider [ngClass]="maiValue ? 'when-value' : 'when-no-value'"
+            class="example-margin"
+            [(ngModel)]="maiValue"
+            [disabled]="disabled"
+            [invert]="invert"
+            [max]= "31"
+            [min]= "0"
+            [step]= 1
+            [thumbLabel]="true"
+            [tickInterval]="1"              
+            [vertical]= "true">
+        </mat-slider>
+      </mat-card-content>
+    </div>
+    <div class="col-lg-1">
+      <div class="row"><p><b>Iunie</b></p></div>
+      <div *ngIf="iunValue > 1" class="row">
+        <div class="col-lg-2">{{iunValue}}</div>
+        <div class="col-lg-6">zile</div> 
+      </div>
+      <div *ngIf="iunValue == 1" class="row">
+        <div class="col-lg-2">O</div>
+        <div class="col-lg-6">zi</div> 
+      </div>
+      
+      <mat-card-content id="mat-card-content">         
+      
+        <mat-slider [ngClass]="iunValue ? 'when-value' : 'when-no-value'"
+            class="example-margin"
+            [(ngModel)]="iunValue"
+            [disabled]="disabled"
+            [invert]="invert"
+            [max]= "30"
+            [min]= "0"
+            [step]= 1
+            [thumbLabel]="true"
+            [tickInterval]="1"              
+            [vertical]= "true">
+        </mat-slider>
+      </mat-card-content>
+    </div>
+    <div class="col-lg-1">
+      <div class="row"><p><b>Iulie</b></p></div>
+      <div *ngIf="iulValue > 1" class="row">
+        <div class="col-lg-2">{{iulValue}}</div>
+        <div class="col-lg-6">zile</div>
+      </div>
+      <div *ngIf="iulValue == 1" class="row">
+        <div class="col-lg-2">O</div>
+        <div class="col-lg-6">zi</div> 
+      </div>
+      
+      <mat-card-content id="mat-card-content">         
+      
+        <mat-slider [ngClass]="iulValue ? 'when-value' : 'when-no-value'"
+            class="example-margin"
+            [(ngModel)]="iulValue"
+            [disabled]="disabled"
+            [invert]="invert"
+            [max]= "31"
+            [min]= "0"
+            [step]= 1
+            [thumbLabel]="true"
+            [tickInterval]="1"              
+            [vertical]= "true">
+        </mat-slider>
+      </mat-card-content>
+    </div>
+    <div class="col-lg-1">
+      <div class="row"><p><b>August</b></p></div>
+      <div *ngIf="augValue > 1" class="row">
+        <div class="col-lg-2">{{augValue}}</div>
+        <div class="col-lg-6">zile</div>
+      </div>
+      <div *ngIf="augValue == 1" class="row">
+        <div class="col-lg-2">O</div>
+        <div class="col-lg-6">zi</div> 
+      </div>
+      
+      <mat-card-content id="mat-card-content">         
+      
+        <mat-slider [ngClass]="augValue ? 'when-value' : 'when-no-value'"
+            class="example-margin"
+            [(ngModel)]="augValue"
+            [disabled]="disabled"
+            [invert]="invert"
+            [max]= "31"
+            [min]= "0"
+            [step]= 1
+            [thumbLabel]="true"
+            [tickInterval]="1"              
+            [vertical]= "true">
+        </mat-slider>
+      </mat-card-content>
+    </div>
+    <div class="col-lg-1">
+      <div class="row"><p><b>Septembrie</b></p></div>
+      <div *ngIf="sepValue > 1" class="row">
+        <div class="col-lg-2">{{sepValue}}</div>
+        <div class="col-lg-6">zile</div>
+      </div>
+      <div *ngIf="sepValue == 1" class="row">
+        <div class="col-lg-2">O</div>
+        <div class="col-lg-6">zi</div> 
+      </div>
+      
+      <mat-card-content id="mat-card-content">         
+      
+        <mat-slider [ngClass]="sepValue ? 'when-value' : 'when-no-value'"
+            class="example-margin"
+            [(ngModel)]="sepValue"
+            [disabled]="disabled"
+            [invert]="invert"
+            [max]= "30"
+            [min]= "0"
+            [step]= 1
+            [thumbLabel]="true"
+            [tickInterval]="1"              
+            [vertical]= "true">
+        </mat-slider>
+      </mat-card-content>
+    </div>
+    <div class="col-lg-1">
+      <div class="row"><p><b>Octombrie</b></p></div>
+      <div *ngIf="octValue > 1" class="row">
+        <div class="col-lg-2">{{octValue}}</div>
+        <div class="col-lg-6">zile</div>
+      </div>
+      <div *ngIf="octValue == 1" class="row">
+        <div class="col-lg-2">O</div>
+        <div class="col-lg-6">zi</div> 
+      </div>
+      
+      <mat-card-content id="mat-card-content">         
+      
+        <mat-slider [ngClass]="octValue ? 'when-value' : 'when-no-value'"
+            class="example-margin"
+            [(ngModel)]="octValue"
+            [disabled]="disabled"
+            [invert]="invert"
+            [max]= "31"
+            [min]= "0"
+            [step]= 1
+            [thumbLabel]="true"
+            [tickInterval]="1"              
+            [vertical]= "true">
+        </mat-slider>
+      </mat-card-content>
+    </div>
+    <div class="col-lg-1">
+      <div class="row"><p><b>Noiembrie</b></p></div>
+      <div *ngIf="novValue > 1" class="row">
+        <div class="col-lg-2">{{novValue}}</div>
+        <div class="col-lg-6">zile</div>
+      </div>
+      <div *ngIf="novValue == 1" class="row">
+        <div class="col-lg-2">O</div>
+        <div class="col-lg-6">zi</div> 
+      </div>
+      
+      
+      <mat-card-content id="mat-card-content">         
+      
+        <mat-slider [ngClass]="novValue ? 'when-value' : 'when-no-value'"
+            class="example-margin"
+            [(ngModel)]="novValue"
+            [disabled]="disabled"
+            [invert]="invert"
+            [max]= "30"
+            [min]= "0"
+            [step]= 1
+            [thumbLabel]="true"
+            [tickInterval]="1"              
+            [vertical]= "true">
+        </mat-slider>
+      </mat-card-content>
+    </div>
+    <div class="col-lg-1">
+      <div class="row"><p><b>Decembrie</b></p></div>
+      <div *ngIf="decValue > 1" class="row">
+        <div class="col-lg-2">{{decValue}}</div>
+        <div class="col-lg-6">zile</div>
+      </div>
+      <div *ngIf="decValue == 1" class="row">
+        <div class="col-lg-2">O</div>
+        <div class="col-lg-6">zi</div> 
+      </div>
+      <mat-card-content id="mat-card-content">         
+      
+        <mat-slider [ngClass]="decValue ? 'when-value' : 'when-no-value'"
+            class="example-margin"
+            [(ngModel)]="decValue"
+            [disabled]="disabled"
+            [invert]="invert"
+            [max]= "31"
+            [min]= "0"
+            [step]= 1
+            [thumbLabel]="true"
+            [tickInterval]="1"              
+            [vertical]= "true">
+        </mat-slider>
+      </mat-card-content>
+    </div>
+
+  </div>
+
+</div>
+</mat-card>
+<mat-card id="2nd-mat-card">
+  <div class="row">
+    <div class="col-lg-8">  <mat-card-content>
+      <h4>Anul {{yearValue}}</h4>
+  
+      <mat-slider 
+          class="year"       
+          [max]="2050"
+          [min]="2020"
+          [step]="1"
+          [thumbLabel]="true"
+          [tickInterval]="getSliderTickInterval()"
+          [(ngModel)]="yearValue"
+          
+          >
+      </mat-slider>
+    </mat-card-content></div>
+    <div class="col-lg-4"><button class="btn btn-primary float-right mt-2 mr-5" (click)="createItem()">Salveaza</button></div>
+  </div>  
+</mat-card>
+<!-- [vertical]="horizontal" -->

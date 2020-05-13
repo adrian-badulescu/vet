@@ -1,0 +1,179 @@
+<div class="container-fluid">
+    <app-page-title title="Bunuri" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div *ngIf="!list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+                    <div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+                        <div class="ui-widget-header ui-helper-clearfix ewoheader">
+                            <actions (add)="add()" (edit)="edit()" (delete)="delete()" (export)="dt.exportCSV()"></actions>
+                        </div>
+
+                        <p-table #dt [value]="list" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="selectedItems">
+
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <th [pSortableColumn]="'object'">Obiect
+                                        <p-sortIcon [field]="'object'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'startDate'">Data inceperii
+                                        <p-sortIcon [field]="'startDate'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'startValue'">Valoarea de inceput
+                                        <p-sortIcon [field]="'startValue'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'currentValue'">Valoarea curenta
+                                        <p-sortIcon [field]="'currentValue'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'currentAge'">Varsta curenta
+                                        <p-sortIcon [field]="'currentAge'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'deprecPeriod'">Perioada de amortizare
+                                        <p-sortIcon [field]="'deprecPeriod'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'deprecRate'">Rata de amortizare
+                                        <p-sortIcon [field]="'deprecRate'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                </tr>
+                                <tr class="ewoheaderfilter">
+                                    <th>
+                                        <input pInputText type="name" (input)="dt.filter($event.target.value, 'name', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="startDate" (input)="dt.filter($event.target.value, 'startDate', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="startValue" (input)="dt.filter($event.target.value, 'startValue', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="currentValue" (input)="dt.filter($event.target.value, 'currentValue', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="currentAge" (input)="dt.filter($event.target.value, 'currentAge', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="deprecPeriod" (input)="dt.filter($event.target.value, 'deprecPeriod', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="deprecRate" (input)="dt.filter($event.target.value, 'deprecRate', 'contains')">
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                <tr [pSelectableRow]="rowData" (dblclick)="onRowDblClick($event, rowData)">
+                                    <td>{{rowData['object']}}</td>
+                                    <td>{{rowData['startDate'] | date:'dd/MM/yyyy'}}</td>
+                                    <td>{{rowData['startValue']}}</td>
+                                    <td>{{rowData['currentValue']}}</td>
+                                    <td>{{rowData['currentAge']}}</td>
+                                    <td>{{rowData['deprecPeriod']}}</td>
+                                    <td>{{rowData['deprecRate']}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p-dialog header="Bunuri" [(visible)]="displayDialog1" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="item" [width]="500">
+
+        <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item">
+                <div class="ui-grid-row">
+                    <form *ngIf="validationform" [formGroup]="validationform">
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id" formControlName="id">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="radio-group-vertical col-lg-12">
+                                        <div class="form-group">
+                                            <label for="object">Obiect</label>
+                                            <input type="text" class="form-control" id="object" placeholder="" formControlName="object" [ngClass]="{'is-invalid': submitted && form.object.errors}">
+                                            <div *ngIf="submitted && form.object.errors" class="invalid-feedback">
+                                                <span *ngIf="form.object.errors.required">Camp obligatoriu</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="startDate">Data inceperii</label>
+                                            <input type="date" class="form-control" id="startDate" placeholder="" formControlName="startDate" [ngClass]="{'is-invalid': submitted && form.startDate.errors}">
+                                            <div *ngIf="submitted && form.startDate.errors" class="invalid-feedback">
+                                                <span *ngIf="form.startDate.errors.required">Camp obligatoriu</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="startValue">Valoare de inceput</label>
+                                            <input type="number" class="form-control" id="startValue" placeholder="" formControlName="startValue" [ngClass]="{'is-invalid': submitted && form.startValue.errors}">
+                                            <div *ngIf="submitted && form.startValue.errors" class="invalid-feedback">
+                                                <span *ngIf="form.startValue.errors.required">Camp obligatoriu</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="deprecPeriod">Perioada de amortizare</label>
+                                            <input type="number" class="form-control" id="deprecPeriod" placeholder="" formControlName="deprecPeriod" [ngClass]="{'is-invalid': submitted && form.deprecPeriod.errors}">
+                                            <div *ngIf="submitted && form.deprecPeriod.errors" class="invalid-feedback">
+                                                <span *ngIf="form.deprecPeriod.errors.required">Camp obligatoriu</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="currentValue">Valoarea curenta</label>
+                                            <input type="number" class="form-control" id="currentValue" placeholder="" formControlName="currentValue" [ngClass]="{'is-invalid': submitted && form.currentValue.errors}">
+                                            <div *ngIf="submitted && form.currentValue.errors" class="invalid-feedback">
+                                                <span *ngIf="form.currentValue.errors.required">Camp obligatoriu</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="currentAge">Varsta curenta</label>
+                                            <input type="number" class="form-control" id="currentAge" placeholder="" formControlName="currentAge" [ngClass]="{'is-invalid': submitted && form.currentAge.errors}">
+                                            <div *ngIf="submitted && form.currentAge.errors" class="invalid-feedback">
+                                                <span *ngIf="form.currentAge.errors.required">Camp obligatoriu</span>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label for="deprecRate">Rata de amortizare</label>
+                                            <input type="number" class="form-control" id="deprecRate" placeholder="" formControlName="deprecRate" [ngClass]="{'is-invalid': submitted && form.deprecRate.errors}">
+                                            <div *ngIf="submitted && form.deprecRate.errors" class="invalid-feedback">
+                                                <span *ngIf="form.deprecRate.errors.required">Camp obligatoriu</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog1 = false;" label="Renunta"></button>
+                <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="onSubmit(validationform.value)" label="Salveaza"></button>
+            </div>
+        </footer>
+    </p-dialog>

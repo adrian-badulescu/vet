@@ -1,0 +1,353 @@
+<div class="container-fluid">
+    <app-page-title title="Registratura" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Lista inregistrari</h4>
+                    <p class="text-muted font-13 mb-4">
+
+                    </p>
+                    <div class="row mb-md-2">
+                        <div class="col-sm-12 col-md-6">
+                            <a class="btn btn-danger mb-2" (click)="openModal(content)" style="color: white"><i
+                                    class="mdi mdi-plus-circle mr-1"></i> Adauga </a>
+                        </div>
+                        <!-- Search -->
+                        <div class="col-sm-12 col-md-6">
+                            <div id="tickets-table_filter" class="dataTables_filter text-md-right"><label class="d-inline-flex align-items-center">Cauta:
+                  <input type="text" name="searchTerm" class="form-control form-control-sm ml-2"
+                    aria-controls="tickets-table" [(ngModel)]="service.searchTerm"></label>
+                                <!-- <a href="ngx" class="btn btn-primary"><i class="mdi mdi-printer mr-1"></i> Print</a> -->
+                            </div>
+
+                        </div>
+                        <!-- End search -->
+
+                    </div>
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table id="basic-datatable" class="table datatables dt-responsive nowrap">
+                            <thead>
+                                <tr>
+                                    <th sortable="serie_factura" (sort)="onSort($event)">Numar intreg</th>
+                                    <th sortable="data_factura" (sort)="onSort($event)">Data Ingregistrare</th>
+                                    <th sortable="data_factura" (sort)="onSort($event)">Emitent Iesire</th>
+                                    <th sortable="data_factura" (sort)="onSort($event)">Tip Document</th>
+                                    <th sortable="data_factura" (sort)="onSort($event)">Difuzat la</th>
+                                    <th sortable="data_factura" (sort)="onSort($event)">Destinatar</th>
+                                    <th sortable="data_factura" (sort)="onSort($event)">Valid</th>
+                                    <th style="width: 82px;">Actiune</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let table of register">
+                                    <td>
+                                        <ngb-highlight [result]="table.number"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="table.date | date:'dd/MM/yyyy'"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="table.emitent"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="table.type_doc"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="table.date_doc | date:'dd/MM/yyyy'"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="table.destinatar"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="table.valid"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <a (click)="openToEditModal(content, table)" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                        <a (click)="deleteItem(table.id)" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- End table -->
+                    <div class="row justify-content-md-between align-items-md-center mt-2">
+                        <div class="col-sm-12 col-md-3">
+                            <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">Showing {{service.startIndex}} to {{service.endIndex}} of {{service.totalRecords}} entries
+                            </div>
+                        </div>
+                        <!-- pages -->
+                        <div class="col-sm-12 col-md-3">
+                            <div class="dataTables_length" id="tickets-table_length"><label class="d-inline-flex align-items-center">Show
+                  <select name="tickets-table_length" aria-controls="tickets-table" name="pageSize"
+                    [(ngModel)]="service.pageSize"
+                    class="custom-select custom-select-sm form-control form-control-sm mx-2">
+                    <option [ngValue]="10">10</option>
+                    <option [ngValue]="25">25</option>
+                    <option [ngValue]="50">50</option>
+                    <option [ngValue]="100">100</option>
+                  </select> entries</label></div>
+                        </div>
+                        <!-- Pagination -->
+                        <div class="col-sm-12 col-md-6">
+                            <div class="text-md-right float-md-right pagination-rounded">
+                                <ngb-pagination [collectionSize]="total$ | async" [(page)]="service.page" [pageSize]="service.pageSize">
+                                </ngb-pagination>
+                            </div>
+                        </div>
+                        <!-- End Pagination -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ngx-smart-modal #formentity identifier="formentity" [closable]="false" class="col-md-6 printinventory">
+        <div class="modal-header">
+            <h5 class="modal-title">Print</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closePrintInventory()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </ngx-smart-modal>
+
+    <ng-template #content role="document" let-modal="close">
+
+        <div class="modal-header bg-dark">
+            <h4 class="modal-title text-white">Adauga</h4>
+            <button type="button" class="close text-white" aria-label="Close" (click)="modal('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+
+        <div class="modal-body p-3">
+            <div class="text-left">
+                <form (ngSubmit)="saveData(validationform.value)" [formGroup]="validationform">
+
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="id" formControlName="id">
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <tabset #tabset>
+                                <tab heading="Document Primit">
+
+
+                                    <div class="form-group row">
+                                        <div class="form-group col-lg-2">
+                                            <label for="number">Nr inregistrare</label>
+                                            <input type="text" class="form-control" id="number" placeholder="" formControlName="number" [ngClass]="{'is-invalid': submitted && form.number.errors}">
+                                            <div *ngIf="submitted && form.number.errors" class="invalid-feedback">
+                                                <span *ngIf="form.number.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-lg-2">
+                                            <label for="serie">Serie inregistrare</label>
+                                            <input type="text" class="form-control" id="serie" placeholder="Enter a description" formControlName="serie" [ngClass]="{'is-invalid': submitted && form.serie.errors}">
+                                            <div *ngIf="submitted && form.serie.errors" class="invalid-feedback">
+                                                <span *ngIf="form.serie.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-lg-2">
+                                            <label for="date_doc">Data inregistrare</label>
+                                            <input type="date" class="form-control" id="description" placeholder="" formControlName="date_doc" [ngClass]="{'is-invalid': submitted && form.date_doc.errors}">
+                                            <div *ngIf="submitted && form.date_doc.errors" class="invalid-feedback">
+                                                <span *ngIf="form.date_doc.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-lg-3">
+                                            <label for="event">Eveniment &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</label>
+                                            <select class="form-control" name="event" id="event" formControlName="event" [ngClass]="{'is-invalid': submitted && form.priority.errors}">
+                                                        <option value="">Alege eveniment</option>
+                                                        <option *ngFor="let event of Event" [ngValue]="event">{{event}}</option>
+                                                    </select>
+                                            <div *ngIf="submitted && form.event.errors" class="invalid-feedback">
+                                                <span *ngIf="form.event.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-lg-2">
+                                            <div class="form-check" style="margin-top: 50%;">
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [checked]="checkedTransmis()" (change)="handleTransmis($event)">
+                                                <label class="form-check-label" for="inlineCheckbox1">Transmis</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form group row">
+                                        <div class="form-group col-lg-3">
+                                            <label for="partner2id">Numar</label>
+                                            <input type="text" class="form-control" id="partner2id" placeholder="" formControlName="partner2id" [ngClass]="{'is-invalid': submitted && form.partner2id.errors}">
+                                            <div *ngIf="submitted && form.partner2id.errors" class="invalid-feedback">
+                                                <span *ngIf="form.partner2id.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+                                        <!-- </div> -->
+
+
+                                        <div class=" form-group col-lg-3">
+                                            <label for="date">Data</label>
+                                            <input type="date" class="form-control" id="date" placeholder="" formControlName="date" [ngClass]="{'is-invalid': submitted && form.date.errors}">
+                                            <div *ngIf="submitted && form.date.errors" class="invalid-feedback">
+                                                <span *ngIf="form.date.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group col-lg-3">
+                                            <label for="type_doc">Tip</label>
+                                            <select class="form-control" name="type_doc" id="type_doc" formControlName="type_doc" [ngClass]="{'is-invalid': submitted && form.type_doc.errors}">
+                                                <option value="">Alege tip document</option>
+                                                <option *ngFor="let type_doc of Type_doc" [ngValue]="type_doc">{{type_doc}}</option>
+                                            </select>
+                                            <div *ngIf="submitted && form.type_doc.errors" class="invalid-feedback">
+                                                <span *ngIf="form.type_doc.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tab>
+
+                                <tab heading="Emitent Iesire">
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <div class="form-group">
+                                                <label for="partner1id">Firma</label>
+                                                <select class="form-control" name="partner1id" id="partner1id" formControlName="partner1id" [ngClass]="{'is-invalid': submitted && form.partner1id.errors}">
+                                                <option value="">Alege firma</option>
+                                                <option *ngFor="let partner1id of Partner1id" [ngValue]="partner1id">{{partner1id}}</option>
+                                            </select>
+                                                <div *ngIf="submitted && form.partner1id.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.partner1id.errors.required">This value is required.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="department1id">Compartiment</label>
+                                                <select class="form-control" name="department1id" id="department1id" formControlName="department1id" [ngClass]="{'is-invalid': submitted && form.department1id.errors}" (change)="selectDept($event.target.value)">
+                                                <option value="">Alege departament</option>
+                                                <option *ngFor="let department1id of Department1id" [ngValue]="department1id" >{{department1id}}</option>
+                                            </select>
+                                                <div *ngIf="submitted && form.department1id.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.department1id.errors.required">This value is required.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="personal1id">Persoana</label>
+                                                <select class="form-control" name="personal1id" id="personal1id" formControlName="personal1id" [ngClass]="{'is-invalid': submitted && form.personal1id.errors}">
+                                                <option value="">Alege persoana</option>
+                                                <option *ngFor="let personal1id of Personal1id" [ngValue]="personal1id">{{personal1id}}</option>
+                                            </select>
+                                                <div *ngIf="submitted && form.personal1id.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.personal1id.errors.required">This value is required.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5 pull-left">
+                                            <div class="form-group">
+                                                <label for="msg1">Emitent Iesire*</label>
+                                                <textarea class="form-control" id="Textarea1" id="msg1" placeholder="" formControlName="msg1" [ngClass]="{'is-invalid': submitted && form.msg1.errors}" rows="9"></textarea>
+                                                <div *ngIf="submitted && form.msg1.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.msg1.errors.required">This value is required.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tab>
+
+                                <tab heading="Destinatar">
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <div class="form-group">
+                                                <label for="partner1id">Firma</label>
+                                                <select class="form-control" name="partner1id" id="partner1id" formControlName="partner1id" [ngClass]="{'is-invalid': submitted && form.partner1id.errors}">
+                                                    <option value="">Alege firma</option>
+                                                    <option *ngFor="let partner1id of Partner1id" [ngValue]="partner1id">{{partner1id}}</option>
+                                                </select>
+                                                <div *ngIf="submitted && form.partner1id.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.partner1id.errors.required">This value is required.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="department1id">Compartiment</label>
+                                                <select class="form-control" name="department1id" id="department1id" formControlName="department1id" [ngClass]="{'is-invalid': submitted && form.department1id.errors}" (change)="selectDept($event.target.value)">
+                                                    <option value="">Alege departament</option>
+                                                    <option *ngFor="let department1id of Department1id" [ngValue]="department1id" >{{department1id}}</option>
+                                                </select>
+                                                <div *ngIf="submitted && form.department1id.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.department1id.errors.required">This value is required.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="personal1id">Persoana</label>
+                                                <select class="form-control" name="personal1id" id="personal1id" formControlName="personal1id" [ngClass]="{'is-invalid': submitted && form.personal1id.errors}">
+                                                    <option value="">Alege persoana</option>
+                                                    <option *ngFor="let personal1id of Personal1id" [ngValue]="personal1id">{{personal1id}}</option>
+                                                </select>
+                                                <div *ngIf="submitted && form.personal1id.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.personal1id.errors.required">This value is required.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5 pull-left">
+                                            <div class="form-group">
+                                                <label for="msg2">Destinatar*</label>
+                                                <textarea class="form-control" id="Textarea2" id="msg2" placeholder="" formControlName="msg2" [ngClass]="{'is-invalid': submitted && form.msg2.errors}" rows="9"></textarea>
+                                                <div *ngIf="submitted && form.msg2.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.msg2.errors.required">This value is required.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tab>
+
+                                <tab heading="Continutul(pe scurt)">
+                                    <div class="form-group row">
+                                        <div class="col-lg-8">
+                                            <div class="form-group">
+                                                <label for="msg"></label>
+                                                <textarea class="form-control" id="Textarea3" id="msg" placeholder="" formControlName="msg" [ngClass]="{'is-invalid': submitted && form.msg.errors}" rows="9"></textarea>
+                                                <div *ngIf="submitted && form.msg.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.comanda.errors.required">This value is required.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="vvv" class="form-group col-lg-3 pull-left">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="vvv" [checked]="checkedValidatManager()" (change)="handleValidatManager($event) ">
+                                                <label class="form-check-label " for="inlineCheckbox1 ">Validare manager</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </tab>
+                                <!-- <tab heading="Total ">
+
+                                        </tab> -->
+                            </tabset>
+                            <!-- <div class="col-lg-4 "> -->
+
+                        </div>
+                    </div>
+                    <!-- <div class="text-left ">
+        
+                        </div> -->
+                    <div class="text-right ">
+                        <button type="button " class="btn btn-success " (click)="onSubmit(validationform.value, validationform, modal) ">Salveaza</button>
+                        <button type="button " class="btn btn-danger ml-1 " (click)="closeModal(validationform, modal) ">Anuleaza</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- </div>end -->
+
+    </ng-template>

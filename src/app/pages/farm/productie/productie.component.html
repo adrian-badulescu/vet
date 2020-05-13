@@ -1,0 +1,186 @@
+<div class="container-fluid">
+    <app-page-title title="Productie" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div *ngIf="!list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+                    <div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+                        <div class="ui-widget-header ui-helper-clearfix ewoheader">
+                            <actions (add)="add()" (edit)="edit()" (delete)="delete()" (export)="dt.exportCSV()"></actions>
+                        </div>
+
+                        <p-table #dt [value]="list" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="selectedItems">
+
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <th [pSortableColumn]="'name'">Nume
+                                        <p-sortIcon [field]="'name'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'harvest'">Recolta
+                                        <p-sortIcon [field]="'harvest'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'location'">Locatie
+                                        <p-sortIcon [field]="'location'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'connectedArea'">Suprafata conectata
+                                        <p-sortIcon [field]="'connectedArea'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'eficiency'">Eficienta
+                                        <p-sortIcon [field]="'eficiency'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'activitiesSeason'">Activitati anotimpul
+                                        <p-sortIcon [field]="'activitiesSeason'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'activities'">Activitati
+                                        <p-sortIcon [field]="'activities'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                </tr>
+                                <tr class="ewoheaderfilter">
+                                    <th>
+                                        <input pInputText type="name" (input)="dt.filter($event.target.value, 'name', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="harvest" (input)="dt.filter($event.target.value, 'harvest', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="location" (input)="dt.filter($event.target.value, 'location', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="connectedArea" (input)="dt.filter($event.target.value, 'connectedArea', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="eficiency" (input)="dt.filter($event.target.value, 'eficiency', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="activitiesSeason" (input)="dt.filter($event.target.value, 'activitiesSeason', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="activities" (input)="dt.filter($event.target.value, 'activities', 'contains')">
+                                    </th>
+
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                <tr [pSelectableRow]="rowData" (dblclick)="onRowDblClick($event, rowData)">
+                                    <td>{{rowData['name']}}</td>
+                                    <td>{{rowData['harvest']}}</td>
+                                    <td>{{rowData['location']}}</td>
+                                    <td>{{rowData['connectedArea']}}</td>
+                                    <td>{{rowData['eficiency']}}</td>
+                                    <td>{{rowData['activitiesSeason']}}</td>
+                                    <td>{{rowData['activities']}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p-dialog header="Productie" [(visible)]="displayDialog1" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="item" [width]="500">
+
+        <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item">
+                <div class="ui-grid-row">
+                    <form *ngIf="validationform" [formGroup]="validationform">
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id" formControlName="id">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+
+
+
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label for="name">Nume</label>
+                                            <input type="text" class="form-control" id="name" placeholder="" formControlName="name" [ngClass]="{'is-invalid': submitted && form.name.errors}">
+                                            <div *ngIf="submitted && form.name.errors" class="invalid-feedback">
+                                                <span *ngIf="form.name.errors.required">Camp obligatoriu</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="harvest">Recolta</label>
+                                            <input type="harvest" class="form-control" id="date" placeholder="" formControlName="harvest" [ngClass]="{'is-invalid': submitted && form.harvest.errors}">
+                                            <div *ngIf="submitted && form.harvest.errors" class="invalid-feedback">
+                                                <span *ngIf="form.harvest.errors.required">Camp obligatoriu</span>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label for="location">Locatia</label>
+                                            <input type="text" class="form-control" id="location" placeholder="" formControlName="location" [ngClass]="{'is-invalid': submitted && form.location.errors}">
+                                            <div *ngIf="submitted && form.location.errors" class="invalid-feedback">
+                                                <span *ngIf="form.location.errors.required">Camp obligatoriu</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="connectedArea">Suprafata conectata</label>
+                                            <input type="text" class="form-control" id="connectedArea" placeholder="" formControlName="connectedArea" [ngClass]="{'is-invalid': submitted && form.connectedArea.errors}">
+                                            <div *ngIf="submitted && form.connectedArea.errors" class="invalid-feedback">
+                                                <span *ngIf="form.connectedArea.errors.required">Camp obligatoriu</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="eficiency">Eficienta</label>
+                                            <input type="text" class="form-control" id="eficiency" placeholder="" formControlName="eficiency" [ngClass]="{'is-invalid': submitted && form.eficiency.errors}">
+                                            <div *ngIf="submitted && form.eficiency.errors" class="invalid-feedback">
+                                                <span *ngIf="form.eficiency.errors.required">Camp obligatoriu</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="activitiesSeason">Activitati sezon</label>
+                                            <input type="text" class="form-control" id="activitiesSeason" placeholder="" formControlName="activitiesSeason" [ngClass]="{'is-invalid': submitted && form.activitiesSeason.errors}">
+                                            <div *ngIf="submitted && form.activitiesSeason.errors" class="invalid-feedback">
+                                                <span *ngIf="form.activitiesSeason.errors.required">Camp obligatoriu</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="activities">Activitati</label>
+                                            <input type="text" class="form-control" id="activities" placeholder="" formControlName="activities" [ngClass]="{'is-invalid': submitted && form.activities.errors}">
+                                            <div *ngIf="submitted && form.activities.errors" class="invalid-feedback">
+                                                <span *ngIf="form.activities.errors.required">Camp obligatoriu</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog1 = false;" label="Renunta"></button>
+                <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="onSubmit(validationform.value)" label="Salveaza"></button>
+            </div>
+        </footer>
+    </p-dialog>

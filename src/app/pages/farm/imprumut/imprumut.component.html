@@ -1,0 +1,205 @@
+<div class="container-fluid">
+    <app-page-title title="Imprumut" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div *ngIf="!list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+                    <div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+                        <div class="ui-widget-header ui-helper-clearfix ewoheader">
+                            <actions (add)="add()" (edit)="edit()" (delete)="delete()" (export)="dt.exportCSV()"></actions>
+                        </div>
+
+                        <p-table #dt [value]="list" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="selectedItems">
+
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <th [pSortableColumn]="'name'">Nume
+                                        <p-sortIcon [field]="'name'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'date'">Data
+                                        <p-sortIcon [field]="'date'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'period'">Durata
+                                        <p-sortIcon [field]="'period'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'principalAmount'">Suma principala
+                                        <p-sortIcon [field]="'principalAmount'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'currency'">Valuta
+                                        <p-sortIcon [field]="'currency'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'nominalRate'">Rata nominala
+                                        <p-sortIcon [field]="'nominalRate'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'efectiveRate'">Rata efectiva
+                                        <p-sortIcon [field]="'efectiveRate'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'obs'">Descriere
+                                        <p-sortIcon [field]="'obs'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                </tr>
+                                <tr class="ewoheaderfilter">
+                                    <th>
+                                        <input pInputText type="name" (input)="dt.filter($event.target.value, 'name', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="date" (input)="dt.filter($event.target.value, 'date', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="period" (input)="dt.filter($event.target.value, 'period', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="principalAmount" (input)="dt.filter($event.target.value, 'principalAmount', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="currency" (input)="dt.filter($event.target.value, 'currency', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="nominalRate" (input)="dt.filter($event.target.value, 'nominalRate', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="efectiveRate" (input)="dt.filter($event.target.value, 'efectiveRate', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="obs" (input)="dt.filter($event.target.value, 'obs', 'contains')">
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                <tr [pSelectableRow]="rowData" (dblclick)="onRowDblClick($event, rowData)">
+                                    <td>{{rowData['name']}}</td>
+                                    <td>{{rowData['date'] | date:'dd/MM/yyyy'}}</td>
+                                    <td>{{rowData['period']}}</td>
+                                    <td>{{rowData['principalAmount']}}</td>
+                                    <td>{{rowData['currency']}}</td>
+                                    <td>{{rowData['nominalRate']}}</td>
+                                    <td>{{rowData['efectiveRate']}}</td>
+                                    <td>{{rowData['obs']}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p-dialog header="Detalii" [(visible)]="displayDialog1" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="item" [width]="500">
+
+        <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item">
+                <div class="ui-grid-row">
+                    <form *ngIf="validationform" [formGroup]="validationform">
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id" formControlName="id">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+
+
+
+
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="form-group">
+                                            <label for="name">Nume</label>
+                                            <input type="text" class="form-control" id="name" placeholder="" formControlName="name" [ngClass]="{'is-invalid': submitted && form.name.errors}">
+                                            <div *ngIf="submitted && form.name.errors" class="invalid-feedback">
+                                                <span *ngIf="form.name.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="date">Data</label>
+                                            <input type="date" class="form-control" id="date" placeholder="" formControlName="date" [ngClass]="{'is-invalid': submitted && form.date.errors}">
+                                            <div *ngIf="submitted && form.date.errors" class="invalid-feedback">
+                                                <span *ngIf="form.date.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label for="principalAmount">Suma principala</label>
+                                            <input type="text" class="form-control" id="principalAmount" placeholder="" formControlName="principalAmount" [ngClass]="{'is-invalid': submitted && form.principalAmount.errors}">
+                                            <!-- <select class="form-control" name="principalAmount" id="principalAmount" formControlName="principalAmount" [ngClass]="{'is-invalid': submitted && form.responsiblePers.errors}">
+                                              <option value=""></option>
+                                              <option *ngFor="let principalAmount of principalAmount" [ngValue]="principalAmount">{{principalAmount}}</option>
+                                          </select> -->
+                                            <div *ngIf="submitted && form.principalAmount.errors" class="invalid-feedback">
+                                                <span *ngIf="form.principalAmount.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="nominalRate">Rata nominala</label>
+                                            <input type="text" class="form-control" id="nominalRate" placeholder="" formControlName="nominalRate" [ngClass]="{'is-invalid': submitted && form.nominalRate.errors}">
+                                            <div *ngIf="submitted && form.nominalRate.errors" class="invalid-feedback">
+                                                <span *ngIf="form.nominalRate.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="period">Durata</label>
+                                            <input type="text" class="form-control" id="period" placeholder="" formControlName="period" [ngClass]="{'is-invalid': submitted && form.period.errors}">
+                                            <div *ngIf="submitted && form.period.errors" class="invalid-feedback">
+                                                <span *ngIf="form.period.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="currency">Valuta</label>
+                                            <select class="form-control" name="currency" id="currency" formControlName="currency" [ngClass]="{'is-invalid': submitted && form.responsiblePers.errors}">
+                                              <option value="">alege valuta</option>
+                                              <option *ngFor="let currency of Currency" [ngValue]="currency">{{currency}}</option>
+                                          </select>
+                                            <div *ngIf="submitted && form.currency.errors" class="invalid-feedback">
+                                                <span *ngIf="form.currency.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="efectiveRate">Rata efectiva</label>
+                                            <input type="text" class="form-control" id="efectiveRate" placeholder="" formControlName="efectiveRate" [ngClass]="{'is-invalid': submitted && form.efectiveRate.errors}">
+                                            <div *ngIf="submitted && form.efectiveRate.errors" class="invalid-feedback">
+                                                <span *ngIf="form.efectiveRate.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group col-lg-12">
+                                        <label for="obs">Descriere</label>
+                                        <textarea type="textarea" class="form-control" id="obs" placeholder="" formControlName="obs" [ngClass]="{ 'is-invalid': submitted && form.obs.errors}" rows="5"></textarea>
+                                        <div *ngIf="submitted && form.obs.errors" class="invalid-feedback">
+                                            <span *ngIf="form.obs.errors.required">This value is required.</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog1 = false;" label="Renunta"></button>
+                <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="onSubmit(validationform.value)" label="Salveaza"></button>
+            </div>
+        </footer>
+    </p-dialog>

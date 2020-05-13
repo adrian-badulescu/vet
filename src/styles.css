@@ -1,0 +1,23 @@
+@import 'assets/css/font-awesome.min.css';
+@import url("https://fonts.googleapis.com/css?family=Belgrano|BioRhyme+Expanded|La+Belle+Aurore|Mr+Bedfort|Qwigley&display=swap");
+@import "assets/css/ngx-smart-modal.css";
+
+/* @import 'assets/css/primeicons.css';
+@import 'assets/css/primeng.min.css'; */
+
+/* @import 'assets/css/theme.css';  */
+
+/* @import 'assets/css/filemanager.css'; */
+@import "assets/css/reports.css";
+/* @import url("./app/pages/reports/printcerereoferta/printcerereoferta.component.scss"); */
+@import "./../node_modules/jsgantt-improved/src/jsgantt.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+

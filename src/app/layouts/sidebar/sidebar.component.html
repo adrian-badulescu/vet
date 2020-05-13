@@ -1,0 +1,62 @@
+<!-- ========== Left Sidebar Start ========== -->
+<ng-template #contentTemplate>
+    <!--- Sidemenu -->
+    <div id="sidebar-menu">
+
+        <ul class="metismenu" id="side-menu" #sideMenu>
+            <!-- <li>
+                <div>
+                    <input type="text" [(ngModel)]="searchTerm">
+                    <button class="btn btn-xs btn-primary ml-1" (click)="filterMenu(searchTerm)">Cauta</button>
+                </div>
+            </li> -->
+            <!-- <li class="menu-title">Meniu</li> -->
+            <ng-container *ngFor="let menuItem of menuDataFiltered">
+                <ng-container *ngIf="!menuItem.children || !(menuItem.children.length >0)">
+                    <li>
+                        <a (click)=openTab(menuItem) routerLinkActive="active" class="side-nav-link-ref">
+                            <i class="fe-pocket"></i>
+                            {{menuItem.title}}
+                        </a>
+                    </li>
+                </ng-container>
+                <ng-container *ngIf="menuItem.children && menuItem.children.length > 0">
+                    <li>
+                        <a href="javascript: void(0);" class="waves-effect">
+                            <i class="fe-pocket"></i>
+                            <span> {{menuItem.title}} </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <ul class="nav-second-level collapse" aria-expanded="false">
+                            <li *ngFor="let menuChildren of menuItem.children">
+                                <a (click)=openTab(menuChildren) routerLinkActive="active"
+                                   class="side-nav-link-ref">{{menuChildren.title}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ng-container>
+                <!--                <ng-container *ngIf="menuItem.children && menuItem.children.length > 0">-->
+                <!--                    <li>-->
+                <!--                        -->
+                <!--                    </li>-->
+                <!--                </ng-container>-->
+            </ng-container>
+        </ul>
+
+    </div>
+    <!-- End Sidebar -->
+
+    <div class="clearfix"></div>
+</ng-template>
+
+
+<div class="left-side-menu">
+    <div class="slimscroll-menu" appSlimScroll *ngIf="!isCondensed">
+        <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+    </div>
+
+    <div class="slimscroll-menu" *ngIf="isCondensed">
+        <ng-container *ngTemplateOutlet="contentTemplate"></ng-container>
+    </div>
+</div>
+<!-- Left Sidebar End -->

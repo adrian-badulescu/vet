@@ -1,0 +1,202 @@
+<div class="container-fluid">
+  <!-- <app-page-title title="Lot" [breadcrumbItems]="breadCrumbItems"></app-page-title> -->
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <!-- <button (click)="loadPage('logs', '10', '0')">X</button> -->
+          <div *ngIf="!results" id="loadingmodule" style="text-align: center;"><img
+              src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+          <div *ngIf="results" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+           
+            <!-- <div class="ui-widget-header ui-helper-clearfix ewoheader">
+              <actions (add)="add()" (edit)="edit()" (delete)="delete()" (export)="dt.exportCSV()"></actions> -->
+            </div>
+            
+            <p-table #dt [value]="results" [paginator]="false" [rows]="10" [totalRecords]="totalRows"  [(first)]="first" selectionMode="single" [rowsPerPageOptions]="[10,20,30]"
+              [(selection)]="selectedItems">
+              <!-- <p-paginator [rows]="10" [totalRecords]="totalRows" [rowsPerPageOptions]="[10,20,30]"></p-paginator> -->
+
+              <ng-template pTemplate="header" let-columns >
+                <tr>
+                  <th [pSortableColumn]="'no'">#
+                    <p-sortIcon [field]="'no'" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                  </th>
+                  <th [pSortableColumn]="'id'">Id
+                    <p-sortIcon [field]="'id'" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                  </th>
+                  <th [pSortableColumn]="'startDate'">Nav start
+                    <p-sortIcon [field]="'startDate'" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                  </th>
+                  <th [pSortableColumn]="'endDate'">Nav end
+                    <p-sortIcon [field]="'endDate'" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                  </th>
+                  <th [pSortableColumn]="'user'">Utilizator
+                    <p-sortIcon [field]="'user'" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                  </th>
+                  <th [pSortableColumn]="'module'">Modul/ aplicatie
+                    <p-sortIcon [field]="'module'" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                  </th>
+                </tr>
+                <tr class="ewoheaderfilter">
+                  <th>
+                    <input pInputText type="no" (input)="dt.filter($event.target.value, 'no', 'contains')">
+                  </th>
+                  <th>
+                    <input pInputText type="id" (input)="dt.filter($event.target.value, 'id', 'contains')">
+                  </th>
+                  <th>
+                    <input pInputText type="startDate"
+                      (input)="dt.filter($event.target.value, 'startDate', 'contains')">
+                  </th>
+                  <th>
+                    <input pInputText type="endDate" (input)="dt.filter($event.target.value, 'endDate', 'contains')">
+                  </th>
+                  <th>
+                    <input pInputText type="user" (input)="dt.filter($event.target.value, 'user', 'contains')">
+                  </th>
+                  <th>
+                    <input pInputText type="module" (input)="dt.filter($event.target.value, 'module', 'contains')">
+                  </th>
+                </tr>
+              </ng-template>
+           
+             
+              <ng-template pTemplate="body" let-rowData let-i="rowIndex"  let-columns="columns">
+                <tr [pSelectableRow]="rowData"(dblclick)="onRowDblClick($event, rowData)">    
+                  <td style="text-align: center;">Randul - {{indexArray[i]}}</td>              
+                  <td>{{rowData['id']}}</td>
+                  <td>{{rowData['startDate'] | date:'yyyy-MMM-dd@hh:mm:ss'}}</td>
+                  <td>{{rowData['endDate'] | date:'yyyy-MMM-dd@hh:mm:ss'}}</td>
+                  <td>{{rowData['user']}}</td>
+                  <td>{{rowData['module']}}</td>
+                </tr>
+              </ng-template>
+            
+            </p-table>
+            <p-paginator [rows]="10" [totalRecords]="totalRows" (onPageChange)="paginate($event)" ></p-paginator>
+            <!-- <div class="card-footer text-center pb-0 pt-0" *ngIf="results.length">
+              <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="/reports/user-tracker?limit={{limit}}&page={{page - 10}}" >Previous</a></li>
+                <li *ngFor="let page of pages"class="page-item">
+
+                  <a href="/reports/user-tracker?limit={{limit}}&page={{page}}" class="page-link">{{page}}</a>
+
+
+                </li>
+                <li class="page-item"><a class="page-link" href="/reports/user-tracker?limit={{limit}}&page={{page + 10}}" >Next</a></li>
+              </ul>
+          </div> -->
+          </div>
+          limit: {{limit}} offset: {{offset}} 
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p-dialog header="Lot" [(visible)]="displayDialog1" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="item"
+    [width]="500">
+
+    <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+      <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item">
+        <div class="ui-grid-row">
+          <form *ngIf="validationform" [formGroup]="validationform">
+
+            <div class="form-group">
+              <input type="hidden" class="form-control" id="id" formControlName="id">
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+
+
+
+                <div class="row">
+
+                  <div class="col-lg-12">
+
+                    <div class="form-group">
+                      <label for="id">Id</label>
+                      <input type="text" class="form-control" id="id" placeholder="" formControlName="id"
+                        [ngClass]="{'is-invalid': submitted && form.id.errors}">
+                      <div *ngIf="submitted && form.id.errors" class="invalid-feedback">
+                        <span *ngIf="form.id.errors.required">Camp obligatoriu</span>
+                      </div>
+                    </div>
+
+                  </div>
+                  <!-- <div class="row"></div> -->
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label for="startDate">Start navigatie</label>
+                      <input type="text" class="form-control" id="startDate" placeholder="" formControlName="startDate"
+                        [ngClass]="{'is-invalid': submitted && form.startDate.errors}">
+                      <div *ngIf="submitted && form.startDate.errors" class="invalid-feedback">
+                        <span *ngIf="form.startDate.errors.required">Camp obligatoriu</span>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="endDate">Incheiere navigatie</label>
+                      <input type="text" class="form-control" id="endDate" placeholder="" formControlName="endDate"
+                        [ngClass]="{'is-invalid': submitted && form.endDate.errors}">
+                      <div *ngIf="submitted && form.endDate.errors" class="invalid-feedback">
+                        <span *ngIf="form.endDate.errors.required">Camp obligatoriu</span>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="user">Utilizator</label>
+                      <input type="text" class="form-control" id="user" placeholder="" formControlName="user"
+                        [ngClass]="{'is-invalid': submitted && form.user.errors}">
+                      <div *ngIf="submitted && form.user.errors" class="invalid-feedback">
+                        <span *ngIf="form.user.errors.required">Camp obligatoriu</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label for="module">Modul/pagina</label>
+                      <input type="text" class="form-control" id="module" placeholder="" formControlName="module"
+                        [ngClass]="{'is-invalid': submitted && form.module.errors}">
+                      <div *ngIf="submitted && form.module.errors" class="invalid-feedback">
+                        <span *ngIf="form.module.errors.required">Camp obligatoriu</span>
+                      </div>
+                    </div>
+
+                  </div>
+
+
+
+
+                </div>
+
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+        <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog1 = false;"
+          label="Renunta"></button>
+        <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="onSubmit(validationform.value)"
+          label="Salveaza"></button>
+      </div>
+    </footer>
+  </p-dialog>

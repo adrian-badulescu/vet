@@ -1,0 +1,238 @@
+<div class="container-fluid">
+    <app-page-title title="Lot" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div *ngIf="!list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+                    <div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+                        <div class="ui-widget-header ui-helper-clearfix ewoheader">
+                            <actions  (edit)="edit()" (delete)="delete()" (export)="dt.exportCSV()"></actions>
+                        </div>
+
+                        <p-table #dt [value]="list" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="selectedItems">
+
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <th [pSortableColumn]="'species'">Specie
+                                        <p-sortIcon [field]="'species'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'breed'">Rasa
+                                        <p-sortIcon [field]="'breed'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'dateOfBirth'">Data nasterii
+                                        <p-sortIcon [field]="'dateOfBirth'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'sex'">Sex
+                                        <p-sortIcon [field]="'sex'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'currentStage'">Stadiu actual
+                                        <p-sortIcon [field]="'currentStage'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'daysStageEnd'">Zile ramase stadiu actual
+                                        <p-sortIcon [field]="'daysStageEnd'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'parentM'">Lineaj <span><b>&#9794;</b></span>
+                                        <p-sortIcon [field]="'parentM'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'parentF'">Lineaj <span>&#9792;</span>
+                                        <p-sortIcon [field]="'parentF'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                </tr>
+                                <tr class="ewoheaderfilter">
+                                    <th>
+                                        <input pInputText type="species" (input)="dt.filter($event.target.value, 'species', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="breed" (input)="dt.filter($event.target.value, 'breed', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="dateOfBirth" (input)="dt.filter($event.target.value, 'dateOfBirth', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="sex" (input)="dt.filter($event.target.value, 'sex', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="currentStage" (input)="dt.filter($event.target.value, 'currentStage', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="daysStageEnd" (input)="dt.filter($event.target.value, 'daysStageEnd', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="parentM" (input)="dt.filter($event.target.value, 'parentM', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="parentF" (input)="dt.filter($event.target.value, 'parentF', 'contains')">
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                <tr [pSelectableRow]="rowData" (dblclick)="onRowDblClick($event, rowData)">
+                                    <td>{{rowData['species']}}</td>
+                                    <td>{{rowData['breed']}}</td>
+                                    <td>{{rowData['dateOfBirth']}}</td>
+                                    <td>{{rowData['sex']}}</td>
+                                    <td>{{rowData['currentStage']}}</td>
+                                    <td>{{rowData['daysStageEnd']}}</td>
+                                    <td>{{rowData['parentM']}}</td>
+                                    <td>{{rowData['parentF']}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p-dialog header="Detalii" [(visible)]="displayDialog1" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="item" [width]="500">
+
+        <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item">
+                <div class="ui-grid-row">
+                    <form *ngIf="validationform" [formGroup]="validationform">
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id" formControlName="id">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+
+
+
+                                <div class="row">
+
+                                    <div class="radio-group-vertical col-lg-8">
+
+                                        <div class="form-group">
+                                            <label for="stage">Stadiu curent</label>
+                                            <select class="form-control" (change)="onSelect()" name="stage" id="stage" formControlName="stage" [ngClass]="{'is-invalid': submitted && form.stage.errors}">
+                                                <option value="">alege stadiul</option>
+                                                <option *ngFor="let stage of Stage" [ngValue]="stage">{{stage}}</option>
+                                            </select>
+                                            <div *ngIf="submitted && form.stage.errors" class="invalid-feedback">
+                                                <span *ngIf="form.stage.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- <div class="row"></div> -->
+                                    <div class="col-lg-6">
+
+                                        <div class="form-group">
+                                            <label for="dateOfBirth">Data nasterii</label>
+                                            <input type="text" class="form-control" id="dateOfBirth" placeholder="in metrii patrati" formControlName="dateOfBirth" [ngClass]="{'is-invalid': submitted && form.dateOfBirth.errors}">
+                                            <div *ngIf="submitted && form.dateOfBirth.errors" class="invalid-feedback">
+                                                <span *ngIf="form.dateOfBirth.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="daysStageEnd">Zile ramase stadiu curent</label>
+                                            <input type="text" class="form-control" id="daysStageEnd" placeholder="" formControlName="daysStageEnd" [ngClass]="{'is-invalid': submitted && form.daysStageEnd.errors}">
+                                            <div *ngIf="submitted && form.daysStageEnd.errors" class="invalid-feedback">
+                                                <span *ngIf="form.daysStageEnd.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-lg-6">
+
+
+                                        <div class="form-group">
+                                            <label for="parentM">Lineaj patern</label>
+                                            <input type="text" class="form-control" id="parentM" placeholder="" formControlName="parentM" [ngClass]="{'is-invalid': submitted && form.parentM.errors}">
+                                            <div *ngIf="submitted && form.parentM.errors" class="invalid-feedback">
+                                                <span *ngIf="form.parentM.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="parentM">Lineaj matern</label>
+                                            <input type="text" class="form-control" id="parentM" placeholder="" formControlName="parentM" [ngClass]="{'is-invalid': submitted && form.parentM.errors}">
+                                            <div *ngIf="submitted && form.parentM.errors" class="invalid-feedback">
+                                                <span *ngIf="form.parentM.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary pull-left" (click)="addNewArticleRow()">Adauga Id-uri</button>
+            <br><br>
+
+            <p-table [value]="invoicexarticles" dataKey="id" editMode="row">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>ContD</th>
+                        <th>ContC</th>
+                        <th>Formula</th>
+                        <th style="width:8em"></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                    <tr [pEditableRow]="rowData">
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.contd" required>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.contd}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.contc" required>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.contc}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.formula" required>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.formula}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+
+                        <td style="text-align:center">
+                            <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info" (click)="onRowEditInit(rowData)"></button>
+                            <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-minus" class="ui-button-warning" style="margin-right: .5em" (click)="onRowDelete(rowData)"></button>
+
+                            <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button>
+                            <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times" class="ui-button-danger" (click)="onRowEditCancel(rowData, ri)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+        </div>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog1 = false;" label="Renunta"></button>
+                <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="onSubmit(validationform.value)" label="Salveaza"></button>
+            </div>
+        </footer>
+    </p-dialog>

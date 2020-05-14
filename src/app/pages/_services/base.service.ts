@@ -25,8 +25,8 @@ export class BaseService {
 
   constructor(private httpClient: HttpClient) {}
 
-  public getAllViews(view) {
-    this.httpClient.get(this.apiurl + "/" + view);
+  public getAllViews(view): Observable<any> {
+   return this.httpClient.get(this.apiurl + "/" + view);
   }
 
   public querySelect(

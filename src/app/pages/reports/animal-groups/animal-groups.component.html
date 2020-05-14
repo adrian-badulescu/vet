@@ -15,8 +15,8 @@
               <actions (add)="add()" (edit)="edit()" (delete)="delete()" (export)="dt.exportCSV()"></actions> -->
             </div>
             
-            <p-table #dt [value]="results" [paginator]="false" [rows]="10" [totalRecords]="totalRows"  [(first)]="first" selectionMode="single" [rowsPerPageOptions]="[10,20,30]"
-              [(selection)]="selectedItems">
+            <p-table #dt [value]="results" [paginator]="false" [rows]="10" selectionMode="single" [rowsPerPageOptions]="[10,20,30]"
+              >
               <!-- <p-paginator [rows]="10" [totalRecords]="totalRows" [rowsPerPageOptions]="[10,20,30]"></p-paginator> -->
 
               <ng-template pTemplate="header" let-columns >
@@ -51,7 +51,7 @@
               </ng-template>
             
             </p-table>
-            <p-paginator [rows]="10" [totalRecords]="totalRows" (onPageChange)="paginate($event)" ></p-paginator>
+            
 
           </div>
         
@@ -60,16 +60,3 @@
     </div>
   </div>
 
-  <p-dialog header="Grupuri animale" [(visible)]="displayDialog1" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="item"
-    [width]="500">
-
-   
-    <footer>
-      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-        <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog1 = false;"
-          label="Renunta"></button>
-        <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="onSubmit(validationform.value)"
-          label="Salveaza"></button>
-      </div>
-    </footer>
-  </p-dialog>

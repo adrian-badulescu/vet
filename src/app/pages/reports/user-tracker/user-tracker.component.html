@@ -15,8 +15,8 @@
               <actions (add)="add()" (edit)="edit()" (delete)="delete()" (export)="dt.exportCSV()"></actions> -->
             </div>
             
-            <p-table #dt [value]="results" [paginator]="false" [rows]="10" [totalRecords]="totalRows"  [(first)]="first" selectionMode="single" [rowsPerPageOptions]="[10,20,30]"
-              [(selection)]="selectedItems">
+            <p-table #dt [value]="results" [paginator]="false" [rows]="10" [totalRecords]="totalRows" selectionMode="single" [rowsPerPageOptions]="[10,20,30]"
+              >
               <!-- <p-paginator [rows]="10" [totalRecords]="totalRows" [rowsPerPageOptions]="[10,20,30]"></p-paginator> -->
 
               <ng-template pTemplate="header" let-columns >
@@ -108,95 +108,3 @@
     </div>
   </div>
 
-  <p-dialog header="Lot" [(visible)]="displayDialog1" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="item"
-    [width]="500">
-
-    <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
-
-      <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item">
-        <div class="ui-grid-row">
-          <form *ngIf="validationform" [formGroup]="validationform">
-
-            <div class="form-group">
-              <input type="hidden" class="form-control" id="id" formControlName="id">
-            </div>
-            <div class="row">
-              <div class="col-lg-12">
-
-
-
-                <div class="row">
-
-                  <div class="col-lg-12">
-
-                    <div class="form-group">
-                      <label for="id">Id</label>
-                      <input type="text" class="form-control" id="id" placeholder="" formControlName="id"
-                        [ngClass]="{'is-invalid': submitted && form.id.errors}">
-                      <div *ngIf="submitted && form.id.errors" class="invalid-feedback">
-                        <span *ngIf="form.id.errors.required">Camp obligatoriu</span>
-                      </div>
-                    </div>
-
-                  </div>
-                  <!-- <div class="row"></div> -->
-                  <div class="col-lg-6">
-                    <div class="form-group">
-                      <label for="startDate">Start navigatie</label>
-                      <input type="text" class="form-control" id="startDate" placeholder="" formControlName="startDate"
-                        [ngClass]="{'is-invalid': submitted && form.startDate.errors}">
-                      <div *ngIf="submitted && form.startDate.errors" class="invalid-feedback">
-                        <span *ngIf="form.startDate.errors.required">Camp obligatoriu</span>
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label for="endDate">Incheiere navigatie</label>
-                      <input type="text" class="form-control" id="endDate" placeholder="" formControlName="endDate"
-                        [ngClass]="{'is-invalid': submitted && form.endDate.errors}">
-                      <div *ngIf="submitted && form.endDate.errors" class="invalid-feedback">
-                        <span *ngIf="form.endDate.errors.required">Camp obligatoriu</span>
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label for="user">Utilizator</label>
-                      <input type="text" class="form-control" id="user" placeholder="" formControlName="user"
-                        [ngClass]="{'is-invalid': submitted && form.user.errors}">
-                      <div *ngIf="submitted && form.user.errors" class="invalid-feedback">
-                        <span *ngIf="form.user.errors.required">Camp obligatoriu</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-6">
-                    <div class="form-group">
-                      <label for="module">Modul/pagina</label>
-                      <input type="text" class="form-control" id="module" placeholder="" formControlName="module"
-                        [ngClass]="{'is-invalid': submitted && form.module.errors}">
-                      <div *ngIf="submitted && form.module.errors" class="invalid-feedback">
-                        <span *ngIf="form.module.errors.required">Camp obligatoriu</span>
-                      </div>
-                    </div>
-
-                  </div>
-
-
-
-
-                </div>
-
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <footer>
-      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-        <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog1 = false;"
-          label="Renunta"></button>
-        <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="onSubmit(validationform.value)"
-          label="Salveaza"></button>
-      </div>
-    </footer>
-  </p-dialog>

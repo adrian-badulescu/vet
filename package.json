@@ -83,7 +83,7 @@
     "scanner-js": "^2.10.3",
     "smooth-scrollbar": "^8.3.1",
     "sweetalert2": "^8.16.3",
-    "tslib": "^1.9.0",
+    "tslib": "^1.13.0",
     "xlsx": "^0.15.2",
     "zone.js": "~0.9.1"
   },

@@ -70,9 +70,6 @@ import { environment } from '../environments/environment';
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
 
-
-    // provider used to create fake backend
-    // FakeBackendProvider
   ],
   bootstrap: [AppComponent]
 })

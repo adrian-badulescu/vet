@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: true,
+  production: false,
+ 
   firebase: {
     apiKey: "AIzaSyC54eaTJEsr8vTwLLXWkpe54AZ_YuEtj78",
     authDomain: "cloudstorage-c6914.firebaseapp.com",
@@ -18,6 +19,7 @@ export const environment = {
     url:'http://localhost:3000'
   }
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file

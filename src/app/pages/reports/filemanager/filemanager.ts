@@ -613,18 +613,18 @@ export class FileManagerComponent implements OnInit {
         //        this.files.splice(this.files.indexOf(file), 1);
         //    }
         // });
-        for (let i = 0; i < this.files.length; i++) {
-            const file = this.files[i];
-            if (file && file.isFile && this.getFileExtension(file.nameFile) == 'jpg' || this.getFileExtension(file.nameFile) == 'png' || this.getFileExtension(file.nameFile) == 'jpeg') {
-                this.images.push({
-                    source: environment.server.url+`api/base/files/${file.nameFile}`,
-                    thumbnail: environment.server.url+`/api/base/files/${file.nameFile}`,
-                    title: file.data
-                });
-                this.files.splice(i, 1);
-                i--;
-            }
-        }
+        // for (let i = 0; i < this.files.length; i++) {
+        //     const file = this.files[i];
+        //     if (file && file.isFile && this.getFileExtension(file.nameFile) == 'jpg' || this.getFileExtension(file.nameFile) == 'png' || this.getFileExtension(file.nameFile) == 'jpeg') {
+        //         this.images.push({
+        //             source: environment.server.url+`api/base/files/${file.nameFile}`,
+        //             thumbnail: environment.server.url+`/api/base/files/${file.nameFile}`,
+        //             title: file.data
+        //         });
+        //         this.files.splice(i, 1);
+        //         i--;
+        //     }
+        // }
     }
 
     onSelectFile(event) {

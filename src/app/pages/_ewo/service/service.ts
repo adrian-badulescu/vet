@@ -16,26 +16,8 @@ export class BaseService extends EwoUtils {
 
     constructor(private http:Http) {
         super();
-    }
+    }   
 
-    login(username: string, password: string) {
-        return this.http.get(this.ewobaseurl+"users")
-            .toPromise()
-            .then(res => res.json())
-            .then(data => {
-
-                data = data.filter(function (entry) {
-                    return entry['username'] === username && entry['password'] === password;
-                });
-
-                return data;
-            });
-    }
-
-    logout() {
-        // remove user from local storage to log user out
-        localStorage.removeItem('currentUser');
-    }
 
     item(id:string) {
         return this.ewoitem(id, this.entityapi);

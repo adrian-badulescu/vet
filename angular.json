@@ -23,8 +23,8 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
-              "src/assets/images/logo/favicon.ico",
               "src/assets",
+              "src/assets/favicon.ico",              
               "src/manifest.webmanifest"
             ],
             "styles": [
@@ -99,9 +99,8 @@
             ],
             "scripts": [],
             "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/manifest.webmanifest"
+              "src/assets/favicon.ico",
+              "src/assets"             
             ]
           }
         },

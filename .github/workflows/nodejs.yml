@@ -26,7 +26,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm i
     - run: npm i -g @angular/cli
-    - run: npm test
+    #- run: npm test
     - run: ng build --prod --output-path docs --base-href "https://adrian-badulescu.github.io/vet/"
     - run: |
         git config --local user.email "action@github.com"

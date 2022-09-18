@@ -1,0 +1,13 @@
+export class ContractDb {
+    public static data = [{
+        'id':'1',
+        'name':'c1',
+        'partnerid':'',
+        'number':'1',
+        'date':'',
+        'datestart':'',
+        'dateend':'',
+        'gen':''
+        }];
+}
+

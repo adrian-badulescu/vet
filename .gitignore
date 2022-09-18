@@ -25,7 +25,7 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 .history
-dist
+#dist
 
 # misc
 /.sass-cache

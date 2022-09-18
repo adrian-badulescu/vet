@@ -1,0 +1,199 @@
+<div class="container-fluid">
+
+    <app-page-title title="Print Raport Gestiuni" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+    <!-- <a href="ngx" class="btn btn-primary"><i class="mdi mdi-printer mr-1"></i> Print</a> -->
+    <div class="mt-4 mb-1">
+        <div class="text-left d-print-none">
+            <a href="javascript:window.print()" class="btn btn-primary"><i class="mdi mdi-printer mr-1"></i> Print</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+
+            <div class="card">
+
+                <div class="card-body">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="left">
+                                <p> Unitatea _______________</p>
+                                <p> Sectia _______________</p>
+                                <p> Gestiunea ____________</p>
+                            </div>
+
+                            <div class="pull-right text-center right">
+                                <div></div>
+                                <div></div>
+                                <p>Data _________20___</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div id="main" class="row">
+
+                        <div id="content" class="col-lg-12">
+                            <div id="title" *ngFor="let table of dataToPrint">
+                                <!-- <p>CERERE OFERTA</p>
+                                <p>Nr:<input style="width: 50px" [value]="table.nr" /> Data:<input style="width: 100px" [value]="table.data" /></p>
+                                <p>Ref Interna:<input style="width: 100px" [value]="table.serie" /></p> -->
+                            </div>
+
+
+
+                            <div class=" text-center col-md-12 ">RAPORT ZILNIC DE GESTIUNE</div>
+                            <div id="products ">
+
+
+                                <table class="table table-bordered ">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2 " scope=" col ">Nr. crt</th>
+                                            <th rowspan="2 " scope="col ">Nr. Document</th>
+                                            <th rowspan="2 " scope=" col ">Explicatii</th>
+                                            <th colspan="2 " scope="col ">Valoare Lei</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Marfuri</th>
+                                            <th>Ambalaje</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2 " scope="row "></td>
+                                            <td scope=" col ">Intrari</td>
+                                            <td scope=" col ">SOLD PRECEDENT</td>
+                                            <td scope=" col "></td>
+                                        </tr>
+                                        <tr>
+                                            <th>2</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th>2</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th>2</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th>2</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th>2</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th>2</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2 " scope="row "></td>
+                                            <td scope=" col ">Vanzari * Iesiri</td>
+                                            <td scope=" col ">Total intrari * Sold</td>
+                                            <td scope=" col "></td>
+                                        </tr>
+                                        <tr>
+                                            <th>2</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th>2</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th>2</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th>2</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th>2</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th>2</th>
+                                            <td></td>
+                                            <td>Total intrari * iesiri</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th rowspan="2 " colspan="2 "></th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <p class="left">Gestionar,</p>
+                                        <div class="right text-right">Verificat,</div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <!-- Search -->
+
+                            <!-- End search -->
+                        </div>
+
+
+                    </div>
+
+                    <!--end here-->
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>

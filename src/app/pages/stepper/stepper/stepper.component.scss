@@ -1,0 +1,12 @@
+#some_space {
+    height: 50px;
+}
+
+.input-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-col>* {
+    width: 20%;
+}

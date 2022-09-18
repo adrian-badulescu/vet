@@ -5,13 +5,13 @@ import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular
 import { TabsService } from '../tabs/tabs.service';
 import { TabModel } from '../tabs/tab.model';
 import { CookieService } from 'src/app/core/services/cookie.service';
-
+// =======
 // import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/router';
 // import {TabsService} from '../tabs/tabs.service';
 // import {TabModel} from '../tabs/tab.model';
 // import {AuthenticationService} from "../../core/services/auth.service";
 // import {CookieService} from "../../core/services/cookie.service";
-
+// >>>>>>> 3546520b2c33306c44ceb2a000ae6f4e0ad269ab
 
 @Component({
     selector: 'app-sidebar',
@@ -31,106 +31,421 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
             path: '/dashboards/dashboard-1'
         },
         {
-            title: 'Aministrare',
+            title: 'Stocuri',
             children: [
- 
                 {
-                    title: 'Buget',
-                    path: '/farm/buget'
+                    title: 'Articole',
+                    code: 'articole',
+                    path: '/article/article'
                 },
                 {
-                    title: 'Bunuri',
-                    path: '/farm/bunuri'
+                    title: 'Categorii',
+                    path: '/article/categories'
                 },
+                {
+                    title: 'Lista Gestiuni',
+                    path: '/inventory/inventorylist'
+                },
+                {
+                    title: 'Lista Facturi',
+                    path: '/inventory/invoices'
+                },
+            ]
+        },
+        {
+            title: 'Contabilitate',
+            children: [
+                {
+                    title: 'Plan conturi (grid)',
+                    path: '/accounting/conturigrid'
+                },
+                {
+                    title: 'Plan conturi (tree)',
+                    path: '/accounting/conturitree'
+                },
+                {
+                    title: 'Nota contabila',
+                    path: '/accounting/accounting_note'
+                },
+                {
+                    title: 'Plati-Cumparari',
+                    path: '/accounting/paybuy'
+                },
+                {
+                    title: 'Deconturi',
+                    path: '/accounting/decont'
+                },
+                {
+                    title: 'Bon Material',
+                    path: '/accounting/bonmaterial'
+                },
+                {
+                    title: 'BT Materiale',
+                    path: '/accounting/btmateriale'
+                },
+                {
+                    title: 'BT Inventar',
+                    path: '/accounting/btinventar'
+                },
+                {
+                    title: 'Aviz Expeditie',
+                    path: '/accounting/avizexpeditie'
+                },
+                {
+                    title: 'Nota Predare',
+                    path: '/accounting/notapredare'
+                },
+                {
+                    title: 'Nota Restituire',
+                    path: '/accounting/notarestituire'
+                },
+                {
+                    title: 'Cumparari',
+                    path: '/accounting/buy'
+                },
+                {
+                    title: 'Vinzari',
+                    path: '/accounting/sell'
+                },
+                {
+                    title: 'Borderou',
+                    path: '/accounting/borderou'
+                },
+                {
+                    title: 'Gestionar',
+                    path: '/accounting/gestionar'
+                }
+            ]
+        },
+        {
+            title: 'Rapoarte',
+            children: [
+                {
+                    title: 'Gestiuni',
+                    path: '/reports/inventory'
+                },
+                {
+                    title: 'Print Gestiuni',
+                    path: '/reports/printinventory'
+                },
+                {
+                    title: 'Facturi',
+                    path: '/reports/invoices'
+                },
+                {
+                    title: 'Print Facturi',
+                    path: '/reports/printinvoice'
+                },
+                {
+                    title: 'Cerere oferta',
+                    path: '/reports/printcerereoferta'
+                },
+                {
+                    title: 'Oferta',
+                    path: '/reports/oferta'
+                },
+                {
+                    title: 'Task',
+                    path: '/reports/task'
+                },
+                {
+                    title: 'Parteneri-divizie',
+                    path: '/reports/partnerxdivizie'
+                },
+                {
+                    title: 'Receptie',
+                    path: '/reports/receptie'
+                },
+                {
+                    title: 'Print Table',
+                    path: '/reports/printtable'
+                },
+                {
+                    title: 'Oferte fara detalii',
+                    path: '/reports/ofertefd'
+                },
+                {
+                    title: 'Jurnal',
+                    path: '/reports/jurnal'
+                }
+            ]
+        },
+        {
+            title: 'Discutii',
+            children: [
+                {
+                    title: 'Discutii',
+                    path: '/discutii/app/home'
+                }
+            ]
 
+
+        },
+        {
+            title: 'Stepper',
+            children: [
                 {
-                    title: 'Inventar',
-                    path: '/farm/inventar'
-                },
+                    title: 'Stepper',
+                    path: '/stepper/stepper'
+                }
+            ]
+        },
+        {
+            title: 'Receptie',
+            children: [
                 {
-                    title: 'Utilaje',
-                    path: '/farm/utilaj'
+                    title: 'Receptie',
+                    path: '/receptie/receptie'
+
                 },
 
             ]
         },
         {
-            title: 'Raportare',
+            title: 'Secretariat',
             children: [
- 
                 {
-                    title: 'Raport de Activitati',
-                    path: '/reports/activities'
-                },
-                {
-                    title: 'Accesari aplicatie',
-                    path: '/reports/user-tracker'
-                },
-                {
-                    title: 'Nr animale/ grup',
-                    path: '/reports/animal-groups'
-                },
-
-
+                    title: 'Documente',
+                    path: '/documents/filemanager'
+                }
             ]
         },
         {
-            title: 'Ferma animale',
+            title: 'Productie',
             children: [
-
                 {
-                    title: 'Registru animale',
-                    path: '/farm/reg'
+                    title: 'Tickets',
+                    path: '/pm/tickets'
                 },
                 {
-                    title: 'Tratamente',
-                    path: '/farm/tratamente'
+                    title: 'Proiecte',
+                    path: '/pm/projects'
                 },
                 {
-                    title: 'Tratamente in Grup',
-                    path: '/farm/tratamentegrup'
+                    title: 'Calendar',
+                    path: '/pm/calendar'
                 },
                 {
-                    title: 'Stadii',
-                    path: '/farm/stadii'
+                    title: 'Contacte',
+                    path: '/pm/contacts'
                 },
                 {
-                    title: 'Pasunat',
-                    path: '/farm/pasunat'
-                }, 
-                {
-                    title: 'Furajare vite de carne',
-                    path: '/farm/furajare'
-                },                
- 
-                {
-                    title: 'Deparazitari',
-                    path: '/farm/Deparazitari'
+                    title: 'Opportunities',
+                    path: '/pm/opportunities'
                 },
-
+                {
+                    title: 'Leads',
+                    path: '/pm/leads'
+                },
+                {
+                    title: 'Customers',
+                    path: '/pm/customers'
+                }
             ]
         },
         {
-            title: 'Culturi Agricole',
+            title: 'Personal',
             children: [
-
- 
                 {
-                    title: 'Activitate',
-                    path: '/farm/activitate'
+                    title: 'Organigrama',
+                    path: '/personal/organigrama'
+                }
+            ]
+        },
+        {
+            title: 'Regularizare',
+            children: [
+                {
+                    title: 'Regularizare',
+                    path: '/regularizare/regularizare'
+                }
+            ]
+        },
+        {
+            title: 'Transfer',
+            children: [
+                {
+                    title: 'Transfer',
+                    path: '/transfer/transfer'
+                }
+            ]
+        },
+        {
+            title: 'Board',
+            children: [
+                {
+                    title: 'Tabla',
+                    path: '/board/board'
+                }
+            ]
+        },
+        {
+            title: 'Curs valutar',
+            children: [
+                {
+                    title: 'Curs',
+                    path: '/curs/curs'
+                }
+            ]
+        },
+        {
+            title: 'Vanzari',
+            children: [
+                {
+                    title: 'Contracte',
+                    path: '/vanzari/contract'
                 },
                 {
-                    title: 'Lot',
-                    path: '/farm/lot'
+                    title: 'Oferta',
+                    path: '/vanzari/oferta'
                 },
                 {
-                    title: 'Productie',
-                    path: '/farm/productie'
+                    title: 'Oferta tip',
+                    path: '/reports/ofertatip'
+                }
+            ]
+        },
+        {
+            title: 'Articole',
+            children: [
+                {
+                    title: 'Articole',
+                    path: '/article/article'
+                },
+                {
+                    title: 'Declaratii vamale',
+                    path: '/article/customs'
+                },
+                {
+                    title: 'Conturi bancare',
+                    path: '/article/accounts'
+                },
+                {
+                    title: 'Categorii',
+                    path: '/article/categories'
+                }
+            ]
+        },
+        {
+            title: 'Dev Module',
+            children: [
+                {
+                    title: 'Modul Grid Default',
+                    path: '/dev/modulegriddefault'
+                },
+                {
+                    title: 'Module grid primeng',
+                    path: '/dev/modulegridprimeng'
+                },
+                {
+                    title: 'Modul grid details primeng',
+                    path: '/dev/modulegriddetailsprimeng'
+                },
+                {
+                    title: 'Modul tree primeng',
+                    path: '/dev/moduletreeprimeng'
+                },
+                {
+                    title: 'Modul tree details primeng',
+                    path: '/dev/moduletreedetailsprimeng'
+                },
+                {
+                    title: 'Page Demo',
+                    path: '/dev/pagedemo'
+                },
+                {
+                    title: 'Row Expand',
+                    path: '/dev/rowexpand'
+                },
+                {
+                    title: 'User Access',
+                    path: '/dev/user-access'
+                },
+                {
+                    title: 'Role Access',
+                    path: '/dev/role-access'
+                }
+            ]
+        },
+        {
+            title: 'Dev Rapoarte',
+            children: [
+                {
+                    title: 'Grid',
+                    path: '/dev/reportgridprimeng'
+                },
+                {
+                    title: 'Rowexpand',
+                    path: '/dev/reportrowexpandprimeng'
+                },
+                {
+                    title: 'ColGroup',
+                    path: '/dev/reportcolgroupprimeng'
+                },
+                {
+                    title: 'RowGroup',
+                    path: '/dev/reportrowgroupprimeng'
+                },
+                {
+                    title: 'Charts',
+                    path: '/dev/reportchartsprimeng'
+                }
+            ]
+        },
+        {
+            title: 'Formula',
+            children: [
+                {
+                    title: 'Formula',
+                    path: '/formula/formula'
+                },
+                {
+                    title: 'Aviz',
+                    path: '/formula/aviz'
+                },
+                {
+                    title: 'Bon fiscal',
+                    path: '/formula/bonfiscal'
+                }
+            ]
+        },
+        {
+            title: 'Proforma',
+            children: [
+                {
+                    title: 'Factura proforma',
+                    path: '/proforma/proforma'
+                },
+            ]
+        },
+        {
+            title: 'BOM',
+            children: [
+                {
+                    title: 'Bom',
+                    path: '/bom/bom'
+                },
+            ]
+        },
+        {
+            title: 'Foaie parcurs',
+            children: [
+                {
+                    title: 'Foaie parcurs',
+                    path: '/foaieparcurs/foaieparcurs'
+                },
+                {
+                    title: 'Auto',
+                    path: '/foaieparcurs/auto'
+                },
+                {
+                    title: 'Partener',
+                    path: '/foaieparcurs/partener'
                 }
 
+
             ]
         },
-
 
     ];
 
@@ -143,9 +458,9 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     ngOnInit() {
-        // this.modules = JSON.parse(this.cookieService.getCookie('currentUser')).modules.map((module) => {
-        //     return module.toLowerCase();
-        // });
+        this.modules = JSON.parse(this.cookieService.getCookie('currentUser')).modules.map((module) => {
+            return module.toLowerCase();
+        });
         const tempMenu = [];
         this.menuData.forEach((menu) => {
             if (menu.code) {
@@ -154,8 +469,8 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
             if (menu.children) {
                 const childrenTemp = [];
                 menu.children.forEach((submeniu) => {
-                    if (submeniu['code']) {
-                        if (this.modules.includes(submeniu['code'].toLowerCase())) {
+                    if (submeniu.code) {
+                        if (this.modules.includes(submeniu.code.toLowerCase())) {
                             childrenTemp.push(submeniu);
                             let newMenu = {title: '', children: []};
                             newMenu.title = menu.title;

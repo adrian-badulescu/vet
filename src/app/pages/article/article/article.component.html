@@ -1,0 +1,184 @@
+<div class="container-fluid">
+    <app-page-title title="Articles" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div *ngIf="!list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+                    <div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+                        <div class="ui-widget-header ui-helper-clearfix ewoheader">
+                            <actions (add)="add()" (edit)="edit()" (delete)="delete()" (export)="dt.exportCSV()"></actions>
+                        </div>
+
+                        <p-table #dt [value]="list" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="selectedItems">
+                            <!-- <ng-template pTemplate="caption">
+                    <div class="ui-helper-clearfix" style="text-align: left">
+                        <button type="button" pButton icon="fa fa-file-csv" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="margin-right: 0.5em;"></button>
+                        <button type="button" pButton icon="fa fa-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success"></button>
+                        <button type="button" pButton icon="fa fa-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()" class="ui-button-warning"></button>
+                        <button type="button" pButton icon="fa fa-file-csv" iconPos="left" label="CSV - Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>
+                    </div>
+            </ng-template> -->
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <!-- <th [pSortableColumn]="'name'">Id
+                                        <p-sortIcon [field]="'name'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th> -->
+                                    <th [pSortableColumn]="'name'">Denumire produs
+                                        <p-sortIcon [field]="'name'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'typeid'">Tip
+                                        <p-sortIcon [field]="'typeid'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'price'">Pret standard
+                                        <p-sortIcon [field]="'name'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'um'">UM
+                                        <p-sortIcon [field]="'um'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'currency'">Moneda
+                                        <p-sortIcon [field]="'currency'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'tva'">Cota TVA
+                                        <p-sortIcon [field]="'tva'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'tvachkbx'">Pretul include TVA
+                                        <p-sortIcon [field]="'tvachkbx'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                </tr>
+                                <tr class="ewoheaderfilter">
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'name', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'typeid', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'price', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'um', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'currency', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'tva', 'contains')">
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                <tr [pSelectableRow]="rowData" (dblclick)="onRowDblClick($event, rowData)">
+                                    <!-- <td>{{rowData['id']}}</td> -->
+                                    <td>{{rowData['name']}}</td>
+                                    <td>{{rowData['typeid']}}</td>
+                                    <td>{{rowData['price']}}</td>
+                                    <td>{{rowData['um']}}</td>
+                                    <td>{{rowData['currency']}}</td>
+                                    <td>{{rowData['tva']}}</td>
+                                    <td>{{rowData['tvachkbx'] | boolPipe}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p-dialog header="Detalii" [(visible)]="displayDialog1" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="item" [width]="400">
+
+        <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item">
+                <div class="ui-grid-row">
+                    <form *ngIf="validationform" [formGroup]="validationform">
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id" formControlName="id">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+
+                                <div class="form-group">
+                                    <label for="name">Denumire produs</label>
+                                    <input type="text" class="form-control" id="name" placeholder="" formControlName="name" [ngClass]="{'is-invalid': submitted && form.name.errors}">
+                                    <div *ngIf="submitted && form.name.errors" class="invalid-feedback">
+                                        <span *ngIf="form.name.errors.required">This value is required.</span>
+                                        <span>{{form.name.errors | json}}</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="typeid">Tip</label>
+                                    <select class="form-control" name="typeid" id="typeid" formControlName="typeid" [ngClass]="{ 'is-invalid': submitted && form.typeid.errors}">
+                                        <option value="">Alege status</option>
+                                        <option *ngFor="let typeid of Typeid" [ngValue]="typeid">{{typeid}}</option>
+                                    </select>
+                                    <div *ngIf="submitted && form.typeid.errors" class="invalid-feedback">
+                                        <span *ngIf="form.typeid.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="price">Pret standard</label>
+                                    <input type="text" class="form-control" id="price" placeholder="" formControlName="price" [ngClass]="{'is-invalid': submitted && form.price.errors}">
+                                    <div *ngIf="submitted && form.price.errors" class="invalid-feedback">
+                                        <span *ngIf="form.price.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="um">UM</label>
+                                    <input type="text" class="form-control" id="um" placeholder="" formControlName="um" [ngClass]="{'is-invalid': submitted && form.um.errors}">
+                                    <div *ngIf="submitted && form.um.errors" class="invalid-feedback">
+                                        <span *ngIf="form.um.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="currency">Moneda</label>
+                                    <select class="form-control" name="currency" id="currency" formControlName="currency" [ngClass]="{ 'is-invalid': submitted && form.typeid.errors}">
+                                        <option value="">Alege moneda</option>
+                                        <option *ngFor="let currency of Currency" [ngValue]="currency">{{currency}}</option>
+                                    </select>
+                                    <div *ngIf="submitted && form.currency.errors" class="invalid-feedback">
+                                        <span *ngIf="form.currency.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="tva">Cota TVA</label>
+                                    <select class="form-control" name="tva" id="tva" formControlName="tva" [ngClass]="{ 'is-invalid': submitted && form.tva.errors}">
+                                        <option value="">Alege TVA</option>
+                                        <option *ngFor="let tva of TVA" [ngValue]="tva">{{tva}}</option>
+                                    </select>
+                                    <div *ngIf="submitted && form.tva.errors" class="invalid-feedback">
+                                        <span *ngIf="form.tva.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="form-check" style="margin-bottom: 50%;">
+                                        <input class="form-check-input" type="checkbox" id="tvachkbx" [checked]="checkedTVA()" (change)="handleTVA($event)">
+                                        <label class="form-check-label" for="tvachkbx">Pretul include TVA</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog1 = false;" label="Renunta"></button>
+                <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="onSubmit(validationform.value)" label="Salveaza"></button>
+            </div>
+        </footer>
+    </p-dialog>

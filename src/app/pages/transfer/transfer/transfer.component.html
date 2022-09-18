@@ -1,0 +1,264 @@
+<div class="container-fluid">
+    <app-page-title title="Regularizare" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div *ngIf="!list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+                    <div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+                        <div class="ui-widget-header ui-helper-clearfix ewoheader">
+                            <actions (add)="add()" (edit)="edit()" (delete)="delete()" (export)="dt.exportCSV()"></actions>
+                        </div>
+
+                        <p-table #dt [value]="list" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="selectedItems">
+
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <th [pSortableColumn]="'number'">Numar
+                                        <p-sortIcon [field]="'number'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'serie'">Serie
+                                        <p-sortIcon [field]="'serie'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'date'">Datai
+                                        <p-sortIcon [field]="'date'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'delivered'">Livrat
+                                        <p-sortIcon [field]="'delivered'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'received'">Receptionat
+                                        <p-sortIcon [field]="'received'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'admSource'">Gestiune sursa
+                                        <p-sortIcon [field]="'admSource'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'admDest'">Gestiune destinatie
+                                        <p-sortIcon [field]="'admDest'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                </tr>
+                                <tr class="ewoheaderfilter">
+                                    <th>
+                                        <input pInputText type="number" (input)="dt.filter($event.target.value, 'number', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="serie" (input)="dt.filter($event.target.value, 'serie', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="date" (input)="dt.filter($event.target.value, 'date', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="delivered" (input)="dt.filter($event.target.value, 'delivered', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="received" (input)="dt.filter($event.target.value, 'received', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="admSource" (input)="dt.filter($event.target.value, 'admSource', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="admDest" (input)="dt.filter($event.target.value, 'admDest', 'contains')">
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                <tr [pSelectableRow]="rowData" (dblclick)="onRowDblClick($event, rowData)">
+                                    <td>{{rowData['number']}}</td>
+                                    <td>{{rowData['serie']}}</td>
+                                    <td>{{rowData['date'] | date:'dd/MM/yyyy'}}</td>
+                                    <td>{{rowData['delivered'] | boolPipe}}</td>
+                                    <td>{{rowData['received'] | boolPipe}}</td>
+                                    <td>{{rowData['admSource']}}</td>
+                                    <td>{{rowData['admDest']}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p-dialog header="Detalii" [(visible)]="displayDialog1" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="item" [width]="700">
+
+        <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item">
+                <div class="ui-grid-row">
+                    <form *ngIf="validationform" [formGroup]="validationform">
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id" formControlName="id">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+
+                                <div class="form-group">
+                                    <label for="number">Numar</label>
+                                    <input type="text" class="form-control" id="number" placeholder="" formControlName="number" [ngClass]="{ 'is-invalid': submitted && form.number.errors}">
+                                    <div *ngIf="submitted && form.number.errors" class="invalid-feedback">
+                                        <span *ngIf="form.number.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="serie">Serie</label>
+                                    <input type="text" class="form-control" id="serie" placeholder="" formControlName="serie" [ngClass]="{ 'is-invalid': submitted && form.serie.errors}">
+                                    <div *ngIf="submitted && form.serie.errors" class="invalid-feedback">
+                                        <span *ngIf="form.serie.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="date">Data</label>
+                                    <input type="date" class="form-control" id="date" placeholder="" formControlName="date" [ngClass]="{'is-invalid': submitted && form.date.errors}">
+                                    <div *ngIf="submitted && form.date.errors" class="invalid-feedback">
+                                        <span *ngIf="form.date.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="admSource">Gestiune sursa</label>
+                                    <select class="form-control" name="admSource" id="admSource" formControlName="admSource" [ngClass]="{ 'is-invalid': submitted && form.administration.errors}">
+                                            <option value="">Alege</option>
+                                            <option *ngFor="let admSource of AdmSource" [ngValue]="admSource">{{admSource}}</option>
+                                        </select>
+                                    <div *ngIf="submitted && form.admSource.errors" class="invalid-feedback">
+                                        <span *ngIf="form.admSource.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="admDest">Gestiune destinatie</label>
+                                    <select class="form-control" name="admDest" id="admDest" formControlName="admDest" [ngClass]="{ 'is-invalid': submitted && form.admDest.errors}">
+                                                <option value="">Alege</option>
+                                                <option *ngFor="let admDest of AdmDest" [ngValue]="admDest">{{admDest}}</option>
+                                            </select>
+                                    <div *ngIf="submitted && form.admDest.errors" class="invalid-feedback">
+                                        <span *ngIf="form.admDest.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="delivered" [checked]="checkedDelivered()" (change)="handleDelivered($event)">
+                                    <label class="form-check-label" for="delivered">Livrat</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="received" [checked]="checkedReceived()" (change)="handleReceived($event)">
+                                    <label class="form-check-label" for="received">Receptionat</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary pull-left" (click)="addNewArticleRow()">Adauga articole</button>
+            <br><br>
+
+            <p-table [value]="invoicexarticles" dataKey="id" editMode="row">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Produs</th>
+                        <th>Cantitate livrata</th>
+                        <th>Cantitate receptionata</th>
+                        <th>Stoc disponibil</th>
+                        <th>Pret achizitie</th>
+                        <th>Obs</th>
+                        <th style="width:8em"></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                    <tr [pEditableRow]="rowData">
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.product" required>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.product}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.deliveredQty" required>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.deliveredQty}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.recepQty" required>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.recepQty}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.availableStock" required>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.availableStock}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.aquisitionPrice" required>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.aquisitionPrice}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.obs" required>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.obs}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+
+
+
+                        <td style="text-align:center">
+                            <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info" (click)="onRowEditInit(rowData)"></button>
+                            <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-minus" class="ui-button-warning" style="margin-right: .5em" (click)="onRowDelete(rowData)"></button>
+
+                            <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button>
+                            <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times" class="ui-button-danger" (click)="onRowEditCancel(rowData, ri)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+        </div>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog1 = false;" label="Renunta"></button>
+                <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="onSubmit(validationform.value)" label="Salveaza"></button>
+            </div>
+        </footer>
+    </p-dialog>

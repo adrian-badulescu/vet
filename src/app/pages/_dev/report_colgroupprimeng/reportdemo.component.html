@@ -1,0 +1,54 @@
+<div class="container-fluid">
+        <app-page-title title="Col group" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+        <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+
+<div *ngIf="!list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+<div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+
+    <p-table [value]="list">
+        <ng-template pTemplate="header">
+            <tr>
+                <th rowspan="3">Brand</th>
+                <th colspan="4">Sale Rate</th>
+            </tr>
+            <tr>
+                <th colspan="2">Sales</th>
+                <th colspan="2">Profits</th>
+            </tr>
+            <tr>
+                <th>Last Year</th>
+                <th>This Year</th>
+                <th>Last Year</th>
+                <th>This Year</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>{{rowData['name']}}</td>
+                <td>{{rowData['number']}}</td>
+                <td>{{rowData['date'] | date}}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <tr>
+                <td colspan="3">Totals</td>
+                <td>$506,202</td>
+                <td>$531,020</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+

@@ -24,7 +24,7 @@ export class RouterService {
         .subscribe(({urlAfterRedirects}: NavigationEnd) => {
           const event = {
             module: urlAfterRedirects,
-            date: new Date(),
+            date: new Date().toISOString(),
           };
           this.currentUrl = event;
           this.history = [...this.history, event];

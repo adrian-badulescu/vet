@@ -1,0 +1,75 @@
+<div class="col-lg-12" style="background: rgba(226, 226, 226, 0.50)">
+    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4 ewoheader">
+        <h1 class="page-title txt-color-blueDark">
+            <i class="fa-fw fa fa-list-alt"></i>
+            Categorii produse
+        </h1>
+    </div>
+    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+        <ul id="sparks" class="">
+            <li class="sparks-info">
+                <h5> Info3 <span class="txt-color-purple">
+                    <i class="fa fa-arrow-circle-up" data-rel="bootstrap-tooltip" title="Increased"></i></span>
+                </h5>
+            </li>
+            <li class="sparks-info">
+                <h5> Info2 <span class="txt-color-purple">
+                    <i class="fa fa-arrow-circle-up" data-rel="bootstrap-tooltip" title="Increased"></i></span>
+                </h5>
+            </li>
+            <li class="sparks-info">
+                <h5> Info1 <span class="txt-color-purple">
+                    <i class="fa fa-arrow-circle-up" data-rel="bootstrap-tooltip" title="Increased"></i></span>
+                </h5>
+            </li>
+        </ul>
+    </div>
+</div>
+<div *ngIf="!list" id="loadingmodule">Incarca ...</div>
+
+<div *ngIf="list && fields && columns && properties" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+    <div class="ui-widget-header ui-helper-clearfix ewoheader" style="border-bottom: 0 none; padding: 5px;">
+        <admingrid (fields)="editFields('productcat')" (columns)="editColumns('productcat')" *ngIf="properties.admin"></admingrid>
+        <actions (add)="add()" (edit)="edit()" (delete)="delete()"
+                 (edittables)="editTables()" (editfields)="editFields('productcat')" (editproperties)="editModuleProperties('productcat')"
+                 [admin]="properties.admin">
+        </actions>
+    </div>
+    <p-treeTable [value]="list" selectionMode="multiple" [(selection)]="selectedItems" rows="4"
+                 (onNodeDblclick)="edit()" (onNodeExpand)="nodeExpand($event)">
+        <p-column *ngFor="let col of columns.productcat" [field]="col.field" [header]="col.header"
+                  [filter]="true" filterMatchMode="contains"></p-column>
+
+        <p-column *ngIf="!columns.productcat" field="denumire" header="Denumire" filter="true" filterMatchMode="contains"></p-column>
+        <p-column *ngIf="!columns.productcat" field="description" header="Descriere" filter="true" filterMatchMode="contains"></p-column>
+    </p-treeTable>
+</div>
+
+<p-dialog header="{{setproperties('productcat','form','label','Detalii')}}" [(visible)]="displayDialog1" [responsive]="true" showEffect="fade" [modal]="true"
+          *ngIf="item && properties" [width]="setproperties('productcat','form','width','500')">
+    <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+        <adminprop (control)="editProperties('productcat','form')" *ngIf="properties.admin"></adminprop>
+        <!--            <div class="ui-grid-row" *ngFor="let col of cols" >
+                        <div class="ui-grid-col-3"><label for="col.field">{{col.header}}</label></div>
+                        <div class="ui-grid-col-8"><input pInputText id="col.field" [(ngModel)]="col.model" /></div>
+                    </div>-->
+        <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent" *ngIf="item">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2 col-xs-offset-1"><label for="denumire" (click)="editProperties('productcat','denumire')">{{setproperties('productcat','denumire','label','Denumire')}}</label></div>
+                <div class="ui-grid-col-7"><input pInputText id="denumire" [(ngModel)]="item[setproperties('productcat','denumire','model','denumire')]"/></div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2 col-xs-offset-1"><label for="description" (click)="editProperties('productcat','description')">{{setproperties('productcat','description','label','Descriere')}}</label></div>
+                <div class="ui-grid-col-7">
+                    <textarea pInputTextarea rows="5" cols="30" id="description" [(ngModel)]="item[setproperties('productcat','description','model','description')]"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+            <button type="button" pButton icon="fa-close" (click)="displayDialog1 = false;" label="Cancel"></button>
+            <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+        </div>
+    </footer>
+</p-dialog>

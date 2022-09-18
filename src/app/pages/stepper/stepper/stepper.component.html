@@ -1,0 +1,61 @@
+<div id=some_space>
+</div>
+
+<!-- <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+    {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+  </button> -->
+<mat-horizontal-stepper [linear]="isLinear" #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup" #formone="ngForm" (ngSubmit)="firstFormGroup">
+            <mat-form-field [hidden]="true">
+                <input matInput type="number" formControlName="id">
+            </mat-form-field>
+            <ng-template matStepLabel>Pas 1</ng-template>
+            <div class="input-col">
+                <mat-form-field>
+                    <input matInput placeholder="Nume" formControlName="surname" required>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput placeholder="Prenume" formControlName="forename" required>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput placeholder="Email" formControlName="email" required>
+                </mat-form-field>
+            </div>
+            <div>
+                <button mat-button matStepperNext>Urmator</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+        <form [formGroup]="secondFormGroup" #formtwo="ngForm" (ngSubmit)="secondFormGroup">
+            <ng-template matStepLabel>pas 2</ng-template>
+            <div class="input-col">
+                <mat-form-field>
+                    <input matInput placeholder="Adresa" formControlName="address" required>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput placeholder="Cod postal" formControlName="zipCode" required>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput placeholder="Telefon" formControlName="tel" required>
+                </mat-form-field>
+            </div>
+            <div>
+                <button mat-button matStepperPrevious>Inapoi</button>
+                <button mat-button matStepperNext>Inainte</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Comanda inregistrata</ng-template>
+        Va multumim!
+        <div>
+            <button mat-button matStepperPrevious>Inapoi</button>
+            <button mat-button (click)=" stepper.reset() ">Reset</button>
+            <button mat-button type="button" (click)="onSubmit()">
+                    Trimite
+                    </button>
+        </div>
+    </mat-step>
+</mat-horizontal-stepper>

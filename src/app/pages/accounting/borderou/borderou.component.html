@@ -1,0 +1,290 @@
+<div class="container-fluid">
+        <app-page-title title="Tree" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+        <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body" style="overflow-x: auto; min-height: 400px;">
+
+<div *ngIf="!listcomanda" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+<div *ngIf="listcomanda" style="text-align: center; font-size: 20px;" class="bordcomlabel">
+Selecteaza comanda interna
+<p-dropdown [options]="listcomanda" [(ngModel)]="comandaid" optionLabel="numar" (onChange)="onChange($event)"></p-dropdown>
+</div>
+
+<br><br>
+<button *ngIf="listcomanda && list" (click)="bonuritrimise()" class="btn btn-info">Afiseza bonuri trimise</button>
+<button *ngIf="listcomanda && list" (click)="trimitebon()" class="btn btn-warning">Trimite bon gestionar</button>
+
+<br><br>
+<div *ngIf="comandaid && !list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+<div *ngIf="comandaid && list" class="ContentSideSections ewogrid" style="padding:1px 10px; width: fit-content;">
+    <div class="ui-widget-header ui-helper-clearfix ewoheader">
+        <actions (add)="add()" (edit)="edit()" (delete)="delete()" (export)="dt.exportCSV()" [canEdit]="false" [canDelete]="false" [canExport]="false"></actions>
+    </div>
+
+    <p-table #dt [value]="list" [paginator]="true" [rows]="50" selectionMode="single" 
+    [(selection)]="selectedItems">
+
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th style="width: 50px;">Crt</th>
+                <th style="width: 250px;">Denumire</th>
+                <th style="width: 100px;">C. totala</th>
+                <th style="width: 100px;">C. ceruta</th>
+                <th style="width: 100px;">C. predata</th>
+                <th style="width: 100px;">C. ramasa</th>
+                <th style="width: 50px;">UM</th>
+                <th style="width: 150px;">Furnizor</th>
+                <th style="width: 150px;">Producator</th>
+                <th style="width: 150px;">Cod producator</th>
+                <th style="width: 100px;">Nr. bon</th>
+                <th style="width: 150px;">BOM</th>
+            </tr>
+            <tr class="ewoheaderfilter">
+                <th></th>
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'artprod', 'contains')">
+                </th>
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'cantitate', 'contains')">
+                </th>  
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'cantitateceruta', 'contains')">
+                </th> 
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'cantitatepredata', 'contains')">
+                </th> 
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'cantitateramasa', 'contains')">
+                </th> 
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'um', 'contains')">
+                </th>  
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'furnizor', 'contains')">
+                </th>  
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'producator', 'contains')">
+                </th>  
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'codproducator', 'contains')">
+                </th>  
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'nrbon', 'contains')">
+                </th>  
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'bom', 'contains')">
+                </th>                  
+            </tr> 
+        </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                <tr [pSelectableRow]="rowData" (dblclick)="onRowDblClick($event, rowData)">
+
+                <td>
+                    {{rowIndex+1}}
+                </td>
+                <td>
+                    {{rowData['artprod']}}
+                </td>
+                <td>{{rowData['cantitate']}}</td>
+                <td>{{rowData['cantitateceruta']}}</td>
+                <td>{{rowData['cantitatepredata']}}</td>
+                <td>{{rowData['cantitateramasa']}}</td>
+                <td>{{rowData['um']}}</td>
+                <td>{{rowData['furnizor']}}</td>
+                <td>{{rowData['producator']}}</td>
+                <td>{{rowData['cosproducator']}}</td>
+                <td>{{rowData['nrbon']}}</td>
+                <td>{{rowData['bom']}}</td>
+
+            </tr>
+        </ng-template>
+    </p-table>
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+
+<p-dialog header="Adauga" [(visible)]="displayDialog1"
+          [responsive]="true" showEffect="fade" [modal]="true"
+          *ngIf="item" [width]="700">
+
+    <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+        <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item">
+            <div class="ui-grid-row">
+                    <form *ngIf="validationform" [formGroup]="validationform">     
+        
+        
+                        <div class="row">
+                            <div class="form-group row col-md-12">
+
+                            <div class="col-md-6">
+                                 <label for="artprod">Articol</label>
+                                 <input type="text" class="ewo-form-control form-control" id="artprod" 
+                                 name="artprod" formControlName="artprod" placeholder="name" 
+                                 [ngClass]="{'is-invalid': submitted && form.artprod.errors}">
+                                 <div *ngIf="submitted && form.artprod.errors" class="invalid-feedback">
+                                  <span *ngIf="form.artprod.errors.required">Camp obligatoriu</span>
+                                 </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="cantitate">Cantitate</label>
+                                <input type="number" class="ewo-form-control form-control" id="cantitate" 
+                                name="artprod" formControlName="cantitate" placeholder="cantitate" 
+                                [ngClass]="{'is-invalid': submitted && form.artprod.errors}">
+                                <div *ngIf="submitted && form.cantitate.errors" class="invalid-feedback">
+                                 <span *ngIf="form.cantitate.errors.required">Camp obligatoriu</span>
+                                </div>
+                           </div>
+ 
+                            </div>
+                          </div>                       
+                    </form>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+            <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog1 = false;" label="Renunta"></button>
+            <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="onSubmit(validationform.value)" label="Salveaza"></button>
+        </div>
+    </footer>
+</p-dialog>
+
+
+<p-dialog header="Bonuri trimise" [(visible)]="displayDialog2"
+          [responsive]="true" showEffect="fade" [modal]="true"
+          *ngIf="listBonuriTrimise" [width]="900">
+
+    <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+        <div class="ui-grid ui-grid-responsive ui-fluid">
+            <div class="ui-grid-row">
+   
+                <p-table [value]="listBonuriTrimise" sortField="data" sortMode="single" (onSort)="onSort()">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Utilizator</th>
+                            <th>Data</th>
+                            <th>Denumire</th>
+                            <th>UM</th>
+                            <th>Cantitate ceruta</th>
+                            <th>Cantitate eliberata</th>
+                            <th>Pret unitar</th>
+                            <th>Cod IDNC</th>
+                            <th>Cod producator</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                        <tr>
+                            <td *ngIf="rowGroupMetadata[rowData.sendid].index === rowIndex" [attr.rowspan]="rowGroupMetadata[rowData.sendid].size">
+                                {{rowData.userid}}
+                            </td>
+                            <td>{{rowData.data | date}}</td>
+                            <td>{{rowData.artprod}}</td>
+                            <td>{{rowData.um}}</td>
+                            <td>{{rowData.cantitateceruta}}</td>
+                            <td>{{rowData.cantitatepredata}}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+            <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog2 = false;" label="Renunta"></button>
+        </div>
+    </footer>
+</p-dialog>
+
+
+<p-dialog header="Trimte bon" [(visible)]="displayDialog3"
+          [responsive]="true" showEffect="fade" [modal]="true"
+          *ngIf="list" [width]="700">
+
+    <div style="color: rgb(153, 86, 86);">Selectati articolele si completati cantitatea ceruta</div>
+
+    <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+        <div class="ui-grid ui-grid-responsive ui-fluid">
+            <div class="ui-grid-row">
+   
+                <p-table [value]="list" [paginator]="true" [rows]="50" selectionMode="multiple" [(selection)]="selectedItemsTrimite">
+            
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th style="width: 50px;">Crt</th>
+                            <th style="width: 250px;">Denumire</th>
+                            <th style="width: 100px;">Cantitate totala</th>
+                            <th style="width: 100px;">Cantitate ceruta</th>
+                            <th style="width: 50px;">UM</th>
+                        </tr>
+                        <tr class="ewoheaderfilter">
+                            <th></th>
+                            <th>
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'artprod', 'contains')">
+                            </th>
+                            <th>
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'cantitate', 'contains')">
+                            </th>  
+                            <th>
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'cantitateceruta', 'contains')">
+                            </th> 
+                            <th>
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'um', 'contains')">
+                            </th>                   
+                        </tr> 
+                    </ng-template>
+
+                    <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                        <tr [pSelectableRow]="rowData">
+                            <td>
+                                {{rowIndex+1}}
+                            </td>
+                            <td>
+                                {{rowData['artprod']}}
+                            </td>
+                            <td>{{rowData['cantitate'] || 0}}</td>
+                            <td pEditableColumn>
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input pInputText type="number" [(ngModel)]="rowData.cantitateceruta" required>
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        <input pInputText disabled type="number" [(ngModel)]="rowData.cantitateceruta" required>
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                            <td>{{rowData['um']}}</td>
+                        </tr>
+                    </ng-template>
+
+                </p-table>
+
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+            <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog3 = false;" label="Renunta"></button>
+            <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="savetrimitebon()" label="Salveaza"></button>
+        </div>
+    </footer>
+</p-dialog>
+
+
+

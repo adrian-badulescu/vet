@@ -9,8 +9,7 @@ import {BaseService} from './service/service';
 /*declare var $:JQueryStatic;*/
 
 @Component({
-    selector: 'bse',
-    templateUrl: 'base.html',
+    template: ``,
     providers: [BaseService]
 })
 export class Base implements OnInit {

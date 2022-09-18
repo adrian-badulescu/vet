@@ -1,0 +1,248 @@
+<div class="container-fluid">
+    <app-page-title title="Lista gestiuni" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
+                            <form class="form-inline">
+                                <div class="form-group mb-2">
+                                    <label class="sr-only">Cauta</label>
+                                    <input class="form-control" name="search" placeholder="Search..." [(ngModel)]="term">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="text-sm-right">
+                                <button type="button" class="btn btn-success mb-2 mr-1"><i class="mdi mdi-settings"></i></button>
+                                <a href="javscript: void(0);" class="btn btn-danger mb-2" (click)="openModal(content)"><i
+                    class="mdi mdi-plus-circle mr-1"></i> Adauga gestiune </a>
+                            </div>
+                        </div>
+                        <!-- end col-->
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-centered table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Warehouse Id</th>
+                                    <th>Type Id</th>
+                                    <th>Activ</th>
+                                    <th>Is Virtual</th>
+                                    <th>Consumption</th>
+                                    <th>Delivery</th>
+                                    <th>Receipt</th>
+                                    <th>Adjustment</th>
+                                    <th>Reservation</th>
+                                    <th>Owner Id</th>
+                                    <th style="width: 82px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let contact of paginatedContactData |filter:term">
+                                    <td class="table-user">
+                                        <a href="javascript:void(0);" class="text-body font-weight-semibold">
+                                        {{contact.name}}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{contact.description}}
+                                    </td>
+                                    <td>
+                                        {{contact.warehouseid}}
+                                    </td>
+                                    <td>
+                                        {{contact.typeid}}
+                                    </td>
+                                    <td>
+                                        {{contact.activ}}
+                                    </td>
+                                    <td>
+                                        {{contact.is_virtual}}
+                                    </td>
+                                    <td>
+                                        {{contact.consumption}}
+                                    </td>
+                                    <td>
+                                        {{contact.delivery}}
+                                    </td>
+                                    <td>
+                                        {{contact.receipt}}
+                                    </td>
+                                    <td>
+                                        {{contact.adjustment}}
+                                    </td>
+                                    <td>
+                                        {{contact.reservation}}
+                                    </td>
+                                    <td>
+                                        {{contact.ownerid}}
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0);" (click)="openToEditModal(content, contact)" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                        <a href="javascript:void(0);" (click)="deleteItem(contact.id)" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <ul class="pagination pagination-rounded justify-content-end my-2">
+                        <ngb-pagination (pageChange)="onPageChange($event)" [pageSize]="pageSize" [(page)]="page" [collectionSize]="totalSize"></ngb-pagination>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Contacts model  -->
+<ng-template #content role="document" let-modal="close">
+    <div class="modal-header bg-dark">
+        <h4 class="modal-title text-white">Add Contacts</h4>
+        <button type="button" class="close text-white" aria-label="Close" (click)="modal('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+
+
+    <div class="modal-body p-3">
+        <div class="text-left">
+            <form (ngSubmit)="saveData(validationform.value)" [formGroup]="validationform">
+
+                <div class="form-group">
+                    <input type="hidden" class="form-control" id="id" formControlName="id">
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" placeholder="Enter name" formControlName="name" [ngClass]="{'is-invalid': submitted && form.name.errors}">
+                            <div *ngIf="submitted && form.name.errors" class="invalid-feedback">
+                                <span *ngIf="form.name.errors.required">This value is required.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <input class="form-control" id="description" placeholder="Enter a description" formControlName="description" [ngClass]="{'is-invalid': submitted && form.description.errors}">
+                            <div *ngIf="submitted && form.description.errors" class="invalid-feedback">
+                                <span *ngIf="form.description.errors.required">This value is required.</span>
+                                <!-- <span *ngIf="form.email.errors.pattern">Please enter valid email.</span> -->
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Warehouse Id</label>
+                            <input type="text" class="form-control" placeholder="Enter a warehouse id" formControlName="warehouseid" [ngClass]="{'is-invalid': submitted && form.warehouseid.errors}">
+                            <div *ngIf="submitted && form.warehouseid.errors" class="invalid-feedback">
+                                <span *ngIf="form.warehouseid.errors.required">This value is required.</span>
+                                <!-- <span *ngIf="form.warehouseid.errors.minlength">Phone number must be 10 characters.</span> -->
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Type Id</label>
+                            <input class="form-control" placeholder="Enter the type id" formControlName="typeid" [ngClass]="{'is-invalid': submitted && form.typeid.errors}">
+                            <div *ngIf="submitted && form.typeid.errors" class="invalid-feedback">
+                                <span *ngIf="form.typeid.errors.required">This value is required.</span>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-lg-4">
+
+                        <div class="form-group">
+                            <label>Activ</label>
+                            <input class="form-control" placeholder="If activ or not" formControlName="activ" [ngClass]="{'is-invalid': submitted && form.activ.errors}">
+                            <div *ngIf="submitted && form.activ.errors" class="invalid-feedback">
+                                <span *ngIf="form.activ.errors.required">This value is required.</span>
+                                <span *ngIf="form.activ.errors.pattern">This value should be a number!.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Is Virtual</label>
+                            <input class="form-control" placeholder="If it is virtual or not" formControlName="is_virtual" [ngClass]="{'is-invalid': submitted && form.is_virtual.errors}">
+                            <div *ngIf="submitted && form.is_virtual.errors" class="invalid-feedback">
+                                <span *ngIf="form.is_virtual.errors.required">This value is required.</span>
+                                <span *ngIf="form.is_virtual.errors.pattern">This value should be a number!.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Consumption</label>
+                            <input class="form-control" placeholder="Enter the consumption" formControlName="consumption" [ngClass]="{'is-invalid': submitted && form.consumption.errors}">
+                            <div *ngIf="submitted && form.consumption.errors" class="invalid-feedback">
+                                <span *ngIf="form.consumption.errors.required">This value is required.</span>
+                                <span *ngIf="form.consumption.errors.pattern">This value should be a number!.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Delivery</label>
+                            <input class="form-control" placeholder="If delivered or not" formControlName="delivery" [ngClass]="{'is-invalid': submitted && form.delivery.errors}">
+                            <div *ngIf="submitted && form.delivery.errors" class="invalid-feedback">
+                                <span *ngIf="form.delivery.errors.required">This value is required.</span>
+                                <span *ngIf="form.delivery.errors.pattern">This value should be a number!.</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-4">
+
+
+                        <div class="form-group">
+                            <label>Receipt</label>
+                            <input class="form-control" placeholder="Enter the associated receipt" formControlName="receipt" [ngClass]="{'is-invalid': submitted && form.receipt.errors}">
+                            <div *ngIf="submitted && form.receipt.errors" class="invalid-feedback">
+                                <span *ngIf="form.receipt.errors.required">This value is required.</span>
+                                <span *ngIf="form.receipt.errors.pattern">This value should be a number!.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Adjustment</label>
+                            <input class="form-control" placeholder="Enter the adjustment" formControlName="adjustment" [ngClass]="{'is-invalid': submitted && form.adjustment.errors}">
+                            <div *ngIf="submitted && form.adjustment.errors" class="invalid-feedback">
+                                <span *ngIf="form.adjustment.errors.required">This value is required.</span>
+                                <span *ngIf="form.adjustment.errors.pattern">This value should be a number!.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Reservation</label>
+                            <input class="form-control" placeholder="Enter the reservation" formControlName="reservation" [ngClass]="{'is-invalid': submitted && form.reservation.errors}">
+                            <div *ngIf="submitted && form.reservation.errors" class="invalid-feedback">
+                                <span *ngIf="form.reservation.errors.required">This value is required.</span>
+                                <span *ngIf="form.reservation.errors.pattern">This value should be a number!.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Owner Id</label>
+                            <input class="form-control" placeholder="Enter the owner id" formControlName="ownerid" [ngClass]="{'is-invalid': submitted && form.ownerid.errors}">
+                            <div *ngIf="submitted && form.ownerid.errors" class="invalid-feedback">
+                                <span *ngIf="form.ownerid.errors.required">This value is required.</span>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="text-right">
+                    <button type="button" class="btn btn-success" (click)="onSubmit(validationform.value, validationform, modal)">Save</button>
+                    <button type="button" class="btn btn-danger ml-1" (click)="closeModal(validationform, modal)">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- </div>end -->
+</ng-template>

@@ -1,0 +1,170 @@
+<div class="container-fluid">
+    <app-page-title title="Lista resurse" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
+                            <form class="form-inline">
+                                <div class="form-group mb-2">
+                                    <label class="sr-only">Cauta</label>
+                                    <input class="form-control" name="search" placeholder="Search..." [(ngModel)]="term">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="text-sm-right">
+                                <button type="button" class="btn btn-success mb-2 mr-1"><i class="mdi mdi-settings"></i></button>
+                                <a href="javscript: void(0);" class="btn btn-danger mb-2" (click)="openModal(content)"><i
+                    class="mdi mdi-plus-circle mr-1"></i> Adauga </a>
+                            </div>
+                        </div>
+                        <!-- end col-->
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-centered table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Nume</th>
+                                    <th>Descriere</th>
+                                    <th>Categorie</th>
+                                    <th>Tip</th>
+                                    <th>Cost orar</th>
+                                    <th style="width: 82px;">Actiune</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of resource |filter:term">
+                                    <td class="table-user">
+                                        <a href="javascript:void(0);" class="text-body font-weight-semibold">
+                                        {{item.name}}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{item.description}}
+                                    </td>
+                                    <td>
+                                        {{item.categoryid}}
+                                    </td>
+                                    <td>
+                                        {{item.typeid}}
+                                    </td>
+                                    <td>
+                                        {{item.hourcost}}
+                                    </td>
+
+                                    <td>
+                                        <a href="javascript:void(0);" (click)="openToEditModal(content, item)" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                        <a href="javascript:void(0);" (click)="deleteItem(item.id)" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <ul class="pagination pagination-rounded justify-content-end my-2">
+                        <ngb-pagination (pageChange)="onPageChange($event)" [pageSize]="pageSize" [(page)]="page" [collectionSize]="totalSize"></ngb-pagination>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Contacts model  -->
+<ng-template #content role="document" let-modal="close">
+    <div class="modal-header bg-dark">
+        <h4 class="modal-title text-white">Adauga resursa</h4>
+        <button type="button" class="close text-white" aria-label="Close" (click)="modal('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+
+
+    <div class="modal-body p-3">
+        <div class="text-left">
+            <form (ngSubmit)="saveData(validationform.value)" [formGroup]="validationform">
+
+                <div class="form-group">
+                    <input type="hidden" class="form-control" id="id" formControlName="id">
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="form-group">
+                            <label for="name">Nume</label>
+                            <input type="text" class="form-control" id="name" placeholder="Enter name" formControlName="name" [ngClass]="{'is-invalid': submitted && form.name.errors}">
+                            <div *ngIf="submitted && form.name.errors" class="invalid-feedback">
+                                <span *ngIf="form.name.errors.required">This value is required.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tip</label>
+                            <select class="form-control" name="typeid" id="typeid" formControlName="typeid" [ngClass]="{'is-invalid': submitted && form.typeid.errors}">
+                                <option value="">Alege tip</option>
+                                <option *ngFor="let typeid of Typeid" [ngValue]="typeid">{{typeid}}</option>
+                            </select>
+                            <div *ngIf="submitted && form.typeid.errors" class="invalid-feedback">
+                                <span *ngIf="form.typeid.errors.required">This value is required.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Categorie</label>
+                            <select class="form-control" name="categoryid" id="categoryid" formControlName="categoryid" [ngClass]="{'is-invalid': submitted && form.categoryid.errors}">
+                                <option value="">Alege categorie</option>
+                                <option *ngFor="let categoryid of Categoryid" [ngValue]="categoryid">{{categoryid}}</option>
+                            </select>
+                            <div *ngIf="submitted && form.categoryid.errors" class="invalid-feedback">
+                                <span *ngIf="form.categoryid.errors.required">This value is required.</span>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tipul de entitate</label>
+                            <select class="form-control" name="entitytypeid" id="entitytypeid" formControlName="entitytypeid" [ngClass]="{'is-invalid': submitted && form.entitytypeid.errors}">
+                                <option value="">Alege entitate</option>
+                                <option *ngFor="let entitytypeid of Entitytypeid" [ngValue]="entitytypeid">{{entitytypeid}}</option>
+                            </select>
+                            <div *ngIf="submitted && form.entitytypeid.errors" class="invalid-feedback">
+                                <span *ngIf="form.entitytypeid.errors.required">This value is required.</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                <label for="description">Descriere</label>
+                                <textarea class="form-control" id="Textarea1" id="comanda" placeholder="" formControlName="comanda" [ngClass]="{'is-invalid': submitted && form.comanda.errors}" rows="9"></textarea>
+                                <div *ngIf="submitted && form.description.errors" class="invalid-feedback">
+                                    <span *ngIf="form.description.errors.required">This value is required.</span>
+                                    <!-- <span *ngIf="form.email.errors.pattern">Please enter valid email.</span> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-3">
+                                <label>Cost orar</label>
+                                <input class="form-control" placeholder="cost/ora" formControlName="hourcost" [ngClass]="{'is-invalid': submitted && form.hourcost.errors}">
+                                <div *ngIf="submitted && form.hourcost.errors" class="invalid-feedback">
+                                    <span *ngIf="form.hourcost.errors.required">This value is required.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="text-right">
+                    <button type="button" class="btn btn-success" (click)="onSubmit(validationform.value, validationform, modal)">Salveaza</button>
+                    <button type="button" class="btn btn-danger ml-1" (click)="closeModal(validationform, modal)">Anuleaza</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- </div>end -->
+</ng-template>

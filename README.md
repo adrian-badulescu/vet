@@ -1,5 +1,5 @@
-# vet-manager-front
-Frontend Vet Manager
+# farm-manager-front
+Frontend  Farm Manager
 
 ---
 
@@ -26,6 +26,16 @@ npm run build-prod
 
 - you might use a visual GIT client (use the commands as a guideline)
 
+
+---
+### Clone repo (ONE TIME)
+
+`git clone https://danco@bitbucket.org/dancodev/erp-elt.git`
+
+
+- if you don't want to clone, and just connect you can use:
+
+`git remote add origin https://danco@bitbucket.org/dancodev/erp-elt.git`
 
 
 ---

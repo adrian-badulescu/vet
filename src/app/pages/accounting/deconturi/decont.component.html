@@ -1,0 +1,528 @@
+<div class="container-fluid">
+    <app-page-title title="Deconturi" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div *ngIf="!list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+                    <div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+                        <div class="ui-widget-header ui-helper-clearfix ewoheader">
+                            <actions (add)="add()" (edit)="edit()" (delete)="delete()" (export)="dt.exportCSV()"></actions>
+                        </div>
+
+                        <p-table #dt [value]="list" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="selectedItems">
+
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <th [pSortableColumn]="'paymentOrderId'">Ordin Nr.
+                                        <p-sortIcon [field]="'paymentOrderId'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'paymentOrderName'">Ordin
+                                        <p-sortIcon [field]="'paymentOrderName'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'costClaim'">Nr. decont
+                                        <p-sortIcon [field]="'costClaim'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'date'">Data
+                                        <p-sortIcon [field]="'date'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'brandId'">Marca Nr.
+                                        <p-sortIcon [field]="'brandId'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'brandName'">Marca
+                                        <p-sortIcon [field]="'brandName'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'payment'">Plata
+                                        <p-sortIcon [field]="'payment'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                </tr>
+                                <tr class="ewoheaderfilter">
+                                    <th>
+                                        <input pInputText type="paymentOrderId" (input)="dt.filter($event.target.value, 'paymentOrderId', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="paymentOrderName" (input)="dt.filter($event.target.value, 'paymentOrderName', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="costClaim" (input)="dt.filter($event.target.value, 'costClaim', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="date" (input)="dt.filter($event.target.value, 'date', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="brandId" (input)="dt.filter($event.target.value, 'brandId', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="brandName" (input)="dt.filter($event.target.value, 'brandName', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="payment" (input)="dt.filter($event.target.value, 'payment', 'contains')">
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                <tr [pSelectableRow]="rowData" (dblclick)="onRowDblClick($event, rowData)">
+                                    <td>{{rowData['paymentOrderId']}}</td>
+                                    <td>{{rowData['paymentOrderName']}}</td>
+                                    <td>{{rowData['costClaim']}}</td>
+                                    <td>{{rowData['date'] | date:'dd/MM/yyyy' }}</td>
+                                    <td>{{rowData['brandId']}}</td>
+                                    <td>{{rowData['brandName']}}</td>
+                                    <td>{{rowData['payment']}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p-dialog header="Detalii" [(visible)]="displayDialog1" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="item" [width]="600">
+
+        <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item">
+                <div class="ui-grid-row">
+                    <form *ngIf="validationform" [formGroup]="validationform">
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id" formControlName="id">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <tabset #tabset>
+                                        <tab heading="T1">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label for="year">Anul</label>
+                                                        <select class="form-control" name="year" id="year" formControlName="year" [ngClass]="{'is-invalid': submitted && form.year.errors}">
+                                                            <option value="">alege anul</option>
+                                                            <option *ngFor="let year of Year" [ngValue]="year">{{year}}</option>
+                                                        </select>
+                                                        <div *ngIf="submitted && form.year.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.year.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label for="paymentOrderId">Ordin de plata</label>
+                                                        <input type="text" class="form-control" id="paymentOrderId" placeholder="" formControlName="paymentOrderId" [ngClass]="{'is-invalid': submitted && form.paymentOrderId.errors}">
+                                                        <div *ngIf="submitted && form.paymentOrderId.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.paymentOrderId.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-8 dot">
+                                                    <div class="form-group">
+                                                        <label class="dot" for="paymentOrderName">.</label>
+                                                        <input type="text" class="form-control" id="paymentOrderName" placeholder="" formControlName="paymentOrderName" [ngClass]="{'is-invalid': submitted && form.paymentOrderName.errors}">
+                                                        <div *ngIf="submitted && form.paymentOrderName.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.paymentOrderName.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="row"> -->
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="costClaim">Nr. decont</label>
+                                                    <input type="text" class="form-control" id="costClaim" placeholder="" formControlName="costClaim" [ngClass]="{'is-invalid': submitted && form.costClaim.errors}">
+                                                    <div *ngIf="submitted && form.costClaim.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.costClaim.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="date">Data</label>
+                                                    <input type="date" class="form-control" id="date" placeholder="" formControlName="date" [ngClass]="{'is-invalid': submitted && form.date.errors}">
+                                                    <div *ngIf="submitted && form.date.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.date.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- </div> -->
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <label for="brandId">Marca Nr.</label>
+                                                        <input type="text" class="form-control" id="brandId" placeholder="" formControlName="brandId" [ngClass]="{'is-invalid': submitted && form.brandId.errors}">
+                                                        <div *ngIf="submitted && form.brandId.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.brandId.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <div class="form-group">
+                                                        <label for="brandName">Marca</label>
+                                                        <input type="text" class="form-control" id="brandName" placeholder="" formControlName="brandName" [ngClass]="{'is-invalid': submitted && form.brandName.errors}">
+                                                        <div *ngIf="submitted && form.brandName.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.brandName.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-9">
+                                                    <div class="form-group">
+                                                        <label for="payment">Plati</label>
+                                                        <input type="text" class="form-control" id="payment" placeholder="" formControlName="payment" [ngClass]="{'is-invalid': submitted && form.payment.errors}">
+                                                        <div *ngIf="submitted && form.payment.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.payment.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="r0" class="col-lg-3">
+                                                    <button class="btn btn-primary" (click)="list1()">Lista</button>
+                                                </div>
+                                            </div>
+                                        </tab>
+                                        <tab heading="T2">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="acc">Cont</label>
+                                                        <input type="text" class="form-control" id="acc" placeholder="" formControlName="acc" [ngClass]="{'is-invalid': submitted && form.acc.errors}">
+                                                        <div *ngIf="submitted && form.acc.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.acc.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="analytic">Analitic</label>
+                                                        <input type="text" class="form-control" id="analytic" placeholder="" formControlName="analytic" [ngClass]="{'is-invalid': submitted && form.analytic.errors}">
+                                                        <div *ngIf="submitted && form.analytic.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.analytic.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </tab>
+                                        <tab heading="T3">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="acc2">Cont</label>
+                                                        <input type="text" class="form-control" id="acc2" placeholder="" formControlName="acc2" [ngClass]="{'is-invalid': submitted && form.acc2.errors}">
+                                                        <div *ngIf="submitted && form.acc2.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.acc2.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="analytic2">Analitic</label>
+                                                        <input type="text" class="form-control" id="analytic2" placeholder="" formControlName="analytic2" [ngClass]="{'is-invalid': submitted && form.analytic2.errors}">
+                                                        <div *ngIf="submitted && form.analytic2.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.analytic2.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="policy">Polita</label>
+                                                        <input type="text" class="form-control" id="policy" placeholder="" formControlName="policy" [ngClass]="{'is-invalid': submitted && form.policy.errors}">
+                                                        <div *ngIf="submitted && form.policy.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.policy.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="date2">Data</label>
+                                                        <input type="date" class="form-control" id="date2" placeholder="" formControlName="date2" [ngClass]="{'is-invalid': submitted && form.date2.errors}">
+                                                        <div *ngIf="submitted && form.date2.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.date2.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <label for="forbearance">Esalonare</label>
+                                                        <input type="text" class="form-control" id="forbearance" placeholder="" formControlName="forbearance" [ngClass]="{'is-invalid': submitted && form.forbearance.errors}">
+                                                        <div *ngIf="submitted && form.forbearance.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.forbearance.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="date2Start">Data start</label>
+                                                        <input type="date" class="form-control" id="date2Start" placeholder="" formControlName="date2Start" [ngClass]="{'is-invalid': submitted && form.date2Start.errors}">
+                                                        <div *ngIf="submitted && form.date2Start.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.date2Start.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <label class="dot" for="counter">.</label>
+                                                        <input type="text" class="form-control" id="counter" placeholder="" formControlName="counter" [ngClass]="{'is-invalid': submitted && form.counter.errors}">
+                                                        <div *ngIf="submitted && form.counter.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.counter.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </tab>
+                                        <tab heading="T4">
+                                            <div class="row">
+                                                <div class="col-lg-8">
+                                                    <div class="form-group">
+                                                        <label for="invoice">Factura</label>
+                                                        <input type="text" class="form-control" id="invoice" placeholder="" formControlName="invoice" [ngClass]="{'is-invalid': submitted && form.invoice.errors}">
+                                                        <div *ngIf="submitted && form.invoice.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.invoice.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label for="invoiceDate">Data factura</label>
+                                                        <input type="date" class="form-control" id="invoiceDate" placeholder="" formControlName="invoiceDate" [ngClass]="{'is-invalid': submitted && form.invoiceDate.errors}">
+                                                        <div *ngIf="submitted && form.invoiceDate.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.invoiceDate.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label for="docType">Tip document</label>
+                                                        <input type="text" class="form-control" id="docType" placeholder="" formControlName="docType" [ngClass]="{'is-invalid': submitted && form.docType.errors}">
+                                                        <div *ngIf="submitted && form.docType.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.docType.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <label for="partId">Partener</label>
+                                                        <input type="text" class="form-control" id="partId" placeholder="" formControlName="partId" [ngClass]="{'is-invalid': submitted && form.partId.errors}">
+                                                        <div *ngIf="submitted && form.partId.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.partId.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <div class="form-group">
+                                                        <label class="dot" for="partName">.</label>
+                                                        <input type="text" class="form-control" id="partName" placeholder="" formControlName="partName" [ngClass]="{'is-invalid': submitted && form.partName.errors}">
+                                                        <div *ngIf="submitted && form.partName.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.partName.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="chargeCenter">Centru de cost</label>
+                                                        <input type="text" class="form-control" id="chargeCenter" placeholder="" formControlName="chargeCenter" [ngClass]="{'is-invalid': submitted && form.chargeCenter.errors}">
+                                                        <div *ngIf="submitted && form.chargeCenter.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.chargeCenter.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="CIG">CIG</label>
+                                                        <input type="text" class="form-control" id="CIG" placeholder="" formControlName="CIG" [ngClass]="{'is-invalid': submitted && form.CIG.errors}">
+                                                        <div *ngIf="submitted && form.CIG.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.CIG.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-8">
+                                                    <div class="form-group">
+                                                        <label for="order">Comanda</label>
+                                                        <input type="text" class="form-control" id="order" placeholder="" formControlName="order" [ngClass]="{'is-invalid': submitted && form.order.errors}">
+                                                        <div *ngIf="submitted && form.order.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.order.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-8">
+                                                    <div class="form-group">
+                                                        <label for="payment2">Plati</label>
+                                                        <input type="text" class="form-control" id="payment2" placeholder="" formControlName="payment2" [ngClass]="{'is-invalid': submitted && form.payment2.errors}">
+                                                        <div *ngIf="submitted && form.payment2.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.payment2.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label for="vatPercent">Procent TVA</label>
+                                                        <input type="text" class="form-control" id="vatPercent" placeholder="" formControlName="vatPercent" [ngClass]="{'is-invalid': submitted && form.vatPercent.errors}">
+                                                        <div *ngIf="submitted && form.vatPercent.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.vatPercent.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="paymentForeignCurrency">Plati in valuta</label>
+                                                        <input type="text" class="form-control" id="paymentForeignCurrency" placeholder="" formControlName="paymentForeignCurrency" [ngClass]="{'is-invalid': submitted && form.vatPercent.errors}">
+                                                        <div *ngIf="submitted && form.paymentForeignCurrency.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.paymentForeignCurrency.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <label for="currency">Valuta</label>
+                                                        <select class="form-control" name="currency" id="currency" formControlName="currency" [ngClass]="{'is-invalid': submitted && form.currency.errors}">
+                                                            <option value="">alege valuta</option>
+                                                            <option *ngFor="let currency of Currency" [ngValue]="currency">{{currency}}</option>
+                                                        </select>
+                                                        <div *ngIf="submitted && form.currency.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.currency.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <label for="exgRate">Curs</label>
+                                                        <input type="text" class="form-control" id="exgRate" placeholder="" formControlName="exgRate" [ngClass]="{'is-invalid': submitted && form.exgRate.errors}">
+                                                        <div *ngIf="submitted && form.exgRate.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.exgRate.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-8">
+                                                    <div class="form-group">
+                                                        <label for="taxBase">Baza impozitare</label>
+                                                        <input type="text" class="form-control" id="taxBase" placeholder="" formControlName="taxBase" [ngClass]="{'is-invalid': submitted && form.taxBase.errors}">
+                                                        <div *ngIf="submitted && form.taxBase.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.taxBase.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </tab>
+
+                                        <tab heading="T5">
+                                            <div class="row">
+                                                <div class="row">
+
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label for="fiscalCode">Cod fiscal</label>
+                                                            <input type="text" class="form-control" id="fiscalCode" placeholder="" formControlName="fiscalCode" [ngClass]="{'is-invalid': submitted && form.fiscalCode.errors}">
+                                                            <div *ngIf="submitted && form.fiscalCode.errors" class="invalid-feedback">
+                                                                <span *ngIf="form.fiscalCode.errors.required">This value is required.</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="dateStart">Data inceput</label>
+                                                            <input type="date" class="form-control" id="dateStart" placeholder="" formControlName="dateStart" [ngClass]="{'is-invalid': submitted && form.dateStart.errors}">
+                                                            <div *ngIf="submitted && form.dateStart.errors" class="invalid-feedback">
+                                                                <span *ngIf="form.dateStart.errors.required">This value is required.</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label for="dateEnd">Data sfarsit</label>
+                                                            <input type="date" class="form-control" id="dateEnd" placeholder="" formControlName="dateEnd" [ngClass]="{'is-invalid': submitted && form.dateEnd.errors}">
+                                                            <div *ngIf="submitted && form.dateEnd.errors" class="invalid-feedback">
+                                                                <span *ngIf="form.dateEnd.errors.required">This value is required.</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="operationType">Tip operatie</label>
+                                                            <input type="text" class="form-control" id="operationType" placeholder="" formControlName="operationType" [ngClass]="{'is-invalid': submitted && form.operationType.errors}">
+                                                            <div *ngIf="submitted && form.operationType.errors" class="invalid-feedback">
+                                                                <span *ngIf="form.operationType.errors.required">This value is required.</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div id="r3" class="row">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="vatRecovery" [checked]="checkedVatRecovery()" (change)="handleVatRecovery($event)">
+                                                        <label class="form-check-label" for="vatRecovery">TVA exigibil la incasare</label>
+                                                    </div>
+                                                </div>
+
+                                                <!-- </div> -->
+
+                                            </div>
+                                        </tab>
+                                        <tab heading="T6">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="inventory1">Nr. Inv.</label>
+                                                        <input type="text" class="form-control" id="inventory1" placeholder="" formControlName="inventory1" [ngClass]="{'is-invalid': submitted && form.inventory1.errors}">
+                                                        <div *ngIf="submitted && form.inventory1.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.inventory1.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label class="dot" for="inventory2">.</label>
+                                                        <input type="text" class="form-control" id="inventory2" placeholder="" formControlName="inventory2" [ngClass]="{'is-invalid': submitted && form.inventory2.errors}">
+                                                        <div *ngIf="submitted && form.inventory2.errors" class="invalid-feedback">
+                                                            <span *ngIf="form.inventory2.errors.required">This value is required.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6"></div>
+                                                <div class="col-lg-6"><button class="btn btn-primary" (click)="parcAuto()">Parc auto</button></div>
+                                            </div>
+                                        </tab>
+                                    </tabset>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog1 = false;" label="Renunta"></button>
+                <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="onSubmit(validationform.value)" label="Salveaza"></button>
+            </div>
+        </footer>
+    </p-dialog>

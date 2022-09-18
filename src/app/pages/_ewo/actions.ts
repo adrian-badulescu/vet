@@ -8,6 +8,11 @@ import {CommonModule} from '@angular/common';
 export class ActionsComponent {
     @Input() admin:boolean;
 
+    @Input() canAdd:boolean = true;
+    @Input() canEdit:boolean = true;
+    @Input() canDelete:boolean = true;
+    @Input() canExport:boolean = true;    
+
     @Output() add = new EventEmitter();
     @Output() edit = new EventEmitter();
     @Output() delete = new EventEmitter();

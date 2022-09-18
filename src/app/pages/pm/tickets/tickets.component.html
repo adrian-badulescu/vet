@@ -1,0 +1,249 @@
+<div class="container-fluid">
+    <app-page-title title="Tickets" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-md-6 col-xl-3" *ngFor="let carddata of cardData">
+            <div class="widget-rounded-circle card-box">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="avatar-lg rounded-circle bg-primary" [ngClass]="{
+              'bg-warning': carddata.text === 'warning',
+              'bg-success': carddata.text === 'success',
+              'bg-danger': carddata.text === 'danger'
+            }">
+                            <i class="{{ carddata.icon }} font-22 avatar-title text-white"></i>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-right">
+                            <h3 class="text-dark mt-1"><span [CountTo]="carddata.tickets" [from]="0" [duration]="1">{{carddata.tickets}}</span></h3>
+                            <p class="text-muted mb-1 text-truncate">{{carddata.title}}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- End card -->
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card-box">
+
+                <a class="btn btn-danger mb-2" (click)="openModal(content)"><i
+          class="mdi mdi-plus-circle mr-1"></i> Adauga ticket </a>
+
+                <h4 class="header-title mb-4">Manage Tickets</h4>
+                <div class="clearfix mt-4"></div>
+                <div class="row mb-md-2">
+                    <div class="col-sm-12 col-md-6">
+                     <!--   <div class="dataTables_length" id="tickets-table_length"><label class="d-inline-flex align-items-center">Show
+               <select name="tickets-table_length" aria-controls="tickets-table" name="pageSize" 
+                [(ngModel)]="service.pageSize" class="custom-select custom-select-sm form-control form-control-sm mx-2">
+                <option [ngValue]="10">10</option>
+                <option [ngValue]="25">25</option>
+                <option [ngValue]="50">50</option>
+                <option [ngValue]="100">100</option>
+              </select> entries</label></div>-->
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <!-- Search -->
+                        <!-- <div id="tickets-table_filter" class="dataTables_filter text-md-right"><label class="d-inline-flex align-items-center">Search:
+              <input type="text" name="searchTerm" class="form-control form-control-sm ml-2"
+                aria-controls="tickets-table" [(ngModel)]="service.searchTerm"></label></div> -->
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col-sm-12">
+                        
+                        <div class="table-responsive">
+                            <table class="table datatables table-hover m-0 table-centered dt-responsive nowrap w-100" cellspacing="0" id="tickets-table">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th class="font-weight-medium" sortable="id" (sort)="onSort($event)">ID</th>                                        
+                                        <th class="font-weight-medium" sortable="subject" (sort)="onSort($event)">Subject</th>
+                                        
+                                        <th class="font-weight-medium" sortable="priority" (sort)="onSort($event)">Priority</th>
+                                        <th class="font-weight-medium" sortable="status" (sort)="onSort($event)">Status</th>
+                                        <th class="font-weight-medium" sortable="createddate" (sort)="onSort($event)">Created Date</th>
+                                        <th class="font-weight-medium" sortable="duedate" (sort)="onSort($event)">Due Date</th>
+                                        <th class="font-weight-medium">Action</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="font-16">
+                                    <tr *ngFor="let ticket of paginatedContactData">
+                                        <td class="text-center"><b>{{ ticket.id }}</b></td>
+                                        <td>
+                                            <a class="text-dark">
+                                                <img src="{{ ticket.requestuser }}" alt="contact-img" title="contact-img" class="avatar-sm rounded-circle img-thumbnail" />
+                                                <span class="ml-2">
+                        <ngb-highlight [result]="ticket.name" [term]="service.searchTerm"></ngb-highlight>
+                      </span>
+                                            </a>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <ngb-highlight [result]="ticket.subject" [term]="service.searchTerm"></ngb-highlight>
+                                        </td>
+
+                                        <td>
+                                            <a href="#">
+                                                <img src="{{ ticket.assignuser }}" alt="contact-img" title="contact-img" class="avatar-sm rounded-circle img-thumbnail" />
+                                            </a>
+                                        </td>
+                                        a
+
+                                        <td class="text-center">
+                                            <span class="badge badge-secondary" [ngClass]="{
+                      'badge-warning': ticket.priority === 'Medie',
+                      'badge-danger': ticket.priority === 'Inalta',
+                      'badge-secondary': ticket.priority === 'Scazuta'
+                    }">
+                      <ngb-highlight [result]="ticket.priority" [term]="service.searchTerm"></ngb-highlight>
+                    </span>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <span class="badge badge-success" [ngClass]="{
+                      'badge-danger': ticket.status === 'Ticket Deschis',
+                      'badge-warning': ticket.status === 'In curs de remediere',
+                      'badge-secondary': ticket.status === 'Ticket Inchis' 
+                    }">
+                      <ngb-highlight [result]="ticket.status" [term]="service.searchTerm"></ngb-highlight>
+                    </span>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <ngb-highlight [result]="ticket.createddate | date:'dd/MM/yyyy'" [term]="service.searchTerm"></ngb-highlight>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <ngb-highlight [result]="ticket.duedate | date:'dd/MM/yyyy'" [term]="service.searchTerm"></ngb-highlight>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <ng-template [ngIf]="TableAction"></ng-template>
+                                            <a><i
+                                                class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle" placement="top" ngbTooltip="Edit" (click)="openToEditModal(content, ticket)"></i></a>
+
+                                            <a><i
+                                                class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle" placement="top" ngbTooltip="Remove" (click)="deleteTicket(ticket.id)"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </div>
+                </div> -->
+                <div class="row justify-content-md-between align-items-md-center mt-2">
+                    <div class="col-sm-12 col-md-5">
+                        <!-- <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">Showing {{service.startIndex}} to {{service.endIndex}} of {{totalRecords}} entries
+                        </div> -->
+                    </div>
+                    <div class="col-sm-12 col-md-5">
+                        <div class="text-md-right float-md-right">
+                            <!-- Pagination -->
+                            <ul class="pagination pagination-rounded justify-content-end my-2">
+                                <!-- <ngb-pagination [collectionSize]="totalSize" [(page)]="service.page" [pageSize]="service.pageSize"> -->
+                                <ngb-pagination (pageChange)="onPageChange($event)" [pageSize]="pageSize" [(page)]="page" [collectionSize]="totalSize"></ngb-pagination>
+                                <!-- </ngb-pagination> -->
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Table Action -->
+</div>
+<!-- <ng-template #TableAction>
+    <div class="btn-group">
+        <div>
+
+        </div>
+    </div>
+</ng-template> -->
+
+<!-- Ticket model  -->
+<ng-template #content role="document" let-modal="close">
+    <div class="modal-header bg-dark">
+        <h4 class="modal-title text-white">Add Ticket</h4>
+        <button type="button" class="close text-white" aria-label="Close" (click)="modal('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+
+
+    <div class="modal-body p-3">
+        <div class="text-left">
+            <form (ngSubmit)="saveData(validationform.value)" [formGroup]="validationform">
+
+                <div class="form-group">
+                    <input type="hidden" class="form-control" id="id" formControlName="id">
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" class="form-control" id="subject" placeholder="Enter the subject" formControlName="subject" [ngClass]="{'is-invalid': submitted && form.subject.errors}">
+                            <div *ngIf="submitted && form.subject.errors" class="invalid-feedback">
+                                <span *ngIf="form.subject.errors.required">This value is required.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="priority">Priority</label>
+                            <select class="form-control" name="priority" id="priority" formControlName="priority" [ngClass]="{'is-invalid': submitted && form.priority.errors}">
+                                <option value="">Alege nivelul de prioritate</option>
+                                <option *ngFor="let priority of Priority" [ngValue]="priority">{{priority}}</option>
+                            </select>
+                            <div *ngIf="submitted && form.priority.errors" class="invalid-feedback">
+                                <span *ngIf="form.priority.errors.required">This value is required.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select class="form-control" name="status" id="status" formControlName="status" [ngClass]="{'is-invalid': submitted && form.status.errors}">
+                                <option value="">Alege statusul ticketului</option>
+                                <option *ngFor="let status of Status" [ngValue]="status">{{status}}</option>
+                            </select>
+                            <div *ngIf="submitted && form.status.errors" class="invalid-feedback">
+                                <span *ngIf="form.status.errors.required">This value is required.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="createddate">Created date</label>
+                            <input type="date" class="form-control" id="createddate" placeholder="Enter a created_date" formControlName="createddate" [ngClass]="{'is-invalid': submitted && form.createddate.errors}">
+                            <div *ngIf="submitted && form.createddate.errors" class="invalid-feedback">
+                                <span *ngIf="form.createddate.errors.required">This value is required.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="duedate">Due date</label>
+                            <input type="date" class="form-control" id="duedate" placeholder="Enter a duedate" formControlName="duedate" [ngClass]="{'is-invalid': submitted && form.duedate.errors}">
+                            <div *ngIf="submitted && form.duedate.errors" class="invalid-feedback">
+                                <span *ngIf="form.duedate.errors.required">This value is required.</span>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <div class="text-right">
+                    <button type="button" class="btn btn-success" (click)="onSubmit(validationform.value, validationform, modal)">Salveaza</button>
+                    <button type="button" class="btn btn-danger ml-1" (click)="closeModal(validationform, modal)">Anuleaza</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- </div>end -->
+</ng-template>

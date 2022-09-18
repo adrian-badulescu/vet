@@ -1,0 +1,291 @@
+<div class="container-fluid">
+    <p-messages [(value)]="msgs"></p-messages>
+    <app-page-title title="List" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
+                            <form class="form-inline">
+                                <div class="form-group mb-2">
+                                    <label class="sr-only">Cauta</label>
+                                    <input class="form-control" name="search" placeholder="Cauta..." [(ngModel)]="term">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="text-sm-right">
+                                <button type="button" class="btn btn-success mb-2 mr-1"><i class="mdi mdi-settings"></i></button>
+                                <a class="btn btn-danger mb-2" (click)="openToAddtModal(content)"><i
+                  class="mdi mdi-plus-circle mr-1"></i> Adauga </a>
+                            </div>
+                        </div>
+                        <!-- end col-->
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-centered table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 250px;">Nume</th>
+                                    <th>CEO</th>
+                                    <th>CUI</th>
+                                    <th>Nr. Reg. Comert</th>
+                                    <th>Fax</th>
+                                    <th>Cod postal</th>
+                                    <th style="width: 82px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of paginatedModel">
+                                    <td>{{item.name}}</td>
+                                    <td class="table-user">
+                                        {{item.ceoid}}
+                                    </td>
+                                    <td>
+                                        {{item.cui}}
+                                    </td>
+                                    <td>
+                                        {{item.nrregcom}}
+                                    </td>
+                                    <td>
+                                        {{item.fax}}
+                                    </td>
+                                    <td>
+                                        {{item.codpostal}}
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0);" (click)="openToEditModal(content, item)" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                        <a href="javascript:void(0);" (click)="deleteItem(item.id)" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <ul class="pagination pagination-rounded justify-content-end my-2">
+                        <ngb-pagination (pageChange)="onPageChange($event)" [pageSize]="pageSize" [(page)]="page" [collectionSize]="totalSize"></ngb-pagination>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- modal form  -->
+<ng-template #content role="document" let-modal="close">
+    <div class="modal-header bg-dark">
+        <h4 class="modal-title text-white">Adauga/ Modifica</h4>
+        <button type="button" class="close text-white" aria-label="Close" (click)="onAdd()">
+    <span aria-hidden="true" (click)="closeModal(validationform, modal)">&times;</span>
+  </button>
+    </div>
+
+
+    <div class="modal-body p-3">
+        <div class="text-left">
+            <form (ngSubmit)="createItem(validationform.value)" >
+
+                <div class="form-group">
+                    <input type="hidden" class="form-control" id="id" formControlName="id">
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <tabset #tabset>
+                            <tab heading="T1">
+                                <div class="form-group row">
+                                    <div class="form-group col-lg-4">
+                                        <label for="name">Nume</label>
+                                        <input type="text" class="form-control" id="name" placeholder="" formControlName="name" [ngClass]="{'is-invalid': submitted && form.name.errors}">
+                                        <div *ngIf="submitted && form.name.errors" class="invalid-feedback">
+                                            <span *ngIf="form.name.errors.required">This value is required.</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-4">
+                                        <label for="cui">CUI</label>
+                                        <input type="text" class="form-control" id="cui" placeholder="Introdu numar!" formControlName="cui" [ngClass]="{'is-invalid': submitted && form.cui.errors}">
+                                        <div *ngIf="submitted && form.cui.errors" class="invalid-feedback">
+                                            <span *ngIf="form.cui.errors.required">This value is required.</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-4">
+                                        <label for="ceoid">CEO</label>
+                                        <select class="form-control" name="ceoid" id="ceoid" formControlName="ceoid" [ngClass]="{'is-invalid': submitted && form.ceoid.errors}">
+                            <option value="">Alege CEO</option>
+                            <option *ngFor="let ceoid of Ceoid" [ngValue]="ceoid">{{ceoid}}</option>
+                        </select>
+                                        <div *ngIf="submitted && form.ceoid.errors" class="invalid-feedback">
+                                            <span *ngIf="form.ceoid.errors.required">This value is required.</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="form-group col-lg-4">
+                                        <label for="nrregcom">Nr. Reg. Com.</label>
+                                        <input type="text" class="form-control" id="nrregcom" placeholder="" formControlName="nrregcom" [ngClass]="{'is-invalid': submitted && form.nrregcom.errors}">
+                                        <div *ngIf="submitted && form.nrregcom.errors" class="invalid-feedback">
+                                            <span *ngIf="form.nrregcom.errors.required">This value is required.</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-4">
+                                        <label for="fax">Fax</label>
+                                        <input type="text" class="form-control" id="fax" placeholder="" formControlName="fax" [ngClass]="{'is-invalid': submitted && form.fax.errors}">
+                                        <div *ngIf="submitted && form.fax.errors" class="invalid-feedback">
+                                            <span *ngIf="form.fax.errors.required">This value is required.</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-4">
+                                        <label for="codpostal">Cod postal</label>
+                                        <input type="text" class="form-control" id="fax" placeholder="" formControlName="codpostal" [ngClass]="{'is-invalid': submitted && form.codpostal.errors}">
+                                        <div *ngIf="submitted && form.codpostal.errors" class="invalid-feedback">
+                                            <span *ngIf="form.codpostal.errors.required">This value is required.</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </tab>
+
+                            <tab heading="T2">
+                                <div class="form-group row">
+                                    <div class="form-group col-lg-4">
+                                        <label for="header">Header</label>
+                                        <textarea type="textarea" class="form-control" id="header" placeholder="" formControlName="header" [ngClass]="{'is-invalid': submitted && form.header.errors}" rows="9"></textarea>
+                                        <div *ngIf="submitted && form.header.errors" class="invalid-feedback">
+                                            <span *ngIf="form.header.errors.required">This value is required.</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-4">
+                                        <label for="slogan">Slogan</label>
+                                        <textarea type="textarea" class="form-control" id="slogan" placeholder="" formControlName="slogan" [ngClass]="{'is-invalid': submitted && form.slogan.errors}" rows="9"></textarea>
+                                        <div *ngIf="submitted && form.slogan.errors" class="invalid-feedback">
+                                            <span *ngIf="form.slogan.errors.required">This value is required.</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-4">
+                                        <label for="adresa">Adresa</label>
+                                        <textarea type="textarea" class="form-control" id="adresa" placeholder="" formControlName="adresa" [ngClass]="{'is-invalid': submitted && form.adresa.errors}" rows="9"></textarea>
+                                        <div *ngIf="submitted && form.adresa.errors" class="invalid-feedback">
+                                            <span *ngIf="form.adresa.errors.required">This value is required.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+
+                            <tab heading="T3">
+                                <div class="drop-container" style="border: 1px red !important;" ngFileDrop [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" [ngClass]="{ 'is-drop-over': dragOver }">
+                                    <h1>Drag &amp; Drop</h1>
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <label for="Incarca">Incarca</label>
+                                    <label class="upload-button">
+                                                <input type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" multiple>                                        
+                                              </label>
+                                </div>
+                                <button type="button" class="start-upload-btn" (click)="startUpload()">
+                                                Start Upload
+                                              </button>
+                            </tab>
+
+                        </tabset>
+                    </div>
+                </div>
+            </form>
+
+            <button type="button" class="btn btn-primary pull-left" (click)="addNewArticleRow()">Adauga rand</button>
+            <br><br>
+
+            <p-table [value]="companyxwork" dataKey="id" editMode="row">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Name</th>
+                        <th>Main</th>
+                        <th>Telefon</th>
+                        <th>E-mail</th>
+                        <th>Obs</th>
+                        <th style="width:8em">Actiune</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                    <tr [pEditableRow]="rowData">
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.name" required>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.name}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.main" placeholder="Introdu numar!" required>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.main}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.phone" required>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.phone}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.email" required>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.email}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.notes" required>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.notes}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+
+                        <td style="text-align:center">
+                            <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info" (click)="onRowEditInit(rowData)"></button>
+                            <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-minus" class="ui-button-warning" style="margin-right: .5em" (click)="onRowDelete(rowData)"></button>
+
+                            <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button>
+                            <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times" class="ui-button-danger" (click)="onRowEditCancel(rowData, ri)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+            <br>
+            <div class="text-right">
+                <button type="button" class="btn btn-success" (click)="onSubmit(validationform.value, validationform, modal)">Salveaza</button>
+                <button type="button" class="btn btn-danger ml-1" (click)="closeModal(validationform, modal)">Anuleaza</button>
+            </div>
+
+        </div>
+    </div>
+
+</ng-template>

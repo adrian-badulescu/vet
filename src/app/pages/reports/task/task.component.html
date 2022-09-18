@@ -1,0 +1,75 @@
+
+
+
+ <div class="container-fluid">
+  <app-page-title title="Lista task-uri" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+ 
+ <br>
+
+ 
+
+ <ngb-accordion #acc="ngbAccordion" activeIds="static-1" [closeOthers]="true">
+  <ngb-panel id="static-1" *ngFor="let task of tasks">
+      <ng-template ngbPanelTitle>
+          {{task.title}}
+      </ng-template>
+      <ng-template ngbPanelContent>
+        {{task.description}}
+        <br><br>
+        <a style="color: cornflowerblue" (click)="setdetails(task)">detalii</a>
+      </ng-template>
+  </ngb-panel> 
+</ngb-accordion>
+
+ </div>
+
+ <ngx-smart-modal *ngIf="login != '0' && taskid" #detaliitask identifier="detaliitask" [closable]="false" class="col-md-6 printinvoice">
+
+  <div class="modal-header">
+      <h5 class="modal-title">Detalii task: {{taskid.title}}</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeDetaliiTask()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+
+  <!-- <button type="button" (click)="taskid=undefined" class="btn btn-warning">Lista de task-uri</button> -->
+  <h2 style="text-align: center"></h2>
+  <br>
+  <div class="panel-body">
+      {{taskid.description}}
+      </div>
+  <br><br>      
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Data inceput</th>
+        <th scope="col">Data sfarsit</th>
+        <th scope="col">Obs</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let det of details | sort:'date1';let i=index;">
+        <th scope="row">{{i+1}}</th>
+        <td>{{det['date1'] | date : 'dd-MM-yyyy hh:mm:ss'}}</td>
+        <td>{{det['date2'] | date : 'dd-MM-yyyy hh:mm:ss'}}</td>
+        <td>{{det['obs']}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <br><br>
+  <div class="row" style="margin-bottom: 50px;">
+      <div class="col-xs-4" style="text-align: center">
+            <button class="btn btn-info" style="padding: 50px" (click)="starttask()" *ngIf="details.length == 0 || !details[details.length-1]['endtask']" [disabled]="details.length > 0">Start task</button>
+      </div>
+      <div class="col-xs-4" style="text-align: center">
+            <button *ngIf="details.length > 0 && !details[details.length-1]['date2']" (click)="pausetask()" class="btn btn-warning" style="padding: 50px">Pause task</button>
+            <button *ngIf="details.length > 0 && details[details.length-1]['date2'] && !details[details.length-1]['endtask']" (click)="playtask()" class="btn btn-warning" style="padding: 50px">Play task</button>
+        </div>  
+        <div class="col-xs-4" style="text-align: center">
+            <button *ngIf="details && details.length > 0 && !details[details.length-1]['endtask']" (click)="endtask()" class="btn btn-success" style="padding: 50px"[disabled]="details.length == 0">End task</button>
+        </div>
+        <h3 *ngIf="details && details.length > 0 && details[details.length-1]['endtask']">Task inchis!</h3>
+  </div>
+
+</ngx-smart-modal>

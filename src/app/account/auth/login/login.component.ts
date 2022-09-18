@@ -1,33 +1,30 @@
-import { Component, OnInit, AfterViewInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { first } from "rxjs/operators";
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { first } from 'rxjs/operators';
 
-import { AuthenticationService } from "../../../core/services/auth.service";
-import { ActivatedRoute, Router } from "@angular/router";
+import { AuthenticationService } from '../../../core/services/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: "app-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, AfterViewInit {
+
   loginForm: FormGroup;
   submitted = false;
   returnUrl: string;
-  error = "";
+  error = '';
   loading = false;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private authenticationService: AuthenticationService
-  ) {}
+  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router,
+              private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      email: ["", [Validators.required, Validators.email]],
-      password: ["", Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
     });
 
     // reset login status
@@ -35,18 +32,16 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
     // get return url from route parameters or default to '/'
     // tslint:disable-next-line: no-string-literal
-    this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   ngAfterViewInit() {
-    document.body.classList.add("authentication-bg");
-    document.body.classList.add("authentication-bg-pattern");
+    document.body.classList.add('authentication-bg');
+    document.body.classList.add('authentication-bg-pattern');
   }
 
   // convenience getter for easy access to form fields
-  get f() {
-    return this.loginForm.controls;
-  }
+  get f() { return this.loginForm.controls; }
 
   /**
    * On submit form
@@ -60,17 +55,15 @@ export class LoginComponent implements OnInit, AfterViewInit {
     }
 
     this.loading = true;
-    this.authenticationService
-      .login(this.f.email.value, this.f.password.value)
+    this.authenticationService.login(this.f.email.value, this.f.password.value)
       .pipe(first())
       .subscribe(
-        (data) => {
+        data => {
           this.router.navigate([this.returnUrl]);
         },
-        (error) => {
+        error => {
           this.error = error;
           this.loading = false;
-        }
-      );
+        });
   }
 }

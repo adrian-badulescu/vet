@@ -1,0 +1,155 @@
+<div class="container-fluid">
+    <app-page-title title="CLienti" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
+                            <a href="javascript: void(0);" class="btn btn-danger" (click)="openModal(content)"><i class="mdi mdi-plus-circle mr-1"></i> Adauga
+                Clienti</a>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="text-sm-right">
+                                <button type="button" class="btn btn-success mb-2 mr-1"><i class="mdi mdi-settings"></i></button>
+                                <button type="button" class="btn btn-light mb-2 mr-1">Importa</button>
+                                <button type="button" class="btn btn-light mb-2">Exporta</button>
+                            </div>
+                        </div>
+                        <!-- end col-->
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-centered table-striped" id="products-datatable">
+                            <thead>
+                                <tr>
+                                    <th style="width: 20px;">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck">
+                                            <label class="custom-control-label" for="customCheck">&nbsp;</label>
+                                        </div>
+                                    </th>
+                                    <th>Client</th>
+                                    <th>Telefon</th>
+                                    <th>Email</th>
+                                    <th>Locatie</th>
+                                    <th>Data</th>
+                                    <th>Status</th>
+                                    <th style="width: 85px;">Actiune</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let customer of customersData; let i = index">
+                                    <td>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck{{i}}">
+                                            <label class="custom-control-label" for="customCheck{{i}}">&nbsp;</label>
+                                        </div>
+                                    </td>
+                                    <td class="table-user">
+                                        <img src="{{ customer.image }}" alt="table-user" class="mr-2 rounded-circle">
+                                        <a href="javascript:void(0);" class="text-body font-weight-semibold">{{ customer.customer }}</a>
+                                    </td>
+                                    <td>
+                                        {{ customer.phone }}
+                                    </td>
+                                    <td>
+                                        {{ customer.email }}
+                                    </td>
+                                    <td>
+                                        {{ customer.location }}
+                                    </td>
+                                    <td>
+                                        {{ customer.date | date:'dd/MM/yyyy' }}
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-soft-success text-success" [ngClass]="{'bg-soft-danger text-danger': customer.status === 'Blocat'}">{{ customer.status }}</span>
+                                    </td>
+
+                                    <td>
+                                        <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline" (click)="openToEditModal(content, customer)"></i></a>
+                                        <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete" (click)="deleteItem(customer.id)"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <ul class="pagination pagination-rounded justify-content-end my-2">
+                        <ngb-pagination (pageChange)="onPageChange($event)" [pageSize]="pageSize" [(page)]="page" [collectionSize]="20"></ngb-pagination>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Customer model  -->
+<ng-template #content role="document" let-modal="close">
+    <div class="modal-header bg-dark">
+        <h4 class="modal-title text-white">Adauga Client</h4>
+        <button type="button" class="close text-white" aria-label="Close" (click)="modal('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body p-3">
+        <div class="text-left">
+            <form (ngSubmit)="createItem(validationform.value)" >
+
+                <div class="form-group">
+                    <input type="hidden" class="form-control" id="id" formControlName="id">
+                </div>
+
+                <div class="form-group">
+                    <label for="customer">Nume</label>
+                    <input type="text" class="form-control" id="customer" placeholder="Introdu un nume" formControlName="customer" [ngClass]="{'is-invalid': submitted && form.customer.errors}">
+                    <div *ngIf="submitted && form.customer.errors" class="invalid-feedback">
+                        <span *ngIf="form.customer.errors.required">Camp obligatoriu.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Adresa de email</label>
+                    <input class="form-control" id="email" placeholder="Introdu email" formControlName="email" [ngClass]="{'is-invalid': submitted && form.email.errors}">
+                    <div *ngIf="submitted && form.email.errors" class="invalid-feedback">
+                        <span *ngIf="form.email.errors.required">Camp obligatoriu.</span>
+                        <span *ngIf="form.email.errors.pattern">Va rugam introduceti o adresade email valida.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Telefon </label>
+                    <input type="text" class="form-control" placeholder="introdu numar de telefon" formControlName="phone" [ngClass]="{'is-invalid': submitted && form.phone.errors}" minlength="10">
+                    <div *ngIf="submitted && form.phone.errors" class="invalid-feedback">
+                        <span *ngIf="form.phone.errors.required">Camp obligatoriu.</span>
+                        <span *ngIf="form.phone.errors.minlength">Numar de telefon format din minim 10 caractere.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Locatie </label>
+                    <input class="form-control" placeholder="Introdu locatie" formControlName="location" [ngClass]="{'is-invalid': submitted && form.location.errors}">
+                    <div *ngIf="submitted && form.location.errors" class="invalid-feedback">
+                        <span *ngIf="form.location.errors.required">Camp obligatoriu.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select class="form-control" name="status" id="status" formControlName="status" [ngClass]="{'is-invalid': submitted && form.status.errors}">
+                        <option value="">Alege Status</option>
+                        <option *ngFor="let status of Status" [ngValue]="status">{{status}}</option>
+                    </select>
+                    <div *ngIf="submitted && form.status.errors" class="invalid-feedback">
+                        <span *ngIf="form.status.errors.required">Camp obligatoriu</span>
+                    </div>
+                </div>
+
+                <div class="text-right">
+                    <button type="button" class="btn btn-success" (click)="onSubmit(validationform.value, validationform, modal)">Salveaza</button>
+                    <button type="button" class="btn btn-danger ml-1" (click)="modal('close click')">Anuleaza</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>

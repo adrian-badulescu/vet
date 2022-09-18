@@ -18,15 +18,16 @@
                                     class="{{nodecurrent.icon}} || fa fa-folder"></i> {{nodecurrent.label}}</li>
                         </ol>
 
-                        <ul class="topcmd breadcrumb col-md-3">
+                        <ul class="topcmd breadcrumb col-md-2">
                             <li style="width: 100%"><input type="text" placeholder="cauta"
                                                            style="width: 100%; color: #a9a9a9; border-radius: 3px; top: -3px; position: relative; padding: 2px 5px;"/>
                             </li>
                             s
                         </ul>
-                        <ul class="topcmd breadcrumb col-md-3">
+                        <ul class="topcmd breadcrumb col-md-4">
                             <li (click)="addfolder()"><i class="fa fa-plus"></i> New folder</li>
-                            <li (click)="addfile()"><i class="fa fa-upload"></i> Upload files</li>
+                            <li (click)="addfile()"><i class="fa fa-upload"></i> Upload single file</li>
+                            <li (click)="addMultipleFiles()"><i class="fa fa-upload"></i>UploadMultipleFiles</li>
                         </ul>
 
                     </div>
@@ -63,7 +64,7 @@
                                         <p-tree *ngIf="folders" [value]="folders" selectionMode="single"
                                                 [(selection)]="nodecurrent" (onNodeSelect)="nodeSelect($event)"
                                                 (onNodeUnselect)="nodeUnselect($event)"
-                                                (onNodeExpand)="nodeExpand($event)" (dblclick)="onNodeDblClick($event)"
+                                                (onNodeExpand)="nodeExpand($event)"
                                                 [loading]="loading" [contextMenu]="cm">
                                             <!--                            <ng-template let-node pTemplate="default">
                                 <span id="{{node.label}}">{{node.label}}</span>  &lt;!&ndash;[ngClass]="{'nodeselected' : node.selected}"&ndash;&gt;
@@ -107,8 +108,10 @@
                                                     <span class="corner"></span>
 
                                                     <div class="icon">
-                                                        <i *ngIf="!isImage(item['nameFile'])" [ngClass]=" item.expandedIcon?'fa fa-folder':'fa fa-file'"></i>
-                                                        <img *ngIf="isImage(item['nameFile'])" src="http://localhost:3000/api/base/files/{{item.nameFile}}">
+                                                        <i *ngIf="!isImage(item['nameFile'])"
+                                                           [ngClass]=" item.expandedIcon?'fa fa-folder':'fa fa-file'"></i>
+                                                        <img *ngIf="isImage(item['nameFile'])"
+                                                             src="http://localhost:3000/api/base/files/{{item.nameFile}}">
                                                     </div>
                                                     <div class="file-name">
                                                         {{item.label}}
@@ -135,8 +138,10 @@
                                                 <a class="file-details" (dblclick)="onDblClick(item)">
                                                     <div class="media-block">
                                                         <div class="media-left">
-                                                            <i *ngIf="!isImage(item['nameFile'])" [ngClass]=" item.expandedIcon?'fa fa-folder':'fa fa-file'"></i>
-                                                            <img *ngIf="isImage(item['nameFile'])" src="http://localhost:3000/api/base/files/{{item.nameFile}}">
+                                                            <i *ngIf="!isImage(item['nameFile'])"
+                                                               [ngClass]=" item.expandedIcon?'fa fa-folder':'fa fa-file'"></i>
+                                                            <img *ngIf="isImage(item['nameFile'])"
+                                                                 src="http://localhost:3000/api/base/files/{{item.nameFile}}">
                                                         </div>
                                                         <div class="media-body">
                                                             <p class="file-name"> {{item.label}}</p>
@@ -181,15 +186,17 @@
                     <div class="form-group col-md-12">
                         <label for="description">Description </label>
                         <textarea id="description" name="description" #description class="form-control"
-                               [ngClass]="(description && description.value)?'md-has-value':''"
-                               [(ngModel)]="modalContentLocal['description']" aria-describedby="emailHelp"
-                               placeholder="descriere" required="false" rows="5"></textarea>
+                                  [ngClass]="(description && description.value)?'md-has-value':''"
+                                  [(ngModel)]="modalContentLocal['description']" aria-describedby="emailHelp"
+                                  placeholder="descriere" required="false" rows="5"></textarea>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">Save</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modalFolder.close(); f.form.reset()">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"
+                        (click)="modalFolder.close(); f.form.reset()">Close
+                </button>
             </div>
         </form>
     </ngx-smart-modal>
@@ -206,11 +213,12 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="form-group col-md-12">
-                            <label for="name" [ngClass]="{ 'msgerror': submit && (!name || !name.value) }">Name* </label>
+                            <label for="name"
+                                   [ngClass]="{ 'msgerror': submit && (!name || !name.value) }">Name* </label>
                             <input type="text" id="name" name="name" #name class="form-control"
                                    [ngClass]="(name && name.value)?'md-has-value':''"
                                    [(ngModel)]="modalContentLocal['denumire']" aria-describedby="emailHelp"
-                                   placeholder="denumire" required="true">  
+                                   placeholder="denumire" required="true">
                         </div>
                     </div>
                     <div class="row">
@@ -265,7 +273,49 @@
             </div>
         </form>
     </ngx-smart-modal>
+    <ngx-smart-modal *ngIf="modalContentMultipleFiles" #modalMultipleFiles identifier="modalMultipleFiles"
+                     [closable]="false"
+                     class="col-md-6">
+        <div class="modal-header">
+            <h5 class="modal-title">Upload files</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalMultipleFiles.close()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form autocomplete="off" name="form" (ngSubmit)="saveMultipleFiles(fMulti.form)" #fMulti="ngForm">
+            <div class="modal-body">
+                <div class="modal-body">
 
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="description">Description </label>
+                            <input type="textarea" id="description" name="description" #description class="form-control"
+                                   [ngClass]="(description && description.value)?'md-has-value':''"
+                                   [(ngModel)]="modalContentMultipleFiles['description']" aria-describedby="emailHelp"
+                                   placeholder="descriere" required="false">
+                        </div>
+                    </div>
+                </div>
+
+                <p-fileUpload name="files[]" url="http://localhost:3000/api/base/file/upload/multi" (onUpload)="onMultiUpload($event)" (onBeforeUpload)="onBeforeUpload($event)"
+                              [multiple]="true" maxFileSize="1000000" [headers]="{'Accept': 'application/json'}"
+                              (onSelect)="onSelectMulti($event)" [files]="fileUploadList">
+                    <ng-template pTemplate="content">
+                        <ul *ngIf="uploadedFiles.length">
+                            <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                        </ul>
+                    </ng-template>
+                </p-fileUpload>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"
+                        (click)="closeModalMultiple(fMulti.form)">Close
+                </button>
+            </div>
+        </form>
+    </ngx-smart-modal>
     <p-contextMenu #cm [model]="items"></p-contextMenu>
 <!-- 
     <p-contextMenu [model]="items2" [target]="filesmenu1"></p-contextMenu>

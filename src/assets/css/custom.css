@@ -1,3 +1,7 @@
+.bordcomlabel label {
+    padding: 2px;
+}
+
 .ewoheader .btn {
     color: cornflowerblue;
 }
@@ -24,12 +28,8 @@
 }
 
 .ewoheader .alert {
-    /* padding: 5px;
-    background: rgba(189, 209, 236, 0.80) !important; */
-    margin-bottom: 0px;
-    background: #d9dee4 !important;
-    border: none;
-    font-size: 17px;
+    padding: 5px;
+    background: rgba(189, 209, 236, 0.80) !important;
 }
 
 .ewoformcontent {
@@ -106,10 +106,6 @@
     color: cornflowerblue !important;
     margin-right: 3px;
     border-radius: 5px;
-
-    font-size: 13px;
-    background: cornflowerblue !important;
-    color: white !important;
 }
 
 .ewoheaderfilter th{
@@ -218,9 +214,9 @@ body .ui-table .ui-table-tbody > tr:nth-child(even).ui-state-highlight {
 }
 
 .content .nav-tabs li a.active {
-        border: none;
-         border-top: 5px solid #e1e7f3 !important;
-     }
+    border: none;
+    border-top: 5px solid #a3c4ff !important;
+}
 
 .content .nav-tabs li a {
     padding: 6px 10px;
@@ -241,8 +237,6 @@ body .ui-table .ui-table-thead > tr > th {
     padding: 0.3em 0.857em;
     font-weight: 500;
     color: #6c757d;
-    font-size: 14px;
-    /* color: cornflowerblue; */
 }
 
 body .ui-table .ui-table-tbody > tr {
@@ -313,6 +307,17 @@ body .ui-widget tr > td{
     background-color: #e8e8e8;
 }
 .ewoformcontent::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: cornflowerblue; 
+    /* inset 0 0 6px */
+    background-color: #C1C1C1;
+}
+
+.ui-dropdown-items-wrapper::-webkit-scrollbar {
+    width: 7px;
+    background-color: #e8e8e8;
+}
+.ui-dropdown-items-wrapper::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: cornflowerblue; 
     /* inset 0 0 6px */
@@ -442,40 +447,4 @@ body .ui-treetable .ui-treetable-tbody > tr.ui-state-highlight {
 
 .ewoformcontent .tab-container {
     width: 100%;
-}
-
-body.authentication-bg-pattern {
-    background: #bee2dc !important;
-}
-
-.farmauth {
-    background-color: #2bbfa2 !important;
-    border: none !important;
-}
-
-.farmauthtext, .farmauthtext b {
-    color: #289e89 !important;
-    font-size: 17px !important;
-}
-
-.left-side-menu-dark .navbar-custom {
-    background-color: #3ab4bd !important;
-}
-
-.left-side-menu-dark .left-side-menu {
-    background-color: #626263 !important;
-} 
-
-.left-side-menu-dark .left-side-menu #sidebar-menu > ul > li > a {
-    color: #dee2e6 !important;
-    font-size: 16px;
-}
-
-.left-side-menu-dark .left-side-menu #sidebar-menu > ul > li:hover > a, .left-side-menu-dark .left-side-menu #sidebar-menu > ul > li:active > a  {
-    color: white !important;
-}
-
-.left-side-menu-dark .left-side-menu .nav-second-level li a, .left-side-menu-dark .left-side-menu .nav-thrid-level li a {
-    color: #c8c8c8;
-    font-size: 15px;
 }

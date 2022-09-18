@@ -1,0 +1,316 @@
+<div class="col-lg-12" style="background: rgba(226, 226, 226, 0.50)">
+    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4 ewoheader">
+        <h1 class="page-title txt-color-blueDark">
+            <i class="fa-fw fa fa-th-large"></i>
+            Oferte
+        </h1>
+    </div>
+</div>
+<div *ngIf="!list" id="loadingmodule">Incarca ...</div>
+
+<div *ngIf="list && fields && columns && properties" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+    <div class="ui-widget-header ui-helper-clearfix ewoheader">
+        <admingrid (fields)="editFields('oferta')" (columns)="editColumns('oferta')" *ngIf="properties.admin"></admingrid>
+        <actions (add)="add()" (edit)="edit()" (delete)="delete()" (export)="dt.exportCSV()"
+                 (edittables)="editTables()" (editfields)="editFields('partener')" (editproperties)="editModuleProperties('partener')"
+                 [admin]="properties.admin">
+
+        </actions>
+<!--            <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()"
+                    style="float:right; position: relative; margin-right: 20px;"></button>
+            <i class="fa fa-search" style="float:left;margin:4px 4px 0 0"></i>
+            <input #gb type="text" pInputText size="50" style="float:left" placeholder="cauta in grid">-->
+        </div>
+        <p-table #dt [value]="list" selectionMode="multiple" [(selection)]="selectedItems" [paginator]="true"
+                     [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]"
+                     [lazy]="true" (onLazyLoad)="loadData($event)" [totalRecords]="count"
+                     [responsive]="true" (onRowDblclick)="edit()">
+            <!-- <p-column field="color" header="Color"></p-column>-->
+            <p-column *ngFor="let col of columns.oferta" [field]="col.field" [header]="col.header" [filter]="true"
+                      filterMatchMode="contains"></p-column>
+
+            <p-column *ngIf="!columns.oferta" field="titlu" header="Titlu" filter="true" filterMatchMode="contains"></p-column>
+            <p-column *ngIf="!columns.oferta" field="data" header="Data" filter="true" filterMatchMode="contains"></p-column>
+            <p-column *ngIf="!columns.oferta" field="partener" header="Partener" filter="true" filterMatchMode="contains"></p-column>
+            <p-column *ngIf="!columns.oferta" field="obiectiv" header="Obiectiv" [filter]="true" filterMatchMode="contains"></p-column>
+            <p-column *ngIf="!columns.oferta" field="tip2" header="Tip" filter="true" filterMatchMode="contains"></p-column>
+            <p-column *ngIf="!columns.oferta" field="contract" header="Contract" filter="true" filterMatchMode="contains"></p-column>
+        </p-table>
+</div>
+
+<p-dialog header="{{setproperties('oferta','form','label','Detalii')}}" [(visible)]="displayDialog1" [responsive]="true" showEffect="fade" [modal]="true"
+          *ngIf="item && columns && properties" [width]="setproperties('oferta','form','width','700')">
+
+    <adminprop (control)="editProperties('oferta','form')" *ngIf="properties.admin"></adminprop>
+
+    <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+    <ul id="myTab1" class="nav nav-tabs bordered">
+        <li class="active">
+            <a href="#t1" data-toggle="tab" aria-expanded="true">General</a>
+        </li>
+        <li>
+            <a href="#t2" data-toggle="tab" aria-expanded="true">Info</a>
+        </li>
+        <li>
+            <a href="#t3" data-toggle="tab" aria-expanded="true">Task-uri (Gantt)</a>
+        </li>
+    </ul>
+
+    <div id="myTabContent1" class="tab-content padding-10">
+        <div class="tab-pane fade active in" id="t1">
+
+                <!--            <div class="ui-grid-row" *ngFor="let col of cols" >
+                                <div class="ui-grid-col-4 ewoadmin"><label for="col.field">{{col.header}}</label></div>
+                                <div class="ui-grid-col-7"><input pInputText id="col.field" [(ngModel)]="col.model" /></div>
+                            </div>-->
+                <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item">
+                    <div class="ui-grid-row">
+                        <div class="column21">
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="adaos" (click)="editProperties('oferta','titlu')">{{setproperties('oferta','titlu','label','Titlu')}}</label></div>
+                                <div class="ui-grid-col-7"><input pInputText id="titlu" [(ngModel)]="item[setproperties('oferta','titlu','model','titlu')]"/></div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="data" (click)="editProperties('oferta','data')">{{setproperties('oferta','data','label','Data')}}</label></div>
+                                <div class="ui-grid-col-7">
+                                    <input pInputText id="data" [(ngModel)]="item[setproperties('oferta','data','model','data')]"/>
+                                </div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="partenerid" (click)="editProperties('oferta','partenerid')">{{setproperties('oferta','partenerid','label','Partener')}}</label></div>
+                                <div class="ui-grid-col-7">
+                                    <p-dropdown id="partenerid" [options]="listpartner" [autoWidth]="false" [(ngModel)]="item[setproperties('oferta','partenerid','model','partenerid')]"></p-dropdown>
+                                </div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="partener_tara" (click)="editProperties('oferta','partener_tara')">{{setproperties('oferta','partener_tara','label','Tara partener')}}</label></div>
+                                <div class="ui-grid-col-7"><input pInputText id="partener_tara" [(ngModel)]="item[setproperties('oferta','partener_tara','model','partener_tara')]"/>
+                                </div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="partener_judet" (click)="editProperties('oferta','partener_judet')">{{setproperties('oferta','partener_judet','label','Judet partener')}}</label></div>
+                                <div class="ui-grid-col-7"><input pInputText id="partener_judet" [(ngModel)]="item[setproperties('oferta','partener_judet','model','partener_judet')]"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column22">
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="obiectiv" (click)="editProperties('oferta','obiectiv')">{{setproperties('oferta','obiectiv','label','Obiectiv')}}</label></div>
+                                <div class="ui-grid-col-7"><input pInputText id="obiectiv" [(ngModel)]="item[setproperties('oferta','obiectiv','model','obiectiv')]"/>
+                                </div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="obiectiv_tara" (click)="editProperties('oferta','obiectiv_tara')">{{setproperties('oferta','obiectiv_tara','label','Tara obiectiv')}}</label></div>
+                                <div class="ui-grid-col-7"><input pInputText id="obiectiv_tara" [(ngModel)]="item[setproperties('oferta','obiectiv_tara','model','obiectiv_tara')]"/>
+                                </div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="obiectiv_judet" (click)="editProperties('oferta','obiectiv_judet')">{{setproperties('oferta','obiectiv_judet','label','Judet obiectiv')}}</label></div>
+                                <div class="ui-grid-col-7"><input pInputText id="obiectiv_judet" [(ngModel)]="item[setproperties('oferta','obiectiv_judet','model','obiectiv_judet')]"/>
+                                </div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="tip" (click)="editProperties('oferta','tip')">{{setproperties('oferta','tip','label','Tip')}}</label></div>
+                                <div class="ui-grid-col-7">
+                                    <p-dropdown id="tip" [options]="listTip" [autoWidth]="false" [(ngModel)]="item[setproperties('oferta','tip','model','tip')]"></p-dropdown>
+                                </div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="contractid" (click)="editProperties('oferta','contractid')">{{setproperties('oferta','contract','label','Contract')}}</label></div>
+                                <div class="ui-grid-col-7">
+                                    <p-dropdown id="contractid" [options]="listcontract" [autoWidth]="false" [(ngModel)]="item[setproperties('oferta','contractid','model','contractid')]"></p-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <actions (add)="addprodusofertat(item.id)" (edit)="editprodusofertat(item.id)" (delete)="deleteprodusofertat()"
+                             (edittables)="editTables()" (editfields)="editFields('partener')" (editproperties)="editModuleProperties('partener')"
+                             [admin]="properties.admin"></actions>
+                    <admingrid (columns)="editColumns('produsofertat')" *ngIf="properties.admin"></admingrid>
+                    <p-table [value]="listprodusofertat" selectionMode="multiple" [(selection)]="selectedprodusofertat"
+                                 [paginator]="true" rows="3" [responsive]="true"
+                                 (onRowDblclick)="editprodusofertat()">
+                        <p-column *ngFor="let col of columns.produsofertat" [field]="col.field" [header]="col.header"></p-column>
+
+                        <p-column *ngIf="!columns.produsofertat" field="artprodid" header="Produs" filter="true" filterMatchMode="contains"></p-column>
+                        <p-column *ngIf="!columns.produsofertat" field="umid" header="UM" filter="true" filterMatchMode="contains"></p-column>
+                        <p-column *ngIf="!columns.produsofertat" field="cantitate" header="Cantitate" filter="true" filterMatchMode="contains"></p-column>
+                        <p-column *ngIf="!columns.produsofertat" field="cost" header="Cost" [filter]="true" filterMatchMode="contains"></p-column>
+                        <p-column *ngIf="!columns.produsofertat" field="dlestimata" header="Data livrare" filter="true" filterMatchMode="contains"></p-column>
+                    </p-table>
+                </div>
+
+            </div>
+
+        <div class="tab-pane fade" id="t2">
+            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item">
+                <div class="ui-grid-row">
+            <div class="column21">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="marja" (click)="editProperties('oferta','marja')">{{setproperties('oferta','marja','label','Marja')}}</label></div>
+                    <div class="ui-grid-col-7"><input pInputText id="marja" [(ngModel)]="item[setproperties('oferta','marja','model','marja')]"/></div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="adaos" (click)="editProperties('oferta','adaos')">{{setproperties('oferta','adaos','label','Adaos')}}</label></div>
+                    <div class="ui-grid-col-7"><input pInputText id="adaos" [(ngModel)]="item[setproperties('oferta','adaos','model','adaos')]"/></div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="totaloferta" (click)="editProperties('oferta','totaloferta')">{{setproperties('oferta','totaloferta','label','Total oferta')}}</label></div>
+                    <div class="ui-grid-col-7"><input pInputText id="totaloferta" [(ngModel)]="item[setproperties('oferta','totaloferta','model','totaloferta')]"/></div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="costtotal" (click)="editProperties('oferta','costtotal')">{{setproperties('oferta','costtotal','label','Cost total')}}</label></div>
+                    <div class="ui-grid-col-7"><input pInputText id="costtotal" [(ngModel)]="item[setproperties('oferta','costtotal','model','costtotal')]"/></div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="situatieofertaid" (click)="editProperties('oferta','situatieofertaid')">{{setproperties('oferta','situatieofertaid','label','Situatie oferta')}}</label></div>
+                    <div class="ui-grid-col-7">
+                        <p-dropdown id="situatieofertaid" [options]="listStadiu" [autoWidth]="false" [(ngModel)]="item[setproperties('oferta','situatieofertaid','model','situatieofertaid')]"></p-dropdown>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="personalidcoordonator" (click)="editProperties('oferta','personalidcoordonator')">{{setproperties('oferta','personalidcoordonator','label','Coordonator')}}</label></div>
+                    <div class="ui-grid-col-7">
+                        <p-dropdown id="personalidcoordonator" [options]="listpartner" [autoWidth]="false" [(ngModel)]="item[setproperties('oferta','personalidcoordonator','model','personalidcoordonator')]"></p-dropdown>
+                    </div>
+                </div>
+            </div>
+            <div class="column22">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4 ewoadmin"><label for="intocmit"
+                                                               (click)="editProperties('oferta','intocmit')">{{setproperties('oferta','intocmit','label','Intocmit')}}</label>
+                    </div>
+                    <div class="ui-grid-col-7">
+                 <!--       <p-checkbox id="intocmit" *ngIf="properties.oferta.intocmit" [(ngModel)]="item[properties.oferta.intocmit[0].model]"></p-checkbox>-->
+                        <input type="checkbox" id="intocmit" [(ngModel)]="item[setproperties('oferta','intocmit','model','intocmit')]" />
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="dataintocmit" (click)="editProperties('oferta','dataintocmit')">{{setproperties('oferta','dataintocmit','label','Data intocmit')}}</label></div>
+                    <div class="ui-grid-col-7">
+<!--                        <p-calendar id="dataintocmit" *ngIf="properties.oferta.dataintocmit" dateFormat="yy-mm-dd"
+                                    [(ngModel)]="item[properties.oferta.dataintocmit[0].model]" showAnim="slideDown"></p-calendar>-->
+                        <input pInputText id="dataintocmit" [(ngModel)]="item[setproperties('oferta','dataintocmit','model','dataintocmit')]" />
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4 ewoadmin"><label for="aprobatvanzari"
+                                                               (click)="editProperties('oferta','aprobatvanzari')">{{setproperties('oferta','aprobatvanzari','label','Aprobat vanzari')}}</label>
+                    </div>
+                    <div class="ui-grid-col-7">
+<!--                        <p-checkbox id="aprobatvanzari" *ngIf="properties.oferta.aprobatvanzari" [(ngModel)]="item[properties.oferta.aprobatvanzari[0].model]"></p-checkbox>-->
+                        <input type="checkbox" id="intocmit" [(ngModel)]="item[setproperties('oferta','aprobatvanzari','model','aprobatvanzari')]" />
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="datavanzari" (click)="editProperties('oferta','datavanzari')">{{setproperties('oferta','datavanzari','label','Data vanzari')}}</label></div>
+                    <div class="ui-grid-col-7">
+<!--                        <p-calendar id="datavanzari" *ngIf="properties.oferta.datavanzari"
+                                    [(ngModel)]="item[properties.oferta.datavanzari[0].model]" showAnim="slideDown"></p-calendar>-->
+                        <input pInputText id="datavanzari" [(ngModel)]="item[setproperties('oferta','datavanzari','model','datavanzari')]" />
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4 ewoadmin"><label for="aprobatmanagement"
+                                                               (click)="editProperties('oferta','aprobatmanagement')">{{setproperties('oferta','aprobatmanagement','label','Aprobat management')}}</label>
+                    </div>
+                    <div class="ui-grid-col-7">
+                      <!--  <p-checkbox id="aprobatmanagement" *ngIf="properties.oferta.aprobatmanagement" [(ngModel)]="item[properties.oferta.aprobatmanagement[0].model]"></p-checkbox>-->
+                        <input type="checkbox" id="intocmit" [(ngModel)]="item[setproperties('oferta','aprobatmanagement','model','aprobatmanagement')]" />
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="datamanagement" (click)="editProperties('oferta','datamanagement')">{{setproperties('oferta','datamanagement','label','Data management')}}</label></div>
+                    <div class="ui-grid-col-7">
+<!--                        <p-calendar id="datamanagement" *ngIf="properties.oferta.datamanagement"
+                                    [(ngModel)]="item[properties.oferta.datamanagement[0].model]" showAnim="slideDown"></p-calendar>-->
+                        <input pInputText id="datavanzari" [(ngModel)]="item[setproperties('oferta','datamanagement','model','datamanagement')]" />
+                    </div>
+                </div>
+            </div>
+                    </div>
+                </div>
+
+        </div>
+        <div class="tab-pane fade" id="t3">
+        </div>
+    </div>
+    </div>
+
+    <footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+            <button type="button" pButton icon="fa-close" (click)="displayDialog1 = false;" label="Renunta"></button>
+            <button type="button" pButton icon="fa-check" (click)="save()" label="Salveaza"></button>
+        </div>
+    </footer>
+</p-dialog>
+
+<p-dialog header="{{setproperties('produsofertat','form','label','Produs')}}" [(visible)]="displayDialog3" [responsive]="true" showEffect="fade" [modal]="true"
+          *ngIf="item && listprodusofertat" [width]="setproperties('produsofertat','form','width','500')">
+    <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+        <adminprop (control)="editProperties('produsofertat','form')" *ngIf="properties.admin"></adminprop>
+        <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="itemprodusofertat">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2 col-xs-offset-1 ewoadmin"><label for="artprodid" (click)="editProperties('produsofertat','artprodid')">{{setproperties('produsofertat','artprod','label','Produs')}}</label></div>
+                <div class="ui-grid-col-7"><input pInputText id="artprodid" [(ngModel)]="itemprodusofertat[setproperties('produsofertat','artprodid','model','artprodid')]"/></div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2 col-xs-offset-1 ewoadmin"><label for="umid" (click)="editProperties('produsofertat','umid')">{{setproperties('produsofertat','umid','label','UM')}}</label></div>
+                <div class="ui-grid-col-7"><input pInputText id="umid" [(ngModel)]="itemprodusofertat[setproperties('produsofertat','umid','model','umid')]"/></div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2 col-xs-offset-1 ewoadmin"><label for="cantitate" (click)="editProperties('produsofertat','cantitate')">{{setproperties('produsofertat','cantitate','label','Cantitate')}}</label></div>
+                <div class="ui-grid-col-7"><input pInputText id="cantitate" [(ngModel)]="itemprodusofertat[setproperties('produsofertat','cantitate','model','cantitate')]"/></div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2 col-xs-offset-1 ewoadmin"><label for="cost" (click)="editProperties('produsofertat','cost')">{{setproperties('produsofertat','cost','label','Cost')}}</label></div>
+                <div class="ui-grid-col-7"><input pInputText id="cost" [(ngModel)]="itemprodusofertat[setproperties('produsofertat','cost','model','cost')]"/></div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2 col-xs-offset-1 ewoadmin"><label for="dlestimata" (click)="editProperties('produsofertat','dlestimata')">{{setproperties('produsofertat','dlestimata','label','Data livrare estimata')}}</label></div>
+                <div class="ui-grid-col-7">
+<!--                    <p-calendar id="dlestimata" *ngIf="properties.oferta.dlestimata" [(ngModel)]="itemprodusofertat.dlestimata" showAnim="slideDown"></p-calendar>-->
+                    <input pInputText id="dlestimata" [(ngModel)]="itemprodusofertat[setproperties('produsofertat','dllivrare','model','dllivrare')]" />
+
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2 col-xs-offset-1 ewoadmin"><label for="finalizat"
+                                                           (click)="editProperties('produsofertat','finalizat')">{{setproperties('produsofertat','finalizat','label','Finalizat')}}</label>
+                </div>
+                <div class="ui-grid-col-7">
+                   <!-- <p-checkbox id="finalizat" *ngIf="properties.produsofertat.finalizat" [(ngModel)]="item[properties.produsofertat.finalizat[0].model]"></p-checkbox>-->
+                    <input type="checkbox" id="intocmit" [(ngModel)]="itemprodusofertat[setproperties('produsofertat','finalizat','model','finalizat')]" />
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2 col-xs-offset-1 ewoadmin"><label for="generat"
+                                                           (click)="editProperties('produsofertat','generat')">{{setproperties('produsofertat','generat','label','Generat')}}</label>
+                </div>
+                <div class="ui-grid-col-7">
+                  <!--  <p-checkbox id="generat" *ngIf="properties.produsofertat.generat" [(ngModel)]="item[properties.produsofertat.generat[0].model]"></p-checkbox>-->
+                    <input type="checkbox" id="intocmit" [(ngModel)]="itemprodusofertat[setproperties('produsofertat','generat','model','generat')]" />
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2 col-xs-offset-1 ewoadmin"><label for="livrare"
+                                                           (click)="editProperties('produsofertat','livrare')">{{setproperties('produsofertat','livrare','label','Livrare')}}</label>
+                </div>
+                <div class="ui-grid-col-7">
+                   <!-- <p-checkbox id="livrare" *ngIf="properties.produsofertat.livrare" [(ngModel)]="item[properties.produsofertat.livrare[0].model]"></p-checkbox>-->
+                    <input type="checkbox" id="intocmit" [(ngModel)]="itemprodusofertat[setproperties('produsofertat','livrare','model','livrare')]" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+            <button type="button" pButton icon="fa-close" (click)="displayDialog3 = false;" label="Renunta"></button>
+            <button type="button" pButton icon="fa-check" (click)="saveprodusofertat()" label="Salveaza"></button>
+        </div>
+    </footer>
+</p-dialog>
+

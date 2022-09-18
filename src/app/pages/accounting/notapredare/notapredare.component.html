@@ -1,0 +1,397 @@
+<div class="container-fluid">
+    <app-page-title title="Nota Predare" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div *ngIf="!list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+                    <div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+                        <div class="ui-widget-header ui-helper-clearfix ewoheader">
+                            <actions (add)="add()" (edit)="edit()" (delete)="delete()" (export)="dt.exportCSV()"></actions>
+                        </div>
+
+                        <p-table #dt [value]="list" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="selectedItems">
+
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <th [pSortableColumn]="'borderou'">Borderou
+                                        <p-sortIcon [field]="'borderou'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'administration'">Gestiune
+                                        <p-sortIcon [field]="'administration'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'docNo'">Numar document
+                                        <p-sortIcon [field]="'docNo'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'docDate'">Data document
+                                        <p-sortIcon [field]="'docDate'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'order'">Comanda
+                                        <p-sortIcon [field]="'order'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'matCode'">Cod material
+                                        <p-sortIcon [field]="'matCode'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'matAcc'">Cont material
+                                        <p-sortIcon [field]="'matAcc'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'correspondentAcc'">Cont corespondent
+                                        <p-sortIcon [field]="'correspondentAcc'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'intAccAdm'">Cont intern gestiune
+                                        <p-sortIcon [field]="'intAccAdm'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'qty'">Cantitate
+                                        <p-sortIcon [field]="'qty'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'price'">Cod partener
+                                        <p-sortIcon [field]="'price'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                </tr>
+                                <tr class="ewoheaderfilter">
+                                    <th>
+                                        <input pInputText type="borderou" (input)="dt.filter($event.target.value, 'borderou', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="administration" (input)="dt.filter($event.target.value, 'administration', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="docNo" (input)="dt.filter($event.target.value, 'docNo', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="docDate" (input)="dt.filter($event.target.value, 'docDate', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="order" (input)="dt.filter($event.target.value, 'order', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="matCode" (input)="dt.filter($event.target.value, 'matCode', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="matAcc" (input)="dt.filter($event.target.value, 'matAcc', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="correspondentAcc" (input)="dt.filter($event.target.value, 'correspondentAcc', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="intAccAdm" (input)="dt.filter($event.target.value, 'intAccAdm', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="qty" (input)="dt.filter($event.target.value, 'qty', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="price" (input)="dt.filter($event.target.value, 'price', 'contains')">
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                <tr [pSelectableRow]="rowData" (dblclick)="onRowDblClick($event, rowData)">
+                                    <td>{{rowData['borderou']}}</td>
+                                    <td>{{rowData['administration']}}</td>
+                                    <td>{{rowData['docNo']}}</td>
+                                    <td>{{rowData['docDate'] | date:'dd/MM/yyyy'}}</td>
+                                    <td>{{rowData['order']}}</td>
+                                    <td>{{rowData['matCode']}}</td>
+                                    <td>{{rowData['matAcc']}}</td>
+                                    <td>{{rowData['correspondentAcc']}}</td>
+                                    <td>{{rowData['intAccAdm']}}</td>
+                                    <td>{{rowData['qty']}}</td>
+                                    <td>{{rowData['price']}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p-dialog header="Detalii" [(visible)]="displayDialog1" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="item" [width]="500">
+
+        <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item">
+                <div class="ui-grid-row">
+                    <form *ngIf="validationform" [formGroup]="validationform">
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id" formControlName="id">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <tabset #tabset>
+
+                                    <tab heading="T1">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="pwd">Parola</label>
+                                                    <input type="password" class="form-control" id="pwd" placeholder="" formControlName="pwd" [ngClass]="{'is-invalid': submitted && form.pwd.errors}">
+                                                    <div *ngIf="submitted && form.pwd.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.pwd.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="borderou">Borderou</label>
+                                                    <input type="text" class="form-control" id="borderou" placeholder="" formControlName="borderou" [ngClass]="{'is-invalid': submitted && form.borderou.errors}">
+                                                    <div *ngIf="submitted && form.borderou.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.borderou.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="administration">Gestiune</label>
+                                                    <input type="text" class="form-control" id="administration" placeholder="" formControlName="administration" [ngClass]="{'is-invalid': submitted && form.administration.errors}">
+                                                    <div *ngIf="submitted && form.administration.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.administration.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+                                                <button class="btn btn-primary" id="listareborderou" (click)="listAdm()">Listare borderou</button>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group"><b>Fara ordonare</b>
+                                                    <label class="btn btn-link form-control" (change)="selectRadioBtn($event)">
+                                            <input type="radio" class="form-control" formControlName="radioGrp" name="radioGrp" value="not_ordered" />                                                                   
+                                          </label>
+                                                </div>
+                                                <div class="form-group"><b>Ordonat dupa cod material</b>
+                                                    <label class="btn btn-link form-control" (change)="selectRadioBtn($event)">
+                                            <input type="radio"  class="form-control" formControlName="radioGrp"  name="radioGrp" value="ordered_by_mat_code" />
+                                            <span></span>
+                                          </label>
+                                                </div>
+                                                <div class="form-group"><b>Ordonat dupa document</b>
+                                                    <label class="btn btn-link form-control" (change)="selectRadioBtn($event)">
+                                            <input type="radio" class="form-control" formControlName="radioGrp"  name="radioGrp" value="ordered_by_doc" />                                                  
+                                          </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </tab>
+
+
+
+                                    <tab heading="T2">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+
+                                                <div class="form-group">
+                                                    <label for="docNo">Numar document</label>
+                                                    <input type="text" class="form-control" id="docNo" placeholder="" formControlName="docNo" [ngClass]="{'is-invalid': submitted && form.docNo.errors}">
+                                                    <div *ngIf="submitted && form.docNo.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.docNo.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="revision">Data document</label>
+                                                    <input type="date" class="form-control" id="docDate" placeholder="" formControlName="docDate" [ngClass]="{'is-invalid': submitted && form.docDate.errors}">
+                                                    <div *ngIf="submitted && form.docDate.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.docDate.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="order">Comanda</label>
+                                                    <input type="text" class="form-control" id="order" placeholder="" formControlName="order" [ngClass]="{'is-invalid': submitted && form.order.errors}">
+                                                    <div *ngIf="submitted && form.order.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.order.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="intAccAdm">Cont int gestiune</label>
+                                                    <input type="text" class="form-control" id="intAccAdm" placeholder="" formControlName="intAccAdm" [ngClass]="{'is-invalid': submitted && form.intAccAdm.errors}">
+                                                    <div *ngIf="submitted && form.intAccAdm.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.intAccAdm.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="qty">Cantitate</label>
+                                                    <input type="text" class="form-control" id="qty" placeholder="" formControlName="qty" [ngClass]="{'is-invalid': submitted && form.qty.errors}">
+                                                    <div *ngIf="submitted && form.qty.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.qty.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="price">Pret</label>
+                                                    <input type="text" class="form-control" id="price" placeholder="" formControlName="price" [ngClass]="{'is-invalid': submitted && form.price.errors}">
+                                                    <div *ngIf="submitted && form.price.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.price.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6">
+
+                                                <div class="form-group">
+                                                    <label for="matCode">Cod material</label>
+                                                    <input type="text" class="form-control" id="matCode" placeholder="" formControlName="matCode" [ngClass]="{'is-invalid': submitted && form.matCode.errors}">
+                                                    <div *ngIf="submitted && form.matCode.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.matCode.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="name">Descriere</label>
+                                                    <textarea type="textarea" class="form-control" id="name" placeholder="" formControlName="name" [ngClass]="{ 'is-invalid': submitted && form.desc1.errors}" rows="1"></textarea>
+                                                    <div *ngIf="submitted && form.desc1.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.desc1.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="um">UM</label>
+                                                    <input type="text" class="form-control" id="um" placeholder="" formControlName="um" [ngClass]="{'is-invalid': submitted && form.um.errors}">
+                                                    <div *ngIf="submitted && form.um.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.um.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="matAcc">Cont material</label>
+                                                    <input type="text" class="form-control" id="matAcc" placeholder="" formControlName="matAcc" [ngClass]="{'is-invalid': submitted && form.matAcc.errors}">
+                                                    <div *ngIf="submitted && form.matAcc.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.matAcc.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="correspondentAcc">Cont corespondent</label>
+                                                    <input type="text" class="form-control" id="correspondentAcc" placeholder="" formControlName="correspondentAcc" [ngClass]="{'is-invalid': submitted && form.correspondentAcc.errors}">
+                                                    <div *ngIf="submitted && form.correspondentAcc.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.correspondentAcc.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+                                                <div id="navbtns" class="row">
+                                                    <div class="col-lg-12">
+                                                        <button class="btn btn-primary" (click)="navigatTo(url)">Top</button>
+                                                        <button class="btn btn-primary" (click)="goBack()">Prev</button>
+                                                        <button class="btn btn-primary" (click)="goForward()">Next</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+
+                                    </tab>
+
+
+
+                                    <tab heading="T3">
+                                        <div class="row">
+
+                                            <div class="col-lg-6">
+
+
+
+                                                <div class="form-group">
+                                                    <label for="_intCode">Cod intern</label>
+                                                    <input type="text" class="form-control" id="_intCode" placeholder="" formControlName="_intCode" [ngClass]="{'is-invalid': submitted && form._intCode.errors}">
+                                                    <div *ngIf="submitted && form._intCode.errors" class="invalid-feedback">
+                                                        <span *ngIf="form._intCode.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="form-group">
+                                                    <label for="_matCode">Cod material</label>
+                                                    <input type="text" class="form-control" id="_matCode" placeholder="" formControlName="_matCode" [ngClass]="{'is-invalid': submitted && form._matCode.errors}">
+                                                    <div *ngIf="submitted && form._matCode.errors" class="invalid-feedback">
+                                                        <span *ngIf="form._matCode.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+                                                <button class="btn btn-primary" (click)="allocateCode()"></button>
+                                            </div>
+
+                                            <div class="col-lg-6">
+
+                                                <div class="form-group">
+                                                    <label for="_matAcc">Cont material</label>
+                                                    <input type="text" class="form-control" id="_matAcc" placeholder="" formControlName="_matAcc" [ngClass]="{'is-invalid': submitted && form._matAcc.errors}">
+                                                    <div *ngIf="submitted && form._matAcc.errors" class="invalid-feedback">
+                                                        <span *ngIf="form._matAcc.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="_price">Pret</label>
+                                                    <input type="text" class="form-control" id="_price" placeholder="" formControlName="_price" [ngClass]="{'is-invalid': submitted && form._price.errors}">
+                                                    <div *ngIf="submitted && form._price.errors" class="invalid-feedback">
+                                                        <span *ngIf="form._price.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <button class="btn btn-primary" (click)="nomen()"></button>
+
+
+                                            </div>
+
+                                        </div>
+                                    </tab>
+
+
+                                    <tab heading="Chei">
+
+
+                                        <div class="form-group">
+                                            <label for="mainKey">Cheie principala</label>
+                                            <input type="text" class="form-control" id="mainKey" placeholder="" formControlName="mainKey" [ngClass]="{'is-invalid': submitted && form.mainKey.errors}">
+                                            <div *ngIf="submitted && form.mainKey.errors" class="invalid-feedback">
+                                                <span *ngIf="form.mainKey.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="secKey1">Cheie secundara 1</label>
+                                            <input type="text" class="form-control" id="secKey1" placeholder="" formControlName="secKey1" [ngClass]="{'is-invalid': submitted && form.secKey1.errors}">
+                                            <div *ngIf="submitted && form.secKey1.errors" class="invalid-feedback">
+                                                <span *ngIf="form.secKey1.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="secKey2">Cheie secundara 2</label>
+                                            <input type="text" class="form-control" id="secKey2" placeholder="" formControlName="secKey2" [ngClass]="{'is-invalid': submitted && form.qtydelivered.errors}">
+                                            <div *ngIf="submitted && form.secKey2.errors" class="invalid-feedback">
+                                                <span *ngIf="form.secKey2.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <button class="btn btn-primary" (click)="addMat()">Adaugare material</button>
+                                                <button class="btn btn-primary" (click)="browse()">BROWSE</button>
+                                            </div>
+                                        </div>
+
+                                    </tab>
+
+                                </tabset>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog1 = false;" label="Renunta"></button>
+                <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="onSubmit(validationform.value)" label="Salveaza"></button>
+            </div>
+        </footer>
+    </p-dialog>

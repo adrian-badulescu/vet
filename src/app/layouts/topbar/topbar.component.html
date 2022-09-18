@@ -63,7 +63,7 @@
         href="javascript: void(0);" role="button" aria-haspopup="false" aria-expanded="false">
         <img src="assets/images/users/user.jpg" alt="user-image" class="rounded-circle">
         <span class="pro-user-name ml-1">
-          Test
+          Test <i class="mdi mdi-chevron-down"></i>
         </span>
       </a>
       <div class="dropdown-menu dropdown-menu-right profile-dropdown" aria-labelledby="profileDropdown" ngbDropdownMenu>
@@ -95,11 +95,11 @@
     </li>
 
 
-    <!-- <li class="dropdown notification-list">
+    <li class="dropdown notification-list">
       <a href="javascript:void(0);" class="nav-link right-bar-toggle waves-effect waves-light" (click)="toggleRightSidebar()">
         <i class="fe-settings noti-icon"></i>
       </a>
-    </li> -->
+    </li>
 
 
   </ul>
@@ -109,11 +109,10 @@
     <a href="/" class="logo text-center">
       <span class="logo-lg">
         <!-- <img src="assets/images/logo.png" alt="" height="18"> -->
-        <span id="logo" class="logo-lg-text-light" style="font-size: 30px !important;
-        font-family: serif !important; color: white;">Farm-Vet</span>
+        <span class="logo-lg-text-light">Electrotel</span>
       </span>
       <span class="logo-sm">
-        <span class="logo-sm-text-dark">X</span>
+        <!-- <span class="logo-sm-text-dark">X</span> -->
         <img src="assets/images/logo-sm.png" alt="" height="24">
       </span>
     </a>
@@ -134,13 +133,13 @@
       </a>
       <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="extraMenu">
         <!-- item-->
-        <a class="dropdown-item">
+        <a href="javascript:void(0);" class="dropdown-item">
           <i class="fe-briefcase mr-1"></i>
-          <span>Comanda1</span>
+          <span>Oferta</span>
         </a>
-        <a class="dropdown-item">
+        <a routerLink="/accounting/accounting_note" class="dropdown-item">
           <i class="fe-briefcase mr-1"></i>
-          <span>Comanda2</span>
+          <span>Nota contabila</span>
         </a>
 
         <div class="dropdown-divider"></div>

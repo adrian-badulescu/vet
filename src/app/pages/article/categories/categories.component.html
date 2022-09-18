@@ -1,0 +1,205 @@
+<div class="container-fluid">
+    <app-page-title title="Categories" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-6 mr-0 pr-0">
+            <div class="card">
+                <div class="card-body">
+
+                    <div *ngIf="!list1" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+                    <div *ngIf="list1" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+                        <div class="ui-widget-header ui-helper-clearfix ewoheader">
+                            <actions (add)="add1()" (edit)="edit1()" (delete)="delete1()" (export)="dt.exportCSV()"></actions>
+                        </div>
+
+                        <p-treeTable #dt [value]="list1" [columns]="columns" selectionMode="single" [(selection)]="selectedItems1" dataKey="denumire" (onLazyLoad)="loadNodes($event)" [loading]="loading" (onNodeExpand)="onNodeExpand($event)">
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <th>Denumire</th>
+                                </tr>
+                                <tr class="ewoheaderfilter">
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'denumire', 'contains')">
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
+                                <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode">
+                                    <td>
+                                        <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                                        {{rowData['denumire']}}
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-treeTable>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!--2nd-->
+
+        <div class="col-6 ml-0 pl-0">
+            <div class="card">
+                <div class="card-body">
+
+                    <div *ngIf="!list2" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+                    <div *ngIf="list2" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+                        <div class="ui-widget-header ui-helper-clearfix ewoheader">
+                            <actions (add)="add2()" (edit)="edit2()" (delete)="delete2()" (export)="dt.exportCSV()"></actions>
+                        </div>
+
+                        <p-table #dt [value]="list2" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="selectedItems2">
+
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+
+                                    <th [pSortableColumn]="'type'">Tip
+                                        <p-sortIcon [field]="'type'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'price'">Pret standard
+                                        <p-sortIcon [field]="'name'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'um'">UM
+                                        <p-sortIcon [field]="'um'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                                <tr class="ewoheaderfilter">
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'type', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'price', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'um', 'contains')">
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                <tr [pSelectableRow]="rowData" (dblclick)="onRowDblClick($event, rowData)">
+                                    <td>{{rowData['type']}}</td>
+                                    <td>{{rowData['price']}}</td>
+                                    <td>{{rowData['um']}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <p-dialog header="Detalii" [(visible)]="displayDialog1" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="item1" [width]="400">
+
+        <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item1">
+                <div class="ui-grid-row">
+                    <form *ngIf="validationform1" [formGroup]="validationform1">
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id" formControlName="id">
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="parinteid" formControlName="parinteid">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+
+                                <div class="form-group">
+                                    <label for="denumire">Denumire</label>
+                                    <input type="text" class="form-control" id="denumire" placeholder="Enter name" formControlName="denumire" [ngClass]="{'is-invalid': submitted && form.denumire.errors}">
+                                    <div *ngIf="submitted && form.denumire.errors" class="invalid-feedback">
+                                        <span *ngIf="form.denumire.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog1 = false;" label="Renunta"></button>
+                <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="onSubmit1(validationform1.value)" label="Salveaza"></button>
+            </div>
+        </footer>
+    </p-dialog>
+
+    <p-dialog header="Detalii" [(visible)]="displayDialog2" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="item2" [width]="400">
+
+        <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item2">
+                <div class="ui-grid-row">
+                    <form *ngIf="validationform2" [formGroup]="validationform2">
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id" formControlName="id">
+                        </div>
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="idcat" formControlName="idcat">
+                        </div>
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="state" formControlName="state">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+
+
+
+                                <div class="form-group">
+                                    <label for="type">Tip</label>
+                                    <select class="form-control" name="type" id="type" formControlName="type" [ngClass]="{ 'is-invalid': submitted && form.type.errors}">
+                                        <option value="">Alege status</option>
+                                        <option *ngFor="let type of Type" [ngValue]="type">{{type}}</option>
+                                    </select>
+                                    <div *ngIf="submitted && form.type.errors" class="invalid-feedback">
+                                        <span *ngIf="form.type.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="price">Pret standard</label>
+                                    <input type="text" class="form-control" id="price" placeholder="" formControlName="price" [ngClass]="{'is-invalid': submitted && form.price.errors}">
+                                    <div *ngIf="submitted && form.price.errors" class="invalid-feedback">
+                                        <span *ngIf="form.price.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="um">UM</label>
+                                    <input type="text" class="form-control" id="um" placeholder="" formControlName="um" [ngClass]="{'is-invalid': submitted && form.um.errors}">
+                                    <div *ngIf="submitted && form.um.errors" class="invalid-feedback">
+                                        <span *ngIf="form.um.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog2 = false;" label="Renunta"></button>
+                <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="onSubmit2(validationform2.value)" label="Salveaza"></button>
+            </div>
+        </footer>
+    </p-dialog>

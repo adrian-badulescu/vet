@@ -1,0 +1,301 @@
+<div class="container-fluid">
+    <app-page-title title="Factura Proforma" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div *ngIf="!list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+                    <div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+                        <div class="ui-widget-header ui-helper-clearfix ewoheader">
+                            <actions (add)="add()" (edit)="edit()" (delete)="delete()" (export)="dt.exportCSV()"></actions>
+                        </div>
+
+                        <p-table #dt [value]="list" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="selectedItems">
+                            <!-- <ng-template pTemplate="caption">
+                    <div class="ui-helper-clearfix" style="text-align: left">
+                        <button type="button" pButton icon="fa fa-file-csv" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="margin-right: 0.5em;"></button>
+                        <button type="button" pButton icon="fa fa-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success"></button>
+                        <button type="button" pButton icon="fa fa-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()" class="ui-button-warning"></button>
+                        <button type="button" pButton icon="fa fa-file-csv" iconPos="left" label="CSV - Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>
+                    </div>
+            </ng-template> -->
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <th [pSortableColumn]="'number'">Numar
+                                        <p-sortIcon [field]="'number'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'date'">Data
+                                        <p-sortIcon [field]="'date'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'supplier'">Furnizor
+                                        <p-sortIcon [field]="'supplier'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'account'">Cont
+                                        <p-sortIcon [field]="'account'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'description'">Descriere
+                                        <p-sortIcon [field]="'description'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'value'">Valoare
+                                        <p-sortIcon [field]="'value'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'type'">Tip
+                                        <p-sortIcon [field]="'type'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'dueDate'">Scadenta facura
+                                        <p-sortIcon [field]="'dueDate'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'requestedDueDate'">Scadenta solicitata
+                                        <p-sortIcon [field]="'requestedDueDate'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'applicantNotice'">Aviz solicitant
+                                        <p-sortIcon [field]="'applicantNotice'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'departChiefNotice'">Avizat sef departament
+                                        <p-sortIcon [field]="'departChiefNotice'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'approved'">Avizat grup aprobari plati
+                                        <p-sortIcon [field]="'tyapprovedpe'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'status'">Status
+                                        <p-sortIcon [field]="'status'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'obs'">Observatii
+                                        <p-sortIcon [field]="'obs'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                </tr>
+                                <tr class="ewoheaderfilter">
+                                    <th>
+                                        <input pInputText type="number" (input)="dt.filter($event.target.value, 'number', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="date" (input)="dt.filter($event.target.value, 'date', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="supplier" (input)="dt.filter($event.target.value, 'supplier', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="account" (input)="dt.filter($event.target.value, 'account', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="description" (input)="dt.filter($event.target.value, 'description', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="value" (input)="dt.filter($event.target.value, 'value', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="type" (input)="dt.filter($event.target.value, 'type', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="dueDate" (input)="dt.filter($event.target.value, 'dueDate', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="requestedDueDate" (input)="dt.filter($event.target.value, 'requestedDueDate', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="applicantNotice" (input)="dt.filter($event.target.value, 'applicantNotice', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="departChiefNotice" (input)="dt.filter($event.target.value, 'departChiefNotice', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="approved" (input)="dt.filter($event.target.value, 'approved', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="status" (input)="dt.filter($event.target.value, 'status', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="obs" (input)="dt.filter($event.target.value, 'obs', 'contains')">
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                <tr [pSelectableRow]="rowData" (dblclick)="onRowDblClick($event, rowData)">
+                                    <td>{{rowData['number']}}</td>
+                                    <td>{{rowData['date'] | date:'dd/MM/yyyy'}}</td>
+                                    <td>{{rowData['supplier']}}</td>
+                                    <td>{{rowData['account']}}</td>
+                                    <td>{{rowData['description']}}</td>
+                                    <td>{{rowData['value']}}</td>
+                                    <td>{{rowData['type']}}</td>
+                                    <td>{{rowData['dueDate'] | date:'dd/MM/yyyy'}}</td>
+                                    <td>{{rowData['requestedDueDate'] | date:'dd/MM/yyyy'}}</td>
+                                    <td>{{rowData['applicantNotice'] | boolPipe}}</td>
+                                    <td>{{rowData['departChiefNotice'] | boolPipe}}</td>
+                                    <td>{{rowData['approved'] | boolPipe}}</td>
+                                    <td>{{rowData['status']}}</td>
+                                    <td>{{rowData['obs']}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p-dialog header="Detalii" [(visible)]="displayDialog1" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="item" [width]="400">
+
+        <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item">
+                <div class="ui-grid-row">
+                    <form *ngIf="validationform" [formGroup]="validationform">
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id" formControlName="id">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <tabset #tabset>
+
+                                    <tab heading="T1">
+
+                                        <div class="form-group">
+                                            <label for="number">Numar</label>
+                                            <input type="text" class="form-control" id="number" placeholder="" formControlName="number" [ngClass]="{'is-invalid': submitted && form.number.errors}">
+                                            <div *ngIf="submitted && form.number.errors" class="invalid-feedback">
+                                                <span *ngIf="form.number.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="date">Data</label>
+                                            <input type="date" class="form-control" id="date" placeholder="" formControlName="date" [ngClass]="{'is-invalid': submitted && form.date.errors}">
+                                            <div *ngIf="submitted && form.date.errors" class="invalid-feedback">
+                                                <span *ngIf="form.date.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="minQty">Furnizor</label>
+                                            <select class="form-control" name="supplier" id="supplier" formControlName="supplier" [ngClass]="{ 'is-invalid': submitted && form.supplier.errors}">
+                                                <option value="supplier">Alege furnizor</option>
+                                                <option *ngFor="let supplier of Supplier" [ngValue]="supplier">{{supplier}}</option>
+                                            </select>
+                                            <div *ngIf="submitted && form.supplier.errors" class="invalid-feedback">
+                                                <span *ngIf="form.supplier.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="account">Cont</label>
+                                            <input type="text" class="form-control" id="account" placeholder="" formControlName="account" [ngClass]="{'is-invalid': submitted && form.account.errors}">
+                                            <div *ngIf="submitted && form.account.errors" class="invalid-feedback">
+                                                <span *ngIf="form.account.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                    </tab>
+
+
+
+                                    <tab heading="Descriere">
+
+                                        <div class="form-group">
+                                            <label for="description">Adauga o descriere</label>
+                                            <textarea type="textarea" class="form-control" id="description" placeholder="" formControlName="description" [ngClass]="{ 'is-invalid': submitted && form.description.errors}" rows="9"></textarea>
+                                            <div *ngIf="submitted && form.description.errors" class="invalid-feedback">
+                                                <span *ngIf="form.description.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                    </tab>
+
+
+
+                                    <tab heading="T3">
+
+                                        <div class="form-group">
+                                            <label for="value">Valoare</label>
+                                            <input type="text" class="form-control" id="value" placeholder="" formControlName="value" [ngClass]="{'is-invalid': submitted && form.value.errors}">
+                                            <div *ngIf="submitted && form.value.errors" class="invalid-feedback">
+                                                <span *ngIf="form.value.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="type">Tip</label>
+                                            <select class="form-control" name="type" id="type" formControlName="type" [ngClass]="{ 'is-invalid': submitted && form.type.errors}">
+                                                    <option value="type">Alege tip</option>
+                                                    <option *ngFor="let type of Type" [ngValue]="type">{{type}}</option>
+                                                </select>
+                                            <div *ngIf="submitted && form.type.errors" class="invalid-feedback">
+                                                <span *ngIf="form.type.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="dueDate">Scadenta factura</label>
+                                            <input type="date" class="form-control" id="dueDate" placeholder="" formControlName="dueDate" [ngClass]="{'is-invalid': submitted && form.dueDate.errors}">
+                                            <div *ngIf="submitted && form.dueDate.errors" class="invalid-feedback">
+                                                <span *ngIf="form.dueDate.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="requestedDueDate">Scadenta solictata</label>
+                                            <input type="date" class="form-control" id="requestedDueDate" placeholder="" formControlName="requestedDueDate" [ngClass]="{'is-invalid': submitted && form.requestedDueDate.errors}">
+                                            <div *ngIf="submitted && form.requestedDueDate.errors" class="invalid-feedback">
+                                                <span *ngIf="form.drequestedDueDateate.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                    </tab>
+
+                                    <tab heading="Avize">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="applicantNotice" [checked]="checkedApplicantNotice()" (change)="handleApplicantNotice($event)">
+                                            <label class="form-check-label" for="applicantNotice">Aviz solicitant</label>
+                                        </div>
+
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="departChiefNotice" [checked]="checkedDepartChiefNotice()" (change)="handleDepartChiefNotice($event)">
+                                            <label class="form-check-label" for="departChiefNotice">Avizat sef departament</label>
+                                        </div>
+
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="approved" [checked]="checkedApproved()" (change)="handleApproved($event)">
+                                            <label class="form-check-label" for="approved">Avizat grup aprobari plati</label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="status">Status</label>
+                                            <select class="form-control" name="status" id="status" formControlName="status" [ngClass]="{ 'is-invalid': submitted && form.status.errors}">
+                                                    <option value="status">Alege status</option>
+                                                    <option *ngFor="let status of Status" [ngValue]="status">{{status}}</option>
+                                                </select>
+                                            <div *ngIf="submitted && form.status.errors" class="invalid-feedback">
+                                                <span *ngIf="form.status.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+                                    </tab>
+
+                                    <tab heading="Obs">
+                                        <div class="form-group">
+                                            <label for="obs">Observatii</label>
+                                            <textarea type="textarea" class="form-control" id="obs" placeholder="" formControlName="obs" [ngClass]="{ 'is-invalid': submitted && form.obs.errors}" rows="9"></textarea>
+                                            <div *ngIf="submitted && form.obs.errors" class="invalid-feedback">
+                                                <span *ngIf="form.obs.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+                                    </tab>
+
+                                </tabset>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog1 = false;" label="Renunta"></button>
+                <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="onSubmit(validationform.value)" label="Salveaza"></button>
+            </div>
+        </footer>
+    </p-dialog>

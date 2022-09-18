@@ -1,0 +1,144 @@
+<div class="container-fluid">
+    <app-page-title title="Module demo" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- <h4 class="header-title">{{Lista}}</h4> -->
+                    <p class="text-muted font-13 mb-4">
+
+                    </p>
+                    <div class="row mb-md-2">
+                        <div class="col-sm-12 col-md-6">
+                            <a class="btn btn-default mb-2" (click)="refresh()" style="color: white; cursor: pointer;">Refresh </a>
+                            <a class="btn btn-info mb-2" (click)="add(content)" style="color: white; cursor: pointer;"><i
+                                    class="mdi mdi-plus-circle mr-1"></i> Add </a>
+                        </div>
+                        <!-- Search -->
+                        <div class="col-sm-12 col-md-6">
+                          <!--  <div id="tickets-table_filter" class="dataTables_filter text-md-right"><label class="d-inline-flex align-items-center">Search:
+                  <input type="text" name="searchTerm" class="form-control form-control-sm ml-2"
+                    aria-controls="tickets-table" [(ngModel)]="service.searchTerm"></label>
+                                 <a href="ngx" class="btn btn-primary"><i class="mdi mdi-printer mr-1"></i> Print</a> 
+                            </div>-->
+
+                        </div>
+                        <!-- End search -->
+
+                    </div>
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table id="basic-datatable" class="table datatables dt-responsive nowrap">
+                            <thead>
+                                <tr>
+                                    <!-- <th sortable={{key}} (sort)="onSort($event)" *ngFor="let key of keys">{{key | titlecase}}</th> -->
+                                    <th style="width: 150px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="!loading">
+                                <tr tr *ngFor="let table of service.tables$ | async">
+                                    <td *ngFor="let key of keys">
+                                        <!-- <ngb-highlight [result]="table[key]"></ngb-highlight> -->
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0);" (click)="edit(content, table)" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                        <a href="javascript:void(0);" (click)="delete(table.id)" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                        <button class="btn btn-info" (click)="print(table)">print</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div *ngIf="loading" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+                    </div>
+                    <!-- End table -->
+                    <div class="row justify-content-md-between align-items-md-center mt-2">
+                        <div class="col-sm-12 col-md-3">
+                            <!-- <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">Showing {{service.startIndex}} to {{service.endIndex}} of {{service.totalRecords}} entries
+                            </div> -->
+                        </div>
+                        <!-- pages -->
+                        <div class="col-sm-12 col-md-3">
+                         <!--   <div class="dataTables_length" id="tickets-table_length"><label class="d-inline-flex align-items-center">Show
+                   <select name="tickets-table_length" aria-controls="tickets-table" name="pageSize" 
+                    [(ngModel)]="service.pageSize"
+                    class="custom-select custom-select-sm form-control form-control-sm mx-2">
+                    <option [ngValue]="10">10</option>
+                    <option [ngValue]="25">25</option>
+                    <option [ngValue]="50">50</option>
+                    <option [ngValue]="100">100</option>
+                  </select> entries</label></div>-->
+                        </div>
+                        <!-- Pagination -->
+                        <div class="col-sm-12 col-md-6">
+                            <div class="text-md-right float-md-right pagination-rounded">
+                                <!-- <ngb-pagination [collectionSize]="total$ | async" [(page)]="service.page" [pageSize]="service.pageSize">
+                                </ngb-pagination> -->
+                            </div>
+                        </div>
+                        <!-- End Pagination -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ngx-smart-modal #formentity identifier="formentity" [closable]="false" class="col-md-6 printinventory">
+        <div class="modal-header">
+            <h5 class="modal-title">Print</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closePrintInventory()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </ngx-smart-modal>
+
+    <ng-template #content role="document" let-modal="close">
+        
+            <div class="modal-header bg-dark">
+                <h4 class="modal-title text-white">Add</h4>
+                <button type="button" class="close text-white" aria-label="Close" (click)="modal('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            </div>        
+        
+            <div class="modal-body p-3">
+                <div class="text-left">
+                    <form *ngIf="validationform" (ngSubmit)="onSubmit(validationform.value)" [formGroup]="validationform">
+        
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id" formControlName="id">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+        
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control" id="name" placeholder="Enter name" formControlName="name" [ngClass]="{'is-invalid': submitted && form.name.errors}">
+                                    <div *ngIf="submitted && form.name.errors" class="invalid-feedback">
+                                        <span *ngIf="form.name.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+        
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control" id="description" placeholder="Enter a description" formControlName="description" [ngClass]="{'is-invalid': submitted && form.description.errors}"></textarea>
+                                    <div *ngIf="submitted && form.description.errors" class="invalid-feedback">
+                                        <span *ngIf="form.description.errors.required">This value is required.</span>
+                                        <!-- <span *ngIf="form.email.errors.pattern">Please enter valid email.</span> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="text-left">
+        
+                        </div> -->
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-success" >Save</button>
+                            <button type="button" class="btn btn-danger ml-1" (click)="closeModal(validationform, modal)">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- </div>end -->
+        
+        </ng-template>

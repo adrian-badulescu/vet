@@ -5,26 +5,26 @@ const widgetData = [
     {
         icon: 'fe-bar-chart-line',
         color: 'primary',
-        value: '0',
-        text: 'text'
+        value: '58947',
+        text: 'Total Revenue'
     },
     {
         icon: 'fe-bar-chart-line',
         color: 'success',
-        value: '0',
-        text: 'text'
+        value: '127',
+        text: 'Today\'s Sales'
     },
     {
         icon: 'fe-bar-chart-line',
         color: 'info',
-        value: '0',
-        text: 'text'
+        value: '0.58',
+        text: 'Conversion'
     },
     {
         icon: 'fe-bar-chart-line',
         color: 'warning',
-        value: '0',
-        text: 'text'
+        value: '78.41',
+        text: 'Today\'s Visits'
     }
 ];
 

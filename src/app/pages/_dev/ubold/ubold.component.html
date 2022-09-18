@@ -1,0 +1,114 @@
+<div class="container-fluid">
+        <app-page-title title="Grid" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+        <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+
+<div *ngIf="!list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+<div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+    <div class="ui-widget-header ui-helper-clearfix ewoheader">
+        <actions (add)="add()" (edit)="edit()" (delete)="delete()" (export)="dt.exportCSV()"></actions>
+    </div>
+
+    <p-table #dt [value]="list" [paginator]="true" [rows]="10" selectionMode="single" 
+    [(selection)]="selectedItems">
+            <!-- <ng-template pTemplate="caption">
+                    <div class="ui-helper-clearfix" style="text-align: left">
+                        <button type="button" pButton icon="fa fa-file-csv" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="margin-right: 0.5em;"></button>
+                        <button type="button" pButton icon="fa fa-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success"></button>
+                        <button type="button" pButton icon="fa fa-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()" class="ui-button-warning"></button>
+                        <button type="button" pButton icon="fa fa-file-csv" iconPos="left" label="CSV - Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>
+                    </div>
+            </ng-template> -->
+           
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    
+        
+    <th [pSortableColumn]="'n1'">N1
+        <p-sortIcon [field]="'n1'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+    </th>
+        
+    <th [pSortableColumn]="'new column'">N2
+        <p-sortIcon [field]="'new column'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+    </th>
+                </tr>
+                <tr class="ewoheaderfilter">
+                    
+        
+    <th>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'n1', 'contains')">
+    </th>
+        
+    <th>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'new column', 'contains')">
+    </th>   
+                </tr>    
+            </ng-template>
+
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData" (dblclick)="onRowDblClick($event, rowData)">
+                    
+        
+    <td>{{rowData['n1']}}</td>
+        
+    <td>{{rowData['new column']}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+<p-dialog header="Detalii" [(visible)]="displayDialog1"
+          [responsive]="true" showEffect="fade" [modal]="true"
+          *ngIf="item" [width]="700">
+
+    <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+        <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item">		
+            <div class="ui-grid-row">
+                    <form *ngIf="validationform" [formGroup]="validationform">
+					            
+    <div class="row">
+      <div class="form-group row col-md-12">
+      <div class="col-md-6 col-md-offset-0">
+           <label for="77fa2889-e5f1-7ba7-6f28-c83959cd34cd">n1</label>
+           <input type="text" class="ewo-form-control form-control" id="77fa2889-e5f1-7ba7-6f28-c83959cd34cd" name="n1" formControlName="n1" placeholder="n1" [ngClass]="{'is-invalid': submitted && form.n1.errors}">
+           <div *ngIf="submitted && form.n1.errors" class="invalid-feedback">
+            <span *ngIf="form.n1.errors.required">This value is required.</span>
+           </div>
+           <label for="60d5ebbf-7cb1-bbb5-22fd-4c10a5b29f62">n2</label>
+           <input type="date" class="ewo-form-control form-control" id="60d5ebbf-7cb1-bbb5-22fd-4c10a5b29f62" name="n2" formControlName="n2" placeholder="n2" [ngClass]="{'is-invalid': submitted && form.n2.errors}">
+           <div *ngIf="submitted && form.n2.errors" class="invalid-feedback">
+            <span *ngIf="form.n2.errors.required">This value is required.</span>
+           </div>
+      </div>
+      <div class="col-md-6 col-md-offset-0">
+            <label for="77fa2889-e5f1-7ba7-6f28-c83959cd34cd">n3</label>
+            <input type="number" class="ewo-form-control form-control" id="77fa2889-e5f1-7ba7-6f28-c83959cd34cd" name="n3" formControlName="n3" placeholder="n3" [ngClass]="{'is-invalid': submitted && form.n3.errors}">
+            <div *ngIf="submitted && form.n3.errors" class="invalid-feedback">
+             <span *ngIf="form.n3.errors.required">This value is required.</span>
+            </div>
+      </div>
+      </div>
+    </div>
+					</form>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+            <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog1 = false;" label="Renunta"></button>
+            <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="onSubmit(validationform.value)" label="Salveaza"></button>
+        </div>
+    </footer>
+</p-dialog>
+
+

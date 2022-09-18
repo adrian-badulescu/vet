@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <app-page-title title="Rapoarte" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+    <!-- <app-page-title title="Rapoarte" [breadcrumbItems]="breadCrumbItems"></app-page-title> -->
 
     <div class="row">
         <div class="col-12">
@@ -16,11 +16,11 @@
                         </div>
                         <!-- Search -->
                         <div class="col-sm-12 col-md-6">
-                            <div id="tickets-table_filter" class="dataTables_filter text-md-right"><label class="d-inline-flex align-items-center">Search:
+                           <!-- <div id="tickets-table_filter" class="dataTables_filter text-md-right"><label class="d-inline-flex align-items-center">Search:
                   <input type="text" name="searchTerm" class="form-control form-control-sm ml-2"
                     aria-controls="tickets-table" [(ngModel)]="service.searchTerm"></label>
-                                <!-- <a href="ngx" class="btn btn-primary"><i class="mdi mdi-printer mr-1"></i> Print</a> -->
-                            </div>
+                                 <a href="ngx" class="btn btn-primary"><i class="mdi mdi-printer mr-1"></i> Print</a> 
+                            </div>-->
 
                         </div>
                         <!-- End search -->
@@ -31,7 +31,7 @@
                         <table id="basic-datatable" class="table datatables dt-responsive nowrap">
                             <thead>
                                 <tr>
-                                    <th sortable={{key}} (sort)="onSort($event)" *ngFor="let key of keys">{{key | titlecase}}</th>
+                                    <!-- <th sortable={{key}} (sort)="onSort($event)" *ngFor="let key of keys">{{key | titlecase}}</th> -->
                                     <th style="width: 82px;">Action</th>
                                     <th *ngIf="data['print']" style="width: 82px;"></th>
                                 </tr>
@@ -39,7 +39,7 @@
                             <tbody>
                                 <tr tr *ngFor="let table of service.tables$ | async">
                                     <td *ngFor="let key of keys">
-                                        <ngb-highlight [result]="table[key]"></ngb-highlight>
+                                        <!-- <ngb-highlight [result]="table[key]"></ngb-highlight> -->
                                     </td>
                                     <td>
                                         <a href="javascript:void(0);" (click)="openToEditModal(content, table)" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
@@ -55,26 +55,26 @@
                     <!-- End table -->
                     <div class="row justify-content-md-between align-items-md-center mt-2">
                         <div class="col-sm-12 col-md-3">
-                            <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">Showing {{service.startIndex}} to {{service.endIndex}} of {{service.totalRecords}} entries
-                            </div>
+                            <!-- <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">Showing {{service.startIndex}} to {{service.endIndex}} of {{service.totalRecords}} entries
+                            </div> -->
                         </div>
                         <!-- pages -->
                         <div class="col-sm-12 col-md-3">
-                            <div class="dataTables_length" id="tickets-table_length"><label class="d-inline-flex align-items-center">Show
-                  <select name="tickets-table_length" aria-controls="tickets-table" name="pageSize"
+                         <!--   <div class="dataTables_length" id="tickets-table_length"><label class="d-inline-flex align-items-center">Show
+                   <select name="tickets-table_length" aria-controls="tickets-table" name="pageSize" 
                     [(ngModel)]="service.pageSize"
                     class="custom-select custom-select-sm form-control form-control-sm mx-2">
                     <option [ngValue]="10">10</option>
                     <option [ngValue]="25">25</option>
                     <option [ngValue]="50">50</option>
                     <option [ngValue]="100">100</option>
-                  </select> entries</label></div>
+                  </select> entries</label></div>-->
                         </div>
                         <!-- Pagination -->
                         <div class="col-sm-12 col-md-6">
                             <div class="text-md-right float-md-right pagination-rounded">
-                                <ngb-pagination [collectionSize]="total$ | async" [(page)]="service.page" [pageSize]="service.pageSize">
-                                </ngb-pagination>
+                                <!-- <ngb-pagination [collectionSize]="total$ | async" [(page)]="service.page" [pageSize]="service.pageSize">
+                                </ngb-pagination> -->
                             </div>
                         </div>
                         <!-- End Pagination -->
@@ -106,7 +106,7 @@
         
             <div class="modal-body p-3">
                 <div class="text-left">
-                    <form (ngSubmit)="createItem(validationform.value)" [formGroup]="validationform">
+                    <form (ngSubmit)="createItem(validationform.value)">
         
                         <div class="form-group">
                             <input type="hidden" class="form-control" id="id" formControlName="id">

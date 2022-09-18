@@ -1,0 +1,275 @@
+<div class="container-fluid">
+    <app-page-title title="" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div *ngIf="!list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+                    <div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+                        <div class="ui-widget-header ui-helper-clearfix ewoheader">
+                            <actions (add)="add()" (edit)="edit()" (delete)="delete()" (export)="dt.exportCSV()"></actions>
+                        </div>
+
+                        <p-table #dt [value]="list" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="selectedItems">
+                            <!-- <ng-template pTemplate="caption">
+              <div class="ui-helper-clearfix" style="text-align: left">
+                  <button type="button" pButton icon="fa fa-file-csv" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="margin-right: 0.5em;"></button>
+                  <button type="button" pButton icon="fa fa-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success"></button>
+                  <button type="button" pButton icon="fa fa-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()" class="ui-button-warning"></button>
+                  <button type="button" pButton icon="fa fa-file-csv" iconPos="left" label="CSV - Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>
+              </div>
+      </ng-template> -->
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <th [pSortableColumn]="'administration'">Gestiune
+                                        <p-sortIcon [field]="'administration'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'prod'">Denumire produs/serviciu
+                                        <p-sortIcon [field]="'prod'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'type'">Tip
+                                        <p-sortIcon [field]="'type'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'um'">U.M.
+                                        <p-sortIcon [field]="'um'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'qty'">Cantitate
+                                        <p-sortIcon [field]="'qty'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'price'">Pret(RON)
+                                        <p-sortIcon [field]="'price'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'tva'">TVA
+                                        <p-sortIcon [field]="'tva'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                </tr>
+                                <tr class="ewoheaderfilter">
+                                    <th>
+                                        <input pInputText type="administration" (input)="dt.filter($event.target.value, 'administration', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="prod" (input)="dt.filter($event.target.value, 'prod', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="type" (input)="dt.filter($event.target.value, 'type', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="um" (input)="dt.filter($event.target.value, 'um', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="qty" (input)="dt.filter($event.target.value, 'qty', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="price" (input)="dt.filter($event.target.value, 'price', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="tva" (input)="dt.filter($event.target.value, 'tva', 'contains')">
+                                    </th>
+
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                <tr [pSelectableRow]="rowData" (dblclick)="onRowDblClick($event, rowData)">
+                                    <td>{{rowData['administration']}}</td>
+                                    <td>{{rowData['prod']}}</td>
+                                    <td>{{rowData['type']}}</td>
+                                    <td>{{rowData['um']}}</td>
+                                    <td>{{rowData['qty']}}</td>
+                                    <td>{{rowData['price']}}</td>
+                                    <td>{{rowData['tva']}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p-dialog header="Detalii" [(visible)]="displayDialog1" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="item" [width]="700">
+
+        <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item">
+                <div class="ui-grid-row">
+                    <form *ngIf="validationform" [formGroup]="validationform">
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id" formControlName="id">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+
+                                <div class="form-group">
+                                    <label for="denumire">Gestiune</label>
+                                    <select class="form-control" name="administration" id="administration" formControlName="administration" [ngClass]="{'is-invalid': submitted && form.administration.errors}">
+                                        <option value=""></option>
+                                        <option *ngFor="let administration of Administration" [ngValue]="administration">{{administration}}</option>
+                                    </select>
+                                    <div *ngIf="submitted && form.administration.errors" class="invalid-feedback">
+                                        <span *ngIf="form.administration.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="prod">Denumire produs/serviciu</label>
+                                    <input type="text" class="form-control" id="prod" placeholder="" formControlName="prod" [ngClass]="{'is-invalid': submitted && form.prod.errors}">
+                                    <div *ngIf="submitted && form.prod.errors" class="invalid-feedback">
+                                        <span *ngIf="form.prod.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="type">Tip</label>
+                                    <select class="form-control" name="type" id="type" formControlName="type" [ngClass]="{'is-invalid': submitted && form.type.errors}">
+                                        <option value=""></option>
+                                        <option *ngFor="let type of Type" [ngValue]="type">{{type}}</option>
+                                    </select>
+                                    <div *ngIf="submitted && form.type.errors" class="invalid-feedback">
+                                        <span *ngIf="form.type.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="um">U.M.</label>
+                                    <input type="text" class="form-control" id="um" placeholder="" formControlName="um" [ngClass]="{'is-invalid': submitted && form.um.errors}">
+                                    <div *ngIf="submitted && form.um.errors" class="invalid-feedback">
+                                        <span *ngIf="form.um.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="qty">Cantitate</label>
+                                    <input type="text" class="form-control" id="qty" placeholder="" formControlName="qty" [ngClass]="{'is-invalid': submitted && form.qty.errors}">
+                                    <div *ngIf="submitted && form.qty.errors" class="invalid-feedback">
+                                        <span *ngIf="form.qty.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="price">Pret</label>
+                                    <input type="text" class="form-control" id="price" placeholder="" formControlName="price" [ngClass]="{'is-invalid': submitted && form.price.errors}">
+                                    <div *ngIf="submitted && form.price.errors" class="invalid-feedback">
+                                        <span *ngIf="form.price.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="tva">Cota TVA</label>
+                                    <select class="form-control" name="tva" id="tva" formControlName="tva" [ngClass]="{'is-invalid': submitted && form.tva.errors}">
+                                        <option value=""></option>
+                                        <option *ngFor="let tva of Tva" [ngValue]="tva">{{tva}}</option>
+                                    </select>
+                                    <div *ngIf="submitted && form.tva.errors" class="invalid-feedback">
+                                        <span *ngIf="form.tva.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary pull-left" (click)="addNewArticleRow()">Adauga articole</button>
+            <br><br>
+
+            <p-table [value]="invoicexarticles" dataKey="id" editMode="row">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Nume/CIF client</th>
+                        <th>Data emiterii</th>
+                        <th>Data scadentei</th>
+                        <th>Serie si numar</th>
+                        <th>Moneda aviz</th>
+                        <th>Limba</th>
+                        <th style="width:8em"></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                    <tr [pEditableRow]="rowData">
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.cif" required>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.cif}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="date" [(ngModel)]="rowData.issuedate" required>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.issuedate}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="date" [(ngModel)]="rowData.duedate" required>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.duedate}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.serialnumber" required>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.serialnumber}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <p-dropdown [options]="currency" [(ngModel)]="rowData.currency" [style]="{'width':'100%'}"></p-dropdown>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.currency}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <p-dropdown [options]="language" [(ngModel)]="rowData.language" [style]="{'width':'100%'}"></p-dropdown>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.language}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+
+                        <td style="text-align:center">
+                            <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info" (click)="onRowEditInit(rowData)"></button>
+                            <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-minus" class="ui-button-warning" style="margin-right: .5em" (click)="onRowDelete(rowData)"></button>
+
+                            <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button>
+                            <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times" class="ui-button-danger" (click)="onRowEditCancel(rowData, ri)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+        </div>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog1 = false;" label="Renunta"></button>
+                <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="onSubmit(validationform.value)" label="Salveaza"></button>
+            </div>
+        </footer>
+    </p-dialog>

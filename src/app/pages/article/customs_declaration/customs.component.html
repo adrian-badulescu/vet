@@ -1,0 +1,340 @@
+<div class="container-fluid">
+    <app-page-title title="Primeng module demo" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div *ngIf="!list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+                    <div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+                        <div class="ui-widget-header ui-helper-clearfix ewoheader">
+                            <actions (add)="add()" (edit)="edit()" (delete)="delete()" (export)="dt.exportCSV()"></actions>
+                        </div>
+
+                        <p-table #dt [value]="list" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="selectedItems">
+                            <!-- <ng-template pTemplate="caption">
+                    <div class="ui-helper-clearfix" style="text-align: left">
+                        <button type="button" pButton icon="fa fa-file-csv" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="margin-right: 0.5em;"></button>
+                        <button type="button" pButton icon="fa fa-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success"></button>
+                        <button type="button" pButton icon="fa fa-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()" class="ui-button-warning"></button>
+                        <button type="button" pButton icon="fa fa-file-csv" iconPos="left" label="CSV - Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>
+                    </div>
+            </ng-template> -->
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <!-- <th [pSortableColumn]="'name'">Id
+                                        <p-sortIcon [field]="'name'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th> -->
+                                    <!--T1-->
+                                    <th [pSortableColumn]="'year'">An
+                                        <p-sortIcon [field]="'year'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'customsdeclation'">Declaratie vamala
+                                        <p-sortIcon [field]="'customsdeclation'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'codpart'">Cod part.(NRCD)
+                                        <p-sortIcon [field]="'codpart'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'discount'">Procent discount
+                                        <p-sortIcon [field]="'discount'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'exchangerate'">Curs
+                                        <p-sortIcon [field]="'exchangerate'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'othertax'">Alte taxe(valuta)
+                                        <p-sortIcon [field]="'othertax'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'currency'">Valuta
+                                        <p-sortIcon [field]="'currency'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <!--end T1-->
+                                    <!--T2-->
+                                    <th [pSortableColumn]="'transportinvoice'">Factura de transport
+                                        <p-sortIcon [field]="'transportinvoice'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'transportcurrency'">Transport valuta
+                                        <p-sortIcon [field]="'transportcurrency'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'transportlocalcurrency'">Transport lei
+                                        <p-sortIcon [field]="'transportlocalcurrency'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'codpart2'">Cod part.(fact. transp.)
+                                        <p-sortIcon [field]="'codpart2'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'exchangerate2'">Curs
+                                        <p-sortIcon [field]="'exchangerate2'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'currency2'">Valuta
+                                        <p-sortIcon [field]="'currency2'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <!--end T2-->
+                                    <!--T3-->
+                                    <th [pSortableColumn]="'othertax2'">Alte taxe
+                                        <p-sortIcon [field]="'othertax2'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'customsserv'">Prestatii vamale(lei)
+                                        <p-sortIcon [field]="'customsserv'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'codpart3'">Cod part.(prest. vamale)
+                                        <p-sortIcon [field]="'codpart3'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <!--end T3-->
+                                </tr>
+                                <tr class="ewoheaderfilter">
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'year', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'customsdeclation', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'codpart', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'discount', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'exchangerate', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'othertax', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'currency', 'contains')">
+                                    </th>
+                                    <!--T2-->
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'transportinvoice', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'transportcurrency', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'transportlocalcurrency', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'codpart2', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'exchangerate2', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'currency2', 'contains')">
+                                    </th>
+                                    <!--T3-->
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'othertax2', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'customsserv', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'codpart3', 'contains')">
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                <tr [pSelectableRow]="rowData" (dblclick)="onRowDblClick($event, rowData)">
+                                    <!-- <td>{{rowData['id']}}</td> -->
+                                    <td>{{rowData['year'] | date: 'yyyy'}}</td>
+                                    <td>{{rowData['customsdeclation']}}</td>
+                                    <td>{{rowData['codpart']}}</td>
+                                    <td>{{rowData['discount']}}</td>
+                                    <td>{{rowData['exchangerate']}}</td>
+                                    <td>{{rowData['othertax']}}</td>
+                                    <td>{{rowData['currency']}}</td>
+                                    <td>{{rowData['transportinvoice']}}</td>
+                                    <td>{{rowData['transportcurrency']}}</td>
+                                    <td>{{rowData['transportlocalcurrency']}}</td>
+                                    <td>{{rowData['codpart2']}}</td>
+                                    <td>{{rowData['exchangerate2']}}</td>
+                                    <td>{{rowData['currency2']}}</td>
+                                    <td>{{rowData['othertax2']}}</td>
+                                    <td>{{rowData['customsserv']}}</td>
+                                    <td>{{rowData['codpart3']}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p-dialog header="Detalii" [(visible)]="displayDialog1" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="item" [width]="400">
+
+        <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item">
+                <div class="ui-grid-row">
+                    <form *ngIf="validationform" [formGroup]="validationform">
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id" formControlName="id">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <tabset #tabset>
+                                    <!--T1-->
+                                    <tab heading="T1">
+                                        <div class="form-group">
+                                            <label for="year">An</label>
+                                            <input type="date" class="form-control" id="year" placeholder="" formControlName="year" [ngClass]="{'is-invalid': submitted && form.year.errors}">
+                                            <div *ngIf="submitted && form.year.errors" class="invalid-feedback">
+                                                <span *ngIf="form.year.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="customsdeclation">Declaratie vamala</label>
+                                            <input type="text" class="form-control" id="customsdeclation" placeholder="" formControlName="customsdeclation" [ngClass]="{'is-invalid': submitted && form.customsdeclation.errors}">
+                                            <div *ngIf="submitted && form.customsdeclation.errors" class="invalid-feedback">
+                                                <span *ngIf="form.customsdeclation.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="codpart">Cod part.(NRCD)</label>
+                                            <input type="text" class="form-control" id="codpart" placeholder="" formControlName="codpart" [ngClass]="{'is-invalid': submitted && form.codpart.errors}">
+                                            <div *ngIf="submitted && form.codpart.errors" class="invalid-feedback">
+                                                <span *ngIf="form.codpart.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="discount">Procent discount</label>
+                                            <input type="text" class="form-control" id="discount" placeholder="" formControlName="discount" [ngClass]="{'is-invalid': submitted && form.discount.errors}">
+                                            <div *ngIf="submitted && form.discount.errors" class="invalid-feedback">
+                                                <span *ngIf="form.discount.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="exchangerate">Curs</label>
+                                            <input type="text" class="form-control" id="exchangerate" placeholder="" formControlName="exchangerate" [ngClass]="{'is-invalid': submitted && form.exchangerate.errors}">
+                                            <div *ngIf="submitted && form.exchangerate.errors" class="invalid-feedback">
+                                                <span *ngIf="form.exchangerate.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="othertax">Alte taxe(valuta)</label>
+                                            <input type="text" class="form-control" id="eothertax" placeholder="" formControlName="othertax" [ngClass]="{'is-invalid': submitted && form.othertax.errors}">
+                                            <div *ngIf="submitted && form.othertax.errors" class="invalid-feedback">
+                                                <span *ngIf="form.othertax.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="currency">Valuta</label>
+                                            <select class="form-control" name="currency" id="currency" formControlName="currency" [ngClass]="{ 'is-invalid': submitted && form.currency.errors}">
+                                        <option value="">Alege valuta</option>
+                                        <option *ngFor="let currency of Currency" [ngValue]="currency">{{currency}}</option>
+                                    </select>
+                                            <div *ngIf="submitted && form.currency.errors" class="invalid-feedback">
+                                                <span *ngIf="form.currency.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+                                    </tab>
+                                    <!--end T1-->
+
+                                    <!--T2-->
+                                    <tab heading="T2">
+                                        <div class="form-group">
+                                            <label for="transportinvoice">Factura de transport</label>
+                                            <input type="text" class="form-control" id="transportinvoice" placeholder="" formControlName="transportinvoice" [ngClass]="{'is-invalid': submitted && form.transportinvoice.errors}">
+                                            <div *ngIf="submitted && form.transportinvoice.errors" class="invalid-feedback">
+                                                <span *ngIf="form.transportinvoice.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="transportcurrency">Transport valuta</label>
+                                            <input type="text" class="form-control" id="transportcurrency" placeholder="" formControlName="transportcurrency" [ngClass]="{'is-invalid': submitted && form.transportcurrency.errors}">
+                                            <div *ngIf="submitted && form.transportcurrency.errors" class="invalid-feedback">
+                                                <span *ngIf="form.transportcurrency.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="transportlocalcurrency">Transport lei</label>
+                                            <input type="text" class="form-control" id="transportlocalcurrency" placeholder="" formControlName="transportlocalcurrency" [ngClass]="{'is-invalid': submitted && form.transportlocalcurrency.errors}">
+                                            <div *ngIf="submitted && form.transportlocalcurrency.errors" class="invalid-feedback">
+                                                <span *ngIf="form.transportlocalcurrency.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="codpart2">Cod part.(fact. transp.)</label>
+                                            <input type="text" class="form-control" id="codpart2" placeholder="" formControlName="codpart2" [ngClass]="{'is-invalid': submitted && form.codpart2.errors}">
+                                            <div *ngIf="submitted && form.codpart2.errors" class="invalid-feedback">
+                                                <span *ngIf="form.codpart2.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="exchangerate2">Curs</label>
+                                            <input type="text" class="form-control" id="exchangerate2" placeholder="" formControlName="exchangerate2" [ngClass]="{'is-invalid': submitted && form.exchangerate2.errors}">
+                                            <div *ngIf="submitted && form.exchangerate2.errors" class="invalid-feedback">
+                                                <span *ngIf="form.exchangerate2.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="form-group">
+                                            <label for="currency2">Valuta</label>
+                                            <select class="form-control" name="currency2" id="currency2" formControlName="currency2" [ngClass]="{ 'is-invalid': submitted && form.currency2.errors}">
+                                        <option value="">Alege valuta</option>
+                                        <option *ngFor="let currency2 of Currency2" [ngValue]="currency2">{{currency2}}</option>
+                                    </select>
+                                            <div *ngIf="submitted && form.currency2.errors" class="invalid-feedback">
+                                                <span *ngIf="form.currency2.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+                                    </tab>
+                                    <!--end T2-->
+                                    <!--T3-->
+                                    <tab heading="T3">
+                                        <div class="form-group">
+                                            <label for="othertax2">Alte taxe(%)</label>
+                                            <input type="text" class="form-control" id="othertax2" placeholder="" formControlName="othertax2" [ngClass]="{'is-invalid': submitted && form.othertax2.errors}">
+                                            <div *ngIf="submitted && form.othertax2.errors" class="invalid-feedback">
+                                                <span *ngIf="form.othertax2.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="customsserv">Curs</label>
+                                            <input type="text" class="form-control" id="customsserv" placeholder="" formControlName="customsserv" [ngClass]="{'is-invalid': submitted && form.customsserv.errors}">
+                                            <div *ngIf="submitted && form.customsserv.errors" class="invalid-feedback">
+                                                <span *ngIf="form.customsserv.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="codpart3">Cod part.(prest. vamale)</label>
+                                            <input type="text" class="form-control" id="codpart3" placeholder="" formControlName="codpart3" [ngClass]="{'is-invalid': submitted && form.codpart3.errors}">
+                                            <div *ngIf="submitted && form.codpart3.errors" class="invalid-feedback">
+                                                <span *ngIf="form.codpart3.errors.required">This value is required.</span>
+                                            </div>
+                                        </div>
+                                    </tab>
+                                    <!--end T3-->
+                                </tabset>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog1 = false;" label="Renunta"></button>
+                <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="onSubmit(validationform.value)" label="Salveaza"></button>
+            </div>
+        </footer>
+    </p-dialog>

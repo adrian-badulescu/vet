@@ -1,0 +1,337 @@
+<div class="container-fluid">
+
+    <app-page-title title="Print cerere oferta" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+    <a href="ngx" class="btn btn-primary"><i class="mdi mdi-printer mr-1"></i> Print</a>
+
+    <div class="row">
+        <div class="col-12">
+
+            <div class="card">
+                <div class="card-body">
+
+                    <div id="header" class="row">
+                        <div id="logo" class="col-lg-2">
+                            <img src="/assets/images/img/logo.png">
+                        </div>
+                        <div class="col-lg-10">
+                            <div id="header1" class="row">
+                                <div class="col-lg-9">
+                                    <p style="font-size: 40px">ELECTROTEL <span style="font-size: 25px">S.A.</span></p>
+                                </div>
+                                <div class="col-lg-3">
+                                    <p style="font-size: 12px">Capital Social: 2.185.085 RON<br>
+                                        CUI: RO1384430, ORC: J34/1/1990<br>
+                                        IBAN: ----<br>
+                                        CEC - Sucursala Alexandria</p>
+                                </div>
+
+                            </div>
+                            <div id="header2" class="col-lg-12">
+                                <p>
+                                    ALEXANDRIA, Jud. Teleorman, Str Dunarii 279 - Reprezentanta Bucuresti, Sect. 1, St
+                                    Putul lui Zamfir
+                                    18 <br>
+                                    Tel: 0247.306.200; Fax: 0247.306.213; E-mail: office@electrotel.ro;
+                                    www.electrotel.ro
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="main" class="row">
+                        <div id="left" class="col-lg-2">
+                            <img src="/assets/images/img/1.png">
+                            <img src="/assets/images/img/2.png">
+                            <img src="/assets/images/img/3.png">
+                            <img src="/assets/images/img/4.png">
+                            <img src="/assets/images/img/5.png">
+                            <img src="/assets/images/img/6.png">
+                        </div>
+                        <div id="content" class="col-lg-10">
+                            <div id="title" *ngFor="let table of dataToPrint">
+                                <p>CERERE OFERTA</p>
+                                <p>Nr:<input style="width: 50px" [value]="table.nr" /> Data:<input style="width: 100px"
+                                        [value]="table.data" /></p>
+                                <p>Ref Interna:<input style="width: 100px" [value]="table.serie" /></p>
+                            </div>
+                            <div id="antet">
+                                <p>Catre:</p>
+                                <p style="font-weight: bold">Vă rugăm să ne transmiteţi urgent oferta tehnică şi
+                                    comercială conform tabelului de mai jos:</p>
+                                <p style="font-weight: bold">Condiţiile standard de achiziţie sunt: <input
+                                        type="checkbox"> cf. Contract Cadru nr: <input style="width: 50px"> si <input
+                                        type="checkbox" /> cele de mai jos (CGA)</p>
+                                <p style="font-weight: bold">În cazul existenţei unui contract, prevederile acestuia au
+                                    prioritate.</p>
+                            </div>
+                            <div id="products">
+                                <table>
+                                    <tr>
+                                        <th>Nr.</th>
+                                        <th>Denumire <br>(rugăm să menţionaţi în ofertă)</th>
+                                        <th>Cod</th>
+                                        <th>Caracteristici<br> (Standard/Catalog-editie/pg.)</th>
+                                        <th>U/M</th>
+                                        <th>Cant.</th>
+                                        <th>Preţ<br>  LEI /  EUR</th>
+                                        <th>Termen Livrare</th>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div id="sign">
+                                <div class="col-md-2">
+                                    <p>Şef Departament</p>
+                                    <hr>
+                                </div>
+                                <div class="col-md-8">
+
+                                </div>
+                                <div class="col-md-2">
+                                    <p>Responsabil Ofertă</p>
+                                    <p></p>
+                                    <hr>
+                                </div>
+                            </div>
+                            <div id="details">
+                                <div class="col-md-12">Condiţii Generale de Achiziţie (CGA)</div>
+                                <div> - Plata: cu OP la: <input type="checkbox" /> 120 zile, <input type="checkbox" />
+                                    90 zile, <input type="checkbox" /> 60 zile, <input type="checkbox" /> 45 zile,
+                                    <input type="checkbox" /> 30 zile
+                                    , <input type="checkbox" /> Alta _______________</div>
+                                <div> - Condiţii de livrare (INCOTERMS 2000): <input type="checkbox" /> DDP Alexandria,
+                                    <input type="checkbox" /> FCA Depozit Furnizor Bucureşti, <input type="checkbox" />
+                                    Alta _______________________</div>
+                                <div id="docs"> - Documente de însoţire: <br>
+                                    <input type="checkbox" /> facturi /aviz de expediere<br>
+                                    <input type="checkbox" /> certificate de garanţie, în original<br>
+                                    <input type="checkbox" /> certificat de conformitate/calitate<br>
+                                    <input type="checkbox" /> certificare metrologică şi/sau autorizaţie de
+                                    comercializare, valabile în România<br>
+                                    <input type="checkbox" /> documentaţia tehnică obligatorie în limba română<br>
+                                    <input type="checkbox" /> documentaţie complementară, de detaliu în limba engleză.
+                                </div>
+                                <div id="penal"> - Penalităţi:: <br>
+                                    <span>- întârziere livrare / întârziere plăţi: 0,05 % / zi</span><br>
+                                    <span>- livrare neconforma (tehnic, cu alte dimensiuni): 0,05% /zi din a 11-a zi -
+                                        de la notificare până la remediere plus cheltuieli cu înlocuirea (transport,
+                                        demontare/montare, reparaţie, etc.)</span><br>
+                                    <span>- netransmitere documentaţie tehnică: 50 EURO/zi din a 21-a zi</span><br>
+                                    <span>- - livrarea mărfurilor cu alte dimensiuni de gabarit decât cele comandate
+                                        (penalităţi până la remediere)</span><br>
+                                </div>
+                                <div> - Garanţie:: <input type="checkbox" /> 38 luni, <input type="checkbox" /> 26 luni,
+                                    <input type="checkbox" /> 20 luni, <input type="checkbox" /> 14 luni de la livrare
+                                </div>
+                                <div> - Recepţie:: - cantitativă, la preluare - calitativă, în 5 zile de la primire
+                                </div>
+                                <div> - Calitate:: - produse noi, nefolosite, fără materiale interzise/periculoase,
+                                    fabricate cf. ISO 9001:2008</div>
+                                <div> - Litigii:: - instanţele competente din Bucureşti; legea română</div>
+                                <div> - Valabilitate oferte:: <input type="checkbox" /> 30 zile, <input
+                                        type="checkbox" /> 60 zile, <input type="checkbox" /> 90 zile, <input
+                                        type="checkbox" /> Alta __________________</div>
+                                <div id="misc"> - Diverse::<br>
+                                    <span> - comanda transmisă în termenul de valabilitate al ofertei este Contract si
+                                        nu poate fi refuzata.</span><br>
+                                    <span> - confirmarea incompleta a unei comenzi sau schimbarea termenilor
+                                        ofertei/comenzii se contestă/refuză în 2 zile.</span><br>
+                                    <span> - cu excepţia unei întârzieri mai mari de 45 zile la plata unei comenzi
+                                        anterioare, Vânzătorul nu poate sista livrarea unei comenzi în curs.</span><br>
+                                    <span> - factura va conţine obligatoriu denumirea completă a produsului, aşa cum a
+                                        fost comandat.</span><br>
+                                    <span> - in cazul in care preturile agreate sunt in alta moneda decat cea nationala,
+                                        cursul la care se face facturarea este cel comunicat de
+                                        BNR la data emiterii facturii.</span>
+                                    <span> - facturile pentru livrări parţiale (incomplete faţă de comanda totală) nu
+                                        pot deveni scadente.</span><br>
+                                </div>
+                                <div id="buy"> - Cumpărătorul va respinge o factură dacă: <br>
+                                    <span>- conţine menţiuni contrare Condiţiilor Generale convenite sau Contractului
+                                        (scadenţe, preţuri, etc)</span><br>
+                                    <span>- stipulează doar coduri, nu şi denumirea completă (cf. comandă), cantităţile
+                                        defalcate şi preţul unitar (conform legii)</span><br>
+                                    <span>- nu conţine toate informaţiile de identificare a Vânzătorului - cf. Cod
+                                        Fiscal art. 155 (5).</span>
+                                </div>
+                            </div>
+                            <div id="products2">
+                                <table>
+                                    <tr>
+                                        <th>Nr.</th>
+                                        <th>Denumire <br>(rugăm să menţionaţi în ofertă)</th>
+                                        <th>Cod</th>
+                                        <th>Caracteristici<br> (Standard/Catalog-editie/pg.)</th>
+                                        <th>U/M</th>
+                                        <th>Cant.</th>
+                                        <th>Preţ<br>  LEI /  EUR</th>
+                                        <th>Termen Livrare</th>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <!--start here-->
+                            <div class="new">
+                                <h4 class="header-title"></h4>
+                                <p class="text-muted font-13 mb-4">
+
+                                </p>
+                                <div class="row mb-md-2">
+                                    <!-- <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_length" id="tickets-table_length"><label
+                                                class="d-inline-flex align-items-center">Show
+                                                 <select name="tickets-table_length" aria-controls="tickets-table"
+                                                    name="pageSize" [(ngModel)]="service.pageSize"
+                                                    class="custom-select custom-select-sm form-control form-control-sm mx-2">
+                                                    <option [ngValue]="10">10</option>
+                                                    <option [ngValue]="25">25</option>
+                                                    <option [ngValue]="50">50</option>
+                                                    <option [ngValue]="100">100</option>
+                                                </select> entries</label></div> 
+                                    </div> -->
+                                    <!-- Search -->
+                                    <div class="col-sm-12 col-md-6">
+                                        <!-- <div id="tickets-table_filter" class="dataTables_filter text-md-right"><label
+                                                class="d-inline-flex align-items-center">Search:
+                                                <input type="text" name="searchTerm"
+                                                    class="form-control form-control-sm ml-2"
+                                                    aria-controls="tickets-table"
+                                                    [(ngModel)]="service.searchTerm"></label></div> -->
+                                    </div>
+                                    <!-- End search -->
+                                </div>
+                                <!-- Table -->
+                                <!-- <div class="table-responsive">
+                                    <table id="basic-datatable" class="table datatables dt-responsive nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th sortable="field1" (sort)="onSort($event)">Id</th>
+                                                <th sortable="field2" (sort)="onSort($event)">Number</th>
+                                                <th sortable="field3" (sort)="onSort($event)">Series</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr tr *ngFor="let table of tables$ | async">
+                                                <td>
+                                                    <ngb-highlight [result]="table.field1" [term]="service.searchTerm">
+                                                    </ngb-highlight>
+                                                </td>
+                                                <td>
+                                                    <ngb-highlight [result]="table.field2" [term]="service.searchTerm">
+                                                    </ngb-highlight>
+                                                </td>
+                                                <td>
+                                                    <ngb-highlight [result]="table.field3" [term]="service.searchTerm">
+                                                    </ngb-highlight>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div> -->
+                                <!-- End table -->
+                                <div class="row justify-content-md-between align-items-md-center mt-2">
+                                    <div class="col-sm-12 col-md-5">
+                                        <!-- <div class="dataTables_info mb-2" id="tickets-table_info" role="status"
+                                            aria-live="polite">Showing
+                                            {{service.startIndex}} to
+                                            {{service.endIndex}} of {{service.totalRecords}}
+                                            entries
+                                        </div> -->
+                                    </div>
+                                    Pagination
+                                    <div class="col-sm-12 col-md-5">
+                                        <div class="text-md-right float-md-right pagination-rounded">
+                                            <!-- <ngb-pagination [collectionSize]="total$ | async" [(page)]="service.page"
+                                                [pageSize]="service.pageSize">
+                                            </ngb-pagination> -->
+                                        </div>
+                                    </div>
+                                    <!-- End Pagination  -->
+                                </div>
+                            </div>
+
+                            <!--end here-->
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>

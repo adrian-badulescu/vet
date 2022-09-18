@@ -1,0 +1,175 @@
+<div class="container-fluid">
+    <p-messages [(value)]="msgs"></p-messages>
+    <app-page-title title="List" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
+                            <form class="form-inline">
+                                <div class="form-group mb-2">
+                                    <label class="sr-only">Cauta</label>
+                                    <input class="form-control" name="search" placeholder="Cauta..." [(ngModel)]="term">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="text-sm-right">
+                                <button type="button" class="btn btn-success mb-2 mr-1"><i class="mdi mdi-settings"></i></button>
+                                <a class="btn btn-danger mb-2" (click)="openToAddtModal(content)"><i
+                    class="mdi mdi-plus-circle mr-1"></i> Adauga </a>
+                            </div>
+                        </div>
+                        <!-- end col-->
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-centered table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 450px;">Id</th>
+                                    <th>Numar Factura</th>
+                                    <th>Data</th>
+                                    <th style="width: 82px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of paginatedModel">
+                                    <td>{{item.id}}</td>
+                                    <td class="table-user">
+                                        {{item.number}}
+                                    </td>
+                                    <td>
+                                        {{item.date | date:'dd/MM/yyyy'}}
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0);" (click)="openToEditModal(content, item)" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                        <a href="javascript:void(0);" (click)="deleteItem(item.id)" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <ul class="pagination pagination-rounded justify-content-end my-2">
+                        <ngb-pagination (pageChange)="onPageChange($event)" [pageSize]="pageSize" [(page)]="page" [collectionSize]="totalSize"></ngb-pagination>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- modal form  -->
+<ng-template #content role="document" let-modal="close">
+    <div class="modal-header bg-dark">
+        <h4 class="modal-title text-white">Adauga/ Modifica</h4>
+        <button type="button" class="close text-white" aria-label="Close" (click)="onAdd()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+
+
+    <div class="modal-body p-3">
+        <div class="text-left">
+            <form (ngSubmit)="createItem(validationform.value)">
+
+                <div class="form-group">
+                    <input type="hidden" class="form-control" id="id" formControlName="id">
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="form-group">
+                            <label for="number">Serie Factura</label>
+                            <input type="text" class="form-control" id="number" placeholder="Serie factura" formControlName="number" [ngClass]="{'is-invalid': submitted && form.number.errors}">
+                            <div *ngIf="submitted && form.number.errors" class="invalid-feedback">
+                                <span *ngIf="form.number.errors.required">This value is required.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Date</label>
+                            <input type="date" class="form-control" id="date" placeholder="Enter a description" formControlName="date" [ngClass]="{'is-invalid': submitted && form.date.errors}">
+                            <div *ngIf="submitted && form.date.errors" class="invalid-feedback">
+                                <span *ngIf="form.date.errors.required">This value is required.</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+
+            <button type="button" class="btn btn-primary pull-left" (click)="addNewArticleRow()">Adauga rand</button>
+            <br><br>
+
+            <p-table [value]="invoicexarticles" dataKey="id" editMode="row">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Id</th>
+                        <th>Article</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th style="width:8em"></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                    <tr [pEditableRow]="rowData">
+                        <td>
+                            {{rowData.id}}
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.article" required>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.article}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.price" required>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.price}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="rowData.qty" required>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.qty}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+
+                        <td style="text-align:center">
+                            <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info" (click)="onRowEditInit(rowData)"></button>
+                            <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-minus" class="ui-button-warning" style="margin-right: .5em" (click)="onRowDelete(rowData)"></button>
+
+                            <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button>
+                            <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times" class="ui-button-danger" (click)="onRowEditCancel(rowData, ri)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+            <br>
+            <div class="text-right">
+                <button type="button" class="btn btn-success" (click)="onSubmit(validationform.value, validationform, modal)">Salveaza</button>
+                <button type="button" class="btn btn-danger ml-1" (click)="closeModal(validationform, modal)">Anuleaza</button>
+            </div>
+
+        </div>
+    </div>
+
+</ng-template>

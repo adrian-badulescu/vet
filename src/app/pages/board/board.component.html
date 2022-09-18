@@ -1,0 +1,217 @@
+<div class="container-fluid">
+    <app-page-title title="My Trello" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <!-- Upcoming -->
+        <div class="col-lg-4">
+            <div class="card-box">
+
+
+                <h4 class="header-title">Organizare taskuri</h4>
+                <p class="sub-header">
+                    Your awesome text goes here. Your awesome text goes here.
+                </p>
+
+                <ul class="sortable-list taskList list-unstyled ui-sortable" id="upcoming" dndDropzone dndEffectAllowed="move" (dndDrop)="onDrop($event, pendingTasks, 'pending')">
+                    <li class="dndPlaceholder" dndPlaceholderRef>
+
+                    </li>
+                    <ng-container *ngFor="let task of pendingTasks">
+                        <li [dndDraggable]="task" dndEffectAllowed="move" (dndMoved)="onDragged(task, pendingTasks)">
+                            <ng-template [ngTemplateOutlet]="CardAction" [ngTemplateOutletContext]="{task:task}"></ng-template>
+                            <ng-template [ngTemplateOutlet]="TaskContent" [ngTemplateOutletContext]="{task:task}">
+                            </ng-template>
+                        </li>
+                    </ng-container>
+                </ul>
+                <!-- <a href="javascript: void(0);" class="btn btn-primary btn-block mt-3" (click)="openModal1(content1, $event)"><i
+            class="mdi mdi-plus-circle"></i> Adauga card</a> -->
+            </div>
+        </div>
+        <!-- end col -->
+        <!-- End Upcoming -->
+
+        <!-- Progress  -->
+        <div class="col-lg-4">
+            <div class="card-box">
+
+                <!-- dropdown -->
+
+                <h4 class="header-title">In Progress</h4>
+                <p class="sub-header">
+                    Your awesome text goes here.
+                </p>
+
+                <ul class="sortable-list taskList list-unstyled ui-sortable" id="inprogress" dndDropzone dndEffectAllowed="move" (dndDrop)="onDrop($event, inprogressTasks, 'inprogress')">
+                    <li class="dndPlaceholder" dndPlaceholderRef></li>
+
+                    <ng-container *ngFor="let task of inprogressTasks">
+                        <li class="task-medium" [dndDraggable]="task" dndEffectAllowed="move" (dndMoved)="onDragged(task, inprogressTasks)">
+                            <ng-template [ngTemplateOutlet]="CardAction" [ngTemplateOutletContext]="{task:task}"></ng-template>
+                            <ng-template [ngTemplateOutlet]="TaskContent" [ngTemplateOutletContext]="{task:task}"></ng-template>
+                        </li>
+                    </ng-container>
+                </ul>
+
+                <!-- <a href="javascript: void(0);" class="btn btn-primary btn-block mt-3" (click)="openModal2(content2, $event)"><i
+            class="mdi mdi-plus-circle"></i> Adauga card</a> -->
+            </div>
+            <!-- end card-box -->
+        </div>
+        <!-- end col -->
+        <!-- End progress -->
+
+        <!-- Completed -->
+        <div class="col-lg-4">
+            <div class="card-box">
+
+                <!-- dropdown -->
+
+                <h4 class="header-title">Completed</h4>
+                <p class="sub-header">
+                    Your awesome text goes here. Your awesome text goes here.
+                </p>
+
+                <ul class="sortable-list taskList list-unstyled ui-sortable" id="completed" dndDropzone dndEffectAllowed="move" (dndDrop)="onDrop($event, completedTasks, 'completed')">
+                    <li class="dndPlaceholder" dndPlaceholderRef></li>
+                    <ng-container *ngFor="let task of completedTasks">
+                        <li class="task-medium" [dndDraggable]="task" dndEffectAllowed="move" (dndMoved)="onDragged(task, completedTasks)">
+                            <ng-template [ngTemplateOutlet]="CardAction" [ngTemplateOutletContext]="{task:task}"></ng-template>
+                            <ng-template [ngTemplateOutlet]="TaskContent" [ngTemplateOutletContext]="{task:task}"></ng-template>
+                        </li>
+                    </ng-container>
+                </ul>
+                <!-- <a href="javascript: void(0);" class="btn btn-primary btn-block mt-3" (click)="openModal3(content3, $event)"><i
+            class="mdi mdi-plus-circle"></i> Adauga card</a> -->
+            </div>
+            <!-- end card-box -->
+        </div>
+        <!-- end col -->
+        <!-- End Completed -->
+    </div>
+
+</div>
+
+<!-- Card Action Dropdown -->
+<ng-template #CardAction let-task="task">
+    <div class="dropdown float-right" ngbDropdown>
+        <a href="javascript: void(0);" class="dropdown-toggle arrow-none" data-toggle="dropdown" aria-expanded="false" ngbDropdownToggle>
+            <i class="mdi mdi-dots-vertical m-0 text-muted h3"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
+            <a class="dropdown-item" (click)="openToEditModal(content1, task)">Edit</a>
+            <a class="dropdown-item" (click)="deleteItem(task.id)">Delete</a>
+        </div>
+    </div>
+    <!-- end dropdown -->
+</ng-template>
+
+<!-- Task  -->
+<ng-template #TaskContent let-task='task'>
+
+    <span class="badge bg-soft-danger text-danger float-right" [ngClass]=" 
+  {
+    'bg-soft-success text-success': task.task === 'low',
+    'bg-soft-danger text-danger': task.task === 'high',
+    'bg-soft-warning text-warning': task.task === 'medium' 
+  }"> {{ task.task | titlecase}}</span>
+    <h5 class="mt-0"><a href="javascript: void(0);" class="text-dark">{{ task.title }}</a></h5>
+    <!-- <div class="checkbox checkbox-blue mb-2 checkbox-single float-right">
+        <input type="checkbox">
+        <label></label>
+    </div> -->
+    <p>{{ task.description }}</p>
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col">
+            <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i> {{ task.date }}</p>
+        </div>
+        <div class="col-auto">
+            <a href="javascript: void(0);" class="text-muted">
+                <img src="{{ task.user[0] }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle">
+                <img src="{{ task.user[1] }}" alt="task-user" class="avatar-sm img-thumbnail rounded-circle" *ngIf="task.user[1]">
+            </a>
+        </div>
+    </div>
+</ng-template>
+<!-- Event Modal 1-->
+<ng-template #content1 let-modal="close">
+    <div class="modal-header">
+        <h4 class="modal-title">Card nou</h4>
+        <!-- <button type="button" class="close" aria-hidden="true" (click)="modal('Cross click')">×</button> -->
+    </div>
+    <div class="modal-body p-3">
+        <form (ngSubmit)="createItem(_form.value)" [formGroup]="_form">
+            <div class="form-group">
+                <input type="hidden" class="form-control" id="id" formControlName="id">
+            </div>
+            <div class="form-group">
+                <input type="hidden" class="form-control" id="status" formControlName="status">
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="control-label">Titlu</label>
+                        <input class="form-control" placeholder="Introdu un titlu" type="text" name="title" formControlName="title" [ngClass]="{'is-invalid': submitted && form.title.errors}">
+                        <div *ngIf="submitted && form.title.errors" class="invalid-feedback">
+                            <span *ngIf="form.title.errors.required">Aceasta valoare este strict necesara.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="control-label">Descriere</label>
+                        <input class="form-control" placeholder="Introdu un titlu" type="text" name="description" formControlName="description" [ngClass]="{'is-invalid': submitted && form.description.errors}">
+                        <div *ngIf="submitted && form.description.errors" class="invalid-feedback">
+                            <span *ngIf="form.description.errors.required">Aceasta valoare este strict necesara.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="date">Data</label>
+                        <input type="date" class="form-control" id="stdateart" placeholder="Selecteaza data si ora" formControlName="date" [ngClass]="{'is-invalid': submitted && form.date.errors}">
+                        <div *ngIf="submitted && form.date.errors" class="invalid-feedback">
+                            <span *ngIf="form.date.errors.required">This value is required.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="control-label">Task</label>
+                        <input class="form-control" placeholder="Introdu un titlu" type="text" name="task" formControlName="task" [ngClass]="{'is-invalid': submitted && form.task.errors}">
+                        <div *ngIf="submitted && form.task.errors" class="invalid-feedback">
+                            <span *ngIf="form.task.errors.required">Aceasta valoare este strict necesara.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="control-label">User</label>
+                        <input class="form-control" placeholder="Introdu un titlu" type="text" name="user" formControlName="user" [ngClass]="{'is-invalid': submitted && form.user.errors}">
+                        <div *ngIf="submitted && form.user.errors" class="invalid-feedback">
+                            <span *ngIf="form.user.errors.required">Aceasta valoare este strict necesara.</span>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+            <div class="text-right pt-4 mt-2">
+                <button type="button" class="btn btn-light" (click)="closeModal(validationform, modal)">Inchide</button>
+                <button (click)="onSubmit(_form.value, _form, modal)" class=" btn btn-success save-event ml-1">Salveaza</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

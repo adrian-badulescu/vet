@@ -1,0 +1,38 @@
+<div class="container-fluid">
+        <app-page-title title="Row group" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+        <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+
+<div *ngIf="!list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+<div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+
+        <p-table [value]="list" sortField="name" sortMode="single" (onSort)="onSort()">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Name</th>
+                        <th>Number</th>
+                        <th>Date</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                    <tr>
+                        <td *ngIf="rowGroupMetadata[rowData.name].index === rowIndex" [attr.rowspan]="rowGroupMetadata[rowData.name].size">
+                            {{rowData.name}}
+                        </td>
+                        <td>{{rowData.number}}</td>
+                        <td>{{rowData.date}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+

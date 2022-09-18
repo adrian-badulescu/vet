@@ -1,0 +1,550 @@
+<div class="container-fluid">
+    <app-page-title title="Cumparari" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Lista cumparari</h4>
+                    <p class="text-muted font-13 mb-4">
+
+                    </p>
+                    <div class="row mb-md-2">
+                        <div class="col-sm-12 col-md-6">
+                            <a class="btn btn-danger mb-2" (click)="openModal(content)" style="color: white"><i
+                                    class="mdi mdi-plus-circle mr-1"></i> Adauga </a>
+                        </div>
+                        <!-- Search -->
+                        <div class="col-sm-12 col-md-6">
+                           <!--  <div id="tickets-table_filter" class="dataTables_filter text-md-right"><label class="d-inline-flex align-items-center">Cauta:
+                  <input type="text" name="searchTerm" class="form-control form-control-sm ml-2"
+                    aria-controls="tickets-table" [(ngModel)]="service.searchTerm"></label>
+                                <a href="ngx" class="btn btn-primary"><i class="mdi mdi-printer mr-1"></i> Print</a> 
+                            </div>-->
+
+                        </div>
+                        <!-- End search -->
+
+                    </div>
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table id="basic-datatable" class="table datatables dt-responsive nowrap">
+                            <thead>
+                                <tr>
+                                    <th sortable="name" (sort)="onSort($event)">Numar</th>
+                                    <th sortable="description" (sort)="onSort($event)">Data</th>
+                                    <th style="width: 82px;">Actiune</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let table of tableData">
+                                    <td>
+                                        <ngb-highlight class="text-center" [result]="table.serie_factura"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight class="text-center" [result]="table.data_factura | date:'dd/MM/yyyy'"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0);" (click)="openToEditModal(content, table)" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                        <a href="javascript:void(0);" (click)="deleteItem(table.id)" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- End table -->
+                    <div class="row justify-content-md-between align-items-md-center mt-2">
+                        <div class="col-sm-12 col-md-3">
+                            <!-- <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">Showing {{service.startIndex}} to {{service.endIndex}} of {{service.totalRecords}} entries
+                            </div> -->
+                        </div>
+                        <!-- pages -->
+                        <div class="col-sm-12 col-md-3">
+                          <!--  <div class="dataTables_length" id="tickets-table_length"><label class="d-inline-flex align-items-center">Show
+                   <select name="tickets-table_length" aria-controls="tickets-table" name="pageSize" 
+                    [(ngModel)]="service.pageSize"
+                    class="custom-select custom-select-sm form-control form-control-sm mx-2">
+                    <option [ngValue]="10">10</option>
+                    <option [ngValue]="25">25</option>
+                    <option [ngValue]="50">50</option>
+                    <option [ngValue]="100">100</option>
+                  </select> entries</label></div>-->
+                        </div>
+                        <!-- Pagination -->
+                        <div class="col-sm-12 col-md-6">
+                            <div class="text-md-right float-md-right pagination-rounded">
+                                <!-- <ngb-pagination [collectionSize]="total$ | async" [(page)]="service.page" [pageSize]="service.pageSize">
+                                </ngb-pagination> -->
+                            </div>
+                        </div>
+                        <!-- End Pagination -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ngx-smart-modal #formentity identifier="formentity" [closable]="false" class="col-md-6 printinventory">
+        <div class="modal-header">
+            <h5 class="modal-title">Print</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closePrintInventory()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </ngx-smart-modal>
+
+    <ng-template #content role="document" let-modal="close">
+
+        <div class="modal-header bg-dark">
+            <h4 class="modal-title text-white">Add</h4>
+            <button type="button" class="close text-white" aria-label="Close" (click)="modal('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+
+        <div class="modal-body p-3">
+            <div class="text-left">
+                <form (ngSubmit)="createItem(validationform.value)" >
+
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="id" formControlName="id">
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+
+
+                            <tabset #tabset>
+                                <tab heading="Factura">
+
+                                    <div class="row">
+                                        <div class="col-lg-4">
+
+                                            <div class="form-group">
+                                                <label for="serie_factura">Serie</label>
+                                                <input type="text" class="form-control" id="serie_factura" placeholder="Introdu seria facturii" formControlName="serie_factura" [ngClass]="{'is-invalid': submitted && form.name.errors}">
+                                                <div *ngIf="submitted && form.serie_factura.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.serie_factura.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="tip_factura">Tip factura</label>
+                                                <input class="form-control" id="tip_factura" placeholder="Introdu tipul facturii" formControlName="tip_factura" [ngClass]="{'is-invalid': submitted && form.tip_factura.errors}">
+                                                <div *ngIf="submitted && form.tip_factura.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.tip_factura.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="tip_achizitie">Tip achizitie</label>
+                                                <input class="form-control" id="tip_achizitie" placeholder="Introdu tipul achizitiei" formControlName="tip_achizitie" [ngClass]="{'is-invalid': submitted && form.tip_achizitie.errors}">
+                                                <div *ngIf="submitted && form.tip_achizitie.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.tip_achizitie.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="cod_furnizor">Cod furnizor</label>
+                                                <input class="form-control" id="cod_furnizor" placeholder="Introdu codul furnizorului" formControlName="cod_furnizor" [ngClass]="{'is-invalid': submitted && form.cod_furnizor.errors}">
+                                                <div *ngIf="submitted && form.cod_furnizor.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.cod_furnizor.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-lg-4">
+
+                                            <div class="form-group">
+                                                <label for="data_factura">Data factura </label>
+                                                <input type="date" class="form-control" id="data_factura" placeholder="Introdu data factura" formControlName="data_factura" [ngClass]="{'is-invalid': submitted && form.data_factura.errors}">
+                                                <div *ngIf="submitted && form.data_factura.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.data_factura.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="data_scadenta">Data scadenta </label>
+                                                <input type="date" class="form-control" id="data_scadenta" placeholder="introdu data scadenta" formControlName="data_scadenta" [ngClass]="{'is-invalid': submitted && form.data_scadenta.errors}">
+                                                <div *ngIf="submitted && form.data_scadenta.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.data_scadenta.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="nr_cartoteca">Numar cartoteca </label>
+                                                <input type="text" class="form-control" id="nr_cartoteca" placeholder="Introdu numar cartoteca" formControlName="nr_cartoteca" [ngClass]="{'is-invalid': submitted && form.nr_cartoteca.errors}">
+                                                <div *ngIf="submitted && form.nr_cartoteca.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.nr_cartoteca.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="tip_doc">Tip document</label>
+                                                <input type="text" class="form-control" id="tip_doc" placeholder="Introdu tipul documentului" formControlName="tip_doc" [ngClass]="{'is-invalid': submitted && form.tip_doc.errors}">
+                                                <div *ngIf="submitted && form.tip_doc.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.tip_doc.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-lg-4">
+
+                                            <div class="form-group">
+                                                <label for="proc_tva">Procent TVA</label>
+                                                <input type="text" class="form-control" id="proc_tva" placeholder="Introdu procent TVA" formControlName="proc_tva" [ngClass]="{'is-invalid': submitted && form.proc_tva.errors}">
+                                                <div *ngIf="submitted && form.proc_tva.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.proc_tva.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="nr_cec">Numar CEC</label>
+                                                <input type="text" class="form-control" id="nr_cec" placeholder="Introdu numarul CECului" formControlName="nr_cec" [ngClass]="{'is-invalid': submitted && form.nr_cec.errors}">
+                                                <div *ngIf="submitted && form.nr_cec.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.nr_cec.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="row" style="display: flex !important; align-items:flex-start !important; flex-direction: column; flex-wrap: wrap; ">
+                                                <div class="form-check" style="">
+                                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="o" [(ngModel)]="o" [ngModelOptions]="{standalone: true}" (change)="handleSelected($event)">
+                                                    <label class="form-check-label" for="inlineCheckbox1">O</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="exclus_evidenta" [(ngModel)]="exclus_evidenta" [ngModelOptions]="{standalone: true}" (change)="handleSelected($event)">
+                                                    <label class="form-check-label" for="inlineCheckbox2">Exclus din evidenta</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="baza_exclus_evidenta" [(ngModel)]="baza_exclus_evidenta" [ngModelOptions]="{standalone: true}" (change)="handleSelected($event)">
+                                                    <label class="form-check-label" for="inlineCheckbox3">Baza exclusa din evidenta</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="cern" [(ngModel)]="cern" [ngModelOptions]="{standalone: true}" (change)="handleSelected($event)">
+                                                    <label class="form-check-label" for="inlineCheckbox3">CERN</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="tva_exigibil_incasare" [(ngModel)]="tva_exigibil_incasare" [ngModelOptions]="{standalone: true}" (change)="handleSelected($event)">
+                                                    <label class="form-check-label" for="inlineCheckbox3">TVA exigibil la incasare</label>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+
+                                </tab>
+
+                                <tab heading="TVA">
+                                    <div class="row" style="display: flex !important; align-items: flex-end !important;">
+                                        <div class="col-lg-4">
+
+                                            <div class="form-group">
+                                                <label for="scutit_tva">Scutita de TVA</label>
+                                                <input type="text" class="form-control" id="scutit_tva" placeholder="" formControlName="scutit_tva" [ngClass]="{'is-invalid': submitted && form.scutit_tva.errors}">
+                                                <div *ngIf="submitted && form.scutit_tva.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.scutit_tva.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="neimpozabil">Neimpozitabila</label>
+                                                <input class="form-control" id="neimpozabil" placeholder="" formControlName="neimpozabil" [ngClass]="{'is-invalid': submitted && form.neimpozabil.errors}">
+                                                <div *ngIf="submitted && form.neimpozabil.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.neimpozabil.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="tva_19_20">T.V.A.-19/20%</label>
+                                                <input class="form-control" id="tva_19_20" placeholder="" formControlName="tva_19_20" [ngClass]="{'is-invalid': submitted && form.tva_19_20.errors}">
+                                                <div *ngIf="submitted && form.tva_19_20.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.tva_19_20.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="tva_9">T.V.A.-9%</label>
+                                                <input class="form-control" id="tva_9" placeholder="" formControlName="tva_9" [ngClass]="{'is-invalid': submitted && form.tva_9.errors}">
+                                                <div *ngIf="submitted && form.tva_9.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.tva_9.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="tva_5">T.V.A.-5%</label>
+                                                <input type="text" class="form-control" id="tva_5" placeholder="" formControlName="tva_5" [ngClass]="{'is-invalid': submitted && form.tva_5.errors}">
+                                                <div *ngIf="submitted && form.tva_5.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.tva_5.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="tva_neexigibil">T.V.A. neexigibil</label>
+                                                <input type="text" class="form-control" id="tva_neexigibil" placeholder="" formControlName="tva_neexigibil" [ngClass]="{'is-invalid': submitted && form.tva_neexigibil.errors}">
+                                                <div *ngIf="submitted && form.tva_neexigibil.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.tva_neexigibil.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="jurnal_tva_19_20">T.V.A(jurnal)-19/20%</label>
+                                                <input type="text" class="form-control" id="jurnal_tva_19_20" placeholder="" formControlName="jurnal_tva_19_20" [ngClass]="{'is-invalid': submitted && form.jurnal_tva_19_20.errors}">
+                                                <div *ngIf="submitted && form.jurnal_tva_19_20.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.jurnal_tva_19_20.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="jurnal_tva_9">T.V.A(jurnal)-9%</label>
+                                                <input type="text" class="form-control" id="jurnal_tva_9" placeholder="" formControlName="jurnal_tva_9" [ngClass]="{'is-invalid': submitted && form.jurnal_tva_9.errors}">
+                                                <div *ngIf="submitted && form.jurnal_tva_9.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.jurnal_tva_9.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                            <div class="form-group">
+                                                <label for="jurnal_tva_5">T.V.A(jurnal)-5%</label>
+                                                <input type="text" class="form-control" id="jurnal_tva_5" placeholder="" formControlName="jurnal_tva_5" [ngClass]="{'is-invalid': submitted && form.jurnal_tva_5.errors}">
+                                                <div *ngIf="submitted && form.jurnal_tva_5.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.jurnal_tva_5.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="jurnal_tva_neexigibil">T.V.A.(jurnal)-neexigibil</label>
+                                                <input type="text" class="form-control" id="jurnal_tva_neexigibil" placeholder="" formControlName="jurnal_tva_neexigibil" [ngClass]="{'is-invalid': submitted && form.jurnal_tva_neexigibil.errors}">
+                                                <div *ngIf="submitted && form.jurnal_tva_neexigibil.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.jurnal_tva_neexigibil.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="diferente_tva_19_20">T.V.A(diferente)-19/20%</label>
+                                                <input type="text" class="form-control" id="diferente_tva_19_20" placeholder="" formControlName="diferente_tva_19_20" [ngClass]="{'is-invalid': submitted && form.diferente_tva_19_20.errors}">
+                                                <div *ngIf="submitted && form.diferente_tva_19_20.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.diferente_tva_19_20.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="diferente_tva_9">T.V.A(diferente)-9%</label>
+                                                <input type="text" class="form-control" id="diferente_tva_9" placeholder="" formControlName="diferente_tva_9" [ngClass]="{'is-invalid': submitted && form.diferente_tva_9.errors}">
+                                                <div *ngIf="submitted && form.diferente_tva_9.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.diferente_tva_9.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                            <div class="form-group">
+                                                <label for="diferente_tva_5">T.V.A(diferente)-5%</label>
+                                                <input type="text" class="form-control" id="diferente_tva_5" placeholder="" formControlName="diferente_tva_5" [ngClass]="{'is-invalid': submitted && form.diferente_tva_5.errors}">
+                                                <div *ngIf="submitted && form.diferente_tva_5.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.diferente_tva_5.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="jurnal_tva_neexigibil">T.V.A.(diferente)-neexigibil</label>
+                                                <input type="text" class="form-control" id="diferente_tva_neexigibil" placeholder="" formControlName="diferente_tva_neexigibil" [ngClass]="{'is-invalid': submitted && form.diferente_tva_neexigibil.errors}">
+                                                <div *ngIf="submitted && form.diferente_tva_neexigibil.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.diferente_tva_neexigibil.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </tab>
+
+                                <tab heading="Cod fiscal">
+                                    <div class="row" style="display: flex !important; align-items: flex-end !important;">
+                                        <div class="col-lg-4">
+
+                                            <div class="form-group">
+                                                <label for="scutit_tva">Cod fiscal</label>
+                                                <input type="text" class="form-control" id="cod_fiscal" placeholder="Introdu codul fiscal" formControlName="cod_fiscal" [ngClass]="{'is-invalid': submitted && form.cod_fiscal.errors}">
+                                                <div *ngIf="submitted && form.cod_fiscal.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.cod_fiscal.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="neimpozabil">Data inceput:</label>
+                                                <input type="date" class="form-control" id="cod_fiscal_start" placeholder="" formControlName="cod_fiscal_start" [ngClass]="{'is-invalid': submitted && form.cod_fiscal_start.errors}">
+                                                <div *ngIf="submitted && form.cod_fiscal_start.errors" class="invalid-feedback">
+                                                    <span tva_5*ngIf="form.cod_fiscal_start.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="cod_fiscal_end">Data sfarsit:</label>
+                                                <input type="date" class="form-control" id="cod_fiscal_end" placeholder="" formControlName="cod_fiscal_end" [ngClass]="{'is-invalid': submitted && form.cod_fiscal_end.errors}">
+                                                <div *ngIf="submitted && form.cod_fiscal_end.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.cod_fiscal_end.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="tva_9">Tip operatie</label>
+                                                <input class="form-control" id="tip_operatie" placeholder="Introdu tipul operatiei" formControlName="tip_operatie" [ngClass]="{'is-invalid': submitted && form.tip_operatie.errors}">
+                                                <div *ngIf="submitted && form.tip_operatie.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.tip_operatie.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="tva_5">Factura avans 409</label>
+                                                <input type="text" class="form-control" id="fact_avans_409" placeholder="" formControlName="fact_avans_409" [ngClass]="{'is-invalid': submitted && form.fact_avans_409.errors}">
+                                                <div *ngIf="submitted && form.fact_avans_409.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.fact_avans_409.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="data_fact_avans">Data factura avans</label>
+                                                <input type="date" class="form-control" id="data_fact_avans" placeholder="" formControlName="data_fact_avans" [ngClass]="{'is-invalid': submitted && form.data_fact_avans.errors}">
+                                                <div *ngIf="submitted && form.data_fact_avans.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.data_fact_avans.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </tab>
+
+                                <tab heading="Total">
+                                    <div class="row" style="display: flex !important; align-items: flex-end !important;">
+                                        <div class="col-lg-4">
+
+                                            <div class="form-group">
+                                                <label for="total_factura">Total factura</label>
+                                                <input type="text" class="form-control" id="total_factura" placeholder="" formControlName="total_factura" [ngClass]="{'is-invalid': submitted && form.total_factura.errors}">
+                                                <div *ngIf="submitted && form.total_factura.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.total_factura.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="diferente_total_factura">Total factura(diferente)</label>
+                                                <input type="text" class="form-control" id="diferente_total_factura" placeholder="" formControlName="diferente_total_factura" [ngClass]="{'is-invalid': submitted && form.diferente_total_factura.errors}">
+                                                <div *ngIf="submitted && form.diferente_total_factura.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.diferente_total_factura.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="valoare_in_valuta">Valoare in valuta</label>
+                                                <input type="text" class="form-control" id="valoare_in_valuta" placeholder="" formControlName="valoare_in_valuta" [ngClass]="{'is-invalid': submitted && form.valoare_in_valuta.errors}">
+                                                <div *ngIf="submitted && form.valoare_in_valuta.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.valoare_in_valuta.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label for="curs_valutar">Curs valutar</label>
+                                                <input class="form-control" id="curs_valutar" placeholder="" formControlName="curs_valutar" [ngClass]="{'is-invalid': submitted && form.curs_valutar.errors}">
+                                                <div *ngIf="submitted && form.curs_valutar.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.curs_valutar.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="tip_valuta">Tip valuta</label>
+                                                <select class="form-control" name="tip_valuta" id="tip_valuta" formControlName="tip_valuta" [ngClass]="{'is-invalid': submitted && form.tip_valuta.errors}">
+                                                        <option value="">Alege valuta</option>
+                                                        <option *ngFor="let tip_valuta of Currency" [ngValue]="tip_valuta">{{tip_valuta}}</option>
+                                                    </select>
+                                                <div *ngIf="submitted && form.tip_valuta.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.tip_valuta.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="taxare_inversa_valoare">Taxare inversa(valoare)</label>
+                                                <input type="text" class="form-control" id="taxare_inversa_valoare" placeholder="" formControlName="taxare_inversa_valoare" [ngClass]="{'is-invalid': submitted && form.taxare_inversa_valoare.errors}">
+                                                <div *ngIf="submitted && form.taxare_inversa_valoare.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.taxare_inversa_valoare.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="taxare_inversa_tva">Taxare inversa(T.V.A.)</label>
+                                                <input type="text" class="form-control" id="taxare_inversa_tva" placeholder="" formControlName="taxare_inversa_tva" [ngClass]="{'is-invalid': submitted && form.taxare_inversa_tva.errors}">
+                                                <div *ngIf="submitted && form.taxare_inversa_tva.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.taxare_inversa_tva.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="taxare_inversa_codprod">Taxare inversa(cod produs)</label>
+                                                <input type="text" class="form-control" id="taxare_inversa_codprod" placeholder="" formControlName="taxare_inversa_codprod" [ngClass]="{'is-invalid': submitted && form.taxare_inversa_codprod.errors}">
+                                                <div *ngIf="submitted && form.taxare_inversa_codprod.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.taxare_inversa_codprod.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="tva_furnizori">T.V.A. furnizori</label>
+                                                <input type="text" class="form-control" id="tva_furnizori" placeholder="" formControlName="tva_furnizori" [ngClass]="{'is-invalid': submitted && form.tva_furnizori.errors}">
+                                                <div *ngIf="submitted && form.tva_furnizori.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.tva_furnizori.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="total_chelt">Total cheltuieli</label>
+                                                <input type="text" class="form-control" id="total_chelt" placeholder="" formControlName="total_chelt" [ngClass]="{'is-invalid': submitted && form.total_chelt.errors}">
+                                                <div *ngIf="submitted && form.total_chelt.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.total_chelt.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="nir">N.I.R.</label>
+                                                <input type="text" class="form-control" id="nir" placeholder="" formControlName="nir" [ngClass]="{'is-invalid': submitted && form.nir.errors}">
+                                                <div *ngIf="submitted && form.nir.errors" class="invalid-feedback">
+                                                    <span *ngIf="form.nir.errors.required">Camp obligatoriu.</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </tab>
+                            </tabset>
+
+
+                        </div>
+                    </div>
+                    <!-- <div class="text-left">
+        
+                        </div> -->
+                    <div class="text-right">
+                        <button type="button" class="btn btn-success" (click)="onSubmit(validationform.value, validationform, modal)">Save</button>
+                        <button type="button" class="btn btn-danger ml-1" (click)="closeModal(validationform, modal)">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- </div>end -->
+
+    </ng-template>

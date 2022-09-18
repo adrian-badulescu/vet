@@ -32,18 +32,15 @@ import {ContextMenuModule} from 'primeng/contextmenu'
 // import {EditorModule} from 'primeng/editor';
 import {FileUploadModule} from 'primeng/fileupload';
 
-// TO BE REENABLED
-
-// import {FileManagerComponent} from './filemanager/filemanager';
-// import {RegisterComponent} from './register/register.component';
+import {FileManagerComponent} from './filemanager/filemanager';
+import {RegisterComponent} from './register/register.component';
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import {LightboxModule} from 'primeng/lightbox';
 import {ImageCropperModule} from "ngx-image-cropper";
 
 @NgModule({
-    declarations: [
-        // FileManagerComponent,
-        // RegisterComponent
+    declarations: [FileManagerComponent,
+        RegisterComponent
     ],
     imports: [
         CommonModule,

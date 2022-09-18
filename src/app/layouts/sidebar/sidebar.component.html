@@ -4,18 +4,17 @@
     <div id="sidebar-menu">
 
         <ul class="metismenu" id="side-menu" #sideMenu>
-            <!-- <li>
+            <li>
                 <div>
                     <input type="text" [(ngModel)]="searchTerm">
-                    <button class="btn btn-xs btn-primary ml-1" (click)="filterMenu(searchTerm)">Cauta</button>
+                    <button class="btn btn-xs btn-primary" (click)="filterMenu(searchTerm)">Search</button>
                 </div>
-            </li> -->
-            <!-- <li class="menu-title">Meniu</li> -->
+            </li>
+            <li class="menu-title">Meniu</li>
             <ng-container *ngFor="let menuItem of menuDataFiltered">
                 <ng-container *ngIf="!menuItem.children || !(menuItem.children.length >0)">
                     <li>
                         <a (click)=openTab(menuItem) routerLinkActive="active" class="side-nav-link-ref">
-                            <i class="fe-pocket"></i>
                             {{menuItem.title}}
                         </a>
                     </li>

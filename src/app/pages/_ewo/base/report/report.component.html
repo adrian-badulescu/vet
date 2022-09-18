@@ -1,0 +1,96 @@
+<div class="container-fluid">
+    <app-page-title title="Rapoarte" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">{{data['title'] || Lista}}</h4>
+                    <p class="text-muted font-13 mb-4">
+
+                    </p>
+                    <div class="row mb-md-2">
+                        <div class="col-sm-12 col-md-6">
+                         <!--   <div class="dataTables_length" id="tickets-table_length"><label class="d-inline-flex align-items-center">Show
+                   <select name="tickets-table_length" aria-controls="tickets-table" name="pageSize" 
+                    [(ngModel)]="service.pageSize"
+                    class="custom-select custom-select-sm form-control form-control-sm mx-2">
+                    <option [ngValue]="10">10</option>
+                    <option [ngValue]="25">25</option>
+                    <option [ngValue]="50">50</option>
+                    <option [ngValue]="100">100</option>
+                  </select> entries</label></div>-->
+                        </div>
+                        <!-- Search -->
+                       <!-- <div class="col-sm-12 col-md-6">
+                            <div id="tickets-table_filter" class="dataTables_filter text-md-right"><label class="d-inline-flex align-items-center">Search:
+                  <input type="text" name="searchTerm" class="form-control form-control-sm ml-2"
+                    aria-controls="tickets-table" [(ngModel)]="service.searchTerm"></label>
+                                 <a href="ngx" class="btn btn-primary"><i class="mdi mdi-printer mr-1"></i> Print</a> 
+                            </div>
+
+                        </div>-->
+                        <!-- End search -->
+
+                    </div>
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table id="basic-datatable" class="table datatables dt-responsive nowrap">
+                            <thead>
+                                <tr>
+                                    <!-- <th sortable={{key}} (sort)="onSort($event)" *ngFor="let key of keys">{{key | titlecase}}</th> -->
+                                    <!-- <th sortable="description" (sort)="onSort($event)">Description</th>
+                                    <th sortable="warehouseid" (sort)="onSort($event)">Warehouse Id</th> -->
+                                    <th *ngIf="data['print']" width="10%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr tr *ngFor="let table of service.tables$ | async">
+                                    <td *ngFor="let key of keys">
+                                        <!-- <ngb-highlight [result]="table[key]"></ngb-highlight> -->
+                                    </td>
+                                    <!-- <td>
+                                        <ngb-highlight [result]="table.description" [term]="service.searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="table.warehouseid" [term]="service.searchTerm"></ngb-highlight>
+                                    </td>
+                                    <td>
+                                        <ngb-highlight [result]="table.typeid" [term]="service.searchTerm"></ngb-highlight>
+                                    </td> -->
+                                    <td *ngIf="data['print']">
+                                        <button class="btn btn-info" (click)="print(table)">print</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- End table -->
+                    <div class="row justify-content-md-between align-items-md-center mt-2">
+                        <div class="col-sm-12 col-md-5">
+                            <!-- <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">Showing {{service.startIndex}} to {{service.endIndex}} of {{service.totalRecords}} entries
+                            </div> -->
+                        </div>
+                        <!-- Pagination -->
+                        <div class="col-sm-12 col-md-5">
+                            <div class="text-md-right float-md-right pagination-rounded">
+                                <!-- <ngb-pagination [collectionSize]="total$ | async" [(page)]="service.page" [pageSize]="service.pageSize">
+                                </ngb-pagination> -->
+                            </div>
+                        </div>
+                        <!-- End Pagination -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ngx-smart-modal #inventory identifier="inventory" [closable]="false" class="col-md-6 printinventory">
+        <div class="modal-header">
+            <h5 class="modal-title">Print</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closePrintInventory()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <!-- <app-printinventory [dataToPrint]="dataToPrint"></app-printinventory> -->
+    </ngx-smart-modal>

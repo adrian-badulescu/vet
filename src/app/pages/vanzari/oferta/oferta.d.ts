@@ -1,0 +1,38 @@
+import { OnInit, AfterViewChecked } from '@angular/core';
+import { Base } from '../../_ewo/base';
+import { SelectItem, LazyLoadEvent } from 'primeng/components/common/api';
+import { BaseService } from '../../_ewo/service/service';
+import { GlobalService } from '../../_ewo/global';
+import { oferta, produsofertat } from '../oferta/model/model';
+import { OfertaService } from '../oferta/service/service';
+import { ContractService } from '../contract/service/service';
+import { PartnerService } from '../partner/service/service';
+export declare class ofertaComponent extends Base implements OnInit, AfterViewChecked {
+    private serviceGlobal1;
+    private serviceBase1;
+    private service;
+    private serviceContract;
+    private servicePartner;
+    list: oferta[];
+    item: oferta;
+    selectedItems: oferta[];
+    listprodusofertat: produsofertat[];
+    itemprodusofertat: produsofertat;
+    selectedprodusofertat: produsofertat[];
+    listpartner: SelectItem[];
+    listcontract: SelectItem[];
+    listTip: SelectItem[];
+    listStadiu: SelectItem[];
+    constructor(serviceGlobal1: GlobalService, serviceBase1: BaseService, service: OfertaService, serviceContract: ContractService, servicePartner: PartnerService);
+    ngOnInit(): void;
+    ngAfterViewChecked(): void;
+    add(): void;
+    edit(): void;
+    delete(): void;
+    save(): void;
+    loadData(event: LazyLoadEvent): void;
+    addprodusofertat(id: number): void;
+    editprodusofertat(): void;
+    saveprodusofertat(): void;
+    deleteprodusofertat(): void;
+}

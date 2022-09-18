@@ -1,0 +1,31 @@
+export class BonMaterialCls {
+    id: string;
+    pwd: string;
+    borderou: string;
+    administration: string;
+    defalcator: number;
+    accesoriu: number;
+    bminit: string;
+    docno: number;
+    docdate: Date;
+    order: string;
+    auto: string;
+    desc1: string;
+    matcode: string;
+    desc2: string;
+    matcodeprovider: string;
+    um: string;
+    currentstock: string;
+    reservede: string;
+    reservedi: string;
+    matacc: string;
+    correspondentacc: string;
+    acccenter: string;
+    intaccadm: string;
+    qtytotal: number;
+    qtyticket: number;
+    qtydelivered: number;
+    partnercode: string;
+    nrinv1: string;
+    nrinv2: string;
+}

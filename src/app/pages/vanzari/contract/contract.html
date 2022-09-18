@@ -1,0 +1,125 @@
+<div class="container-fluid">
+        <app-page-title title="Primeng module demo" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+        <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+
+<div *ngIf="!list" id="loadingmodule">Incarca ...</div>
+
+<div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+    <div class="ui-widget-header ui-helper-clearfix ewoheader">
+        <actions (add)="add()" (edit)="edit()" (delete)="delete()" (export)="dt.exportCSV()">
+        </actions>
+    </div>
+    <!-- <p-table #dt [value]="list" selectionMode="multiple" [(selection)]="selectedItems" [paginator]="true"
+                 [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]"
+                 [lazy]="true" (onLazyLoad)="loadData($event)" [totalRecords]="count"
+                 [responsive]="true" (onRowDblclick)="edit()">
+
+        <p-column field="name" header="Denumire" filter="true" filterMatchMode="contains"></p-column>
+        <p-column field="partner" header="Partener" filter="true" filterMatchMode="contains"></p-column>
+        <p-column field="number" header="Numar" filter="true" filterMatchMode="contains"></p-column>
+        <p-column field="date" header="Data" [filter]="true" filterMatchMode="contains"></p-column>
+        <p-column field="datestart" header="Data inceput" filter="true" filterMatchMode="contains"></p-column>
+        <p-column field="dateend" header="Data sfarsit" filter="true" filterMatchMode="contains"></p-column>
+    </p-table> -->
+
+    <p-table #dt [value]="list" [paginator]="true" [rows]="10" selectionMode="multiple" [(selection)]="selectedItems">
+            <ng-template pTemplate="caption">
+                    <div class="ui-helper-clearfix" style="text-align: left">
+                        <button type="button" pButton icon="fa fa-file-csv" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="margin-right: 0.5em;"></button>
+                        <button type="button" pButton icon="fa fa-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success"></button>
+                        <button type="button" pButton icon="fa fa-file-pdf" iconPos="left" label="PDF" (click)="exportPdf()" class="ui-button-warning"></button>
+                        <button type="button" pButton icon="fa fa-file-csv" iconPos="left" label="CSV - Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>
+                    </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th [pSortableColumn]="'name'">Name
+                        <p-sortIcon [field]="'name'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'number'">Number
+                        <p-sortIcon [field]="'number'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'date'">Date
+                        <p-sortIcon [field]="'date'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                </tr>
+                <!-- <tr>
+                    <input *ngSwitchCase="'name'" pInputText type="text" (input)="dt.filter($event.target.value, 'name', 'contains')">
+                    <input *ngSwitchCase="'number'" pInputText type="text" (input)="dt.filter($event.target.value, 'number', 'contains')">
+                    <input *ngSwitchCase="'date'" pInputText type="text" (input)="dt.filter($event.target.value, 'date', 'contains')">
+                </tr>     -->
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr>
+                    <td>{{rowData['name']}}</td>
+                    <td>{{rowData['number']}}</td>
+                    <td>{{rowData['date'] | date}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+<p-dialog header="Detalii" [(visible)]="displayDialog1"
+          [responsive]="true" showEffect="fade" [modal]="true"
+          *ngIf="item" [width]="400">
+
+    <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+        <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item">
+            <div class="ui-grid-row">
+                    <form *ngIf="validationform" [formGroup]="validationform">
+        
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id" formControlName="id">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+        
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control" id="name" placeholder="Enter name" formControlName="name" [ngClass]="{'is-invalid': submitted && form.name.errors}">
+                                    <div *ngIf="submitted && form.name.errors" class="invalid-feedback">
+                                        <span *ngIf="form.name.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="number">Number</label>
+                                    <input type="text" class="form-control" id="number" placeholder="Enter number" formControlName="number" [ngClass]="{'is-invalid': submitted && form.number.errors}">
+                                    <div *ngIf="submitted && form.number.errors" class="invalid-feedback">
+                                        <span *ngIf="form.number.errors.required">This value is required.</span>
+                                     </div>
+                                 </div>
+
+                                 <div class="form-group">
+                                    <label for="date">Date</label>
+                                    <input type="date" class="form-control" id="date" placeholder="Enter date" formControlName="date" [ngClass]="{'is-invalid': submitted && form.date.errors}">
+                                    <div *ngIf="submitted && form.date.errors" class="invalid-feedback">
+                                        <span *ngIf="form.date.errors.required">This value is required.</span>
+                                        </div>
+                                </div>
+        
+                            </div>
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+            <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog1 = false;" label="Renunta"></button>
+            <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="save(validationform.value)" label="Salveaza"></button>
+        </div>
+    </footer>
+</p-dialog>
+
+

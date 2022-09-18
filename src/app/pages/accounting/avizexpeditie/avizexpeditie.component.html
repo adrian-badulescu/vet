@@ -1,0 +1,400 @@
+<div class="container-fluid">
+    <app-page-title title="Aviz Expeditie" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div *ngIf="!list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+                    <div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+                        <div class="ui-widget-header ui-helper-clearfix ewoheader">
+                            <actions (add)="add()" (edit)="edit()" (delete)="delete()" (export)="dt.exportCSV()"></actions>
+                        </div>
+
+                        <p-table #dt [value]="list" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="selectedItems">
+
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <th [pSortableColumn]="'notice'">Aviz
+                                        <p-sortIcon [field]="'notice'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'order'">Comanda
+                                        <p-sortIcon [field]="'order'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'name'">Denumire
+                                        <p-sortIcon [field]="'name'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'nameNp'">Denumire NP
+                                        <p-sortIcon [field]="'nameNp'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <!-- <th [pSortableColumn]="'matriceCode'">Cod matrita
+                                        <p-sortIcon [field]="'matriceCode'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'beneficiary'">Beneficiar
+                                        <p-sortIcon [field]="'beneficiary'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'invoice'">Factura
+                                        <p-sortIcon [field]="'invoice'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'account'">Cont
+                                        <p-sortIcon [field]="'account'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'price'">Pret
+                                        <p-sortIcon [field]="'price'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'value'">Valoare
+                                        <p-sortIcon [field]="'value'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th> -->
+                                    <th [pSortableColumn]="'dateNotice'">Data aviz
+                                        <p-sortIcon [field]="'dateNotice'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <!-- <th [pSortableColumn]="'dateInvoice'">Data factura
+                                        <p-sortIcon [field]="'dateInvoice'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'delegate'">Delegat
+                                        <p-sortIcon [field]="'delegate'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th>
+                                    <th [pSortableColumn]="'dateA'">Data_a
+                                        <p-sortIcon [field]="'dateA'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                    </th> -->
+                                </tr>
+                                <tr class="ewoheaderfilter">
+                                    <th>
+                                        <input pInputText type="notice" (input)="dt.filter($event.target.value, 'notice', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="order" (input)="dt.filter($event.target.value, 'order', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="name" (input)="dt.filter($event.target.value, 'name', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="nameNp" (input)="dt.filter($event.target.value, 'nameNp', 'contains')">
+                                    </th>
+                                    <!--<th>
+                                        <input pInputText type="matriceCode" (input)="dt.filter($event.target.value, 'matriceCode', 'contains')">
+                                    </th>
+                                     <th>
+                                        <input pInputText type="beneficiary" (input)="dt.filter($event.target.value, 'beneficiary', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="invoice" (input)="dt.filter($event.target.value, 'invoice', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="account" (input)="dt.filter($event.target.value, 'account', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="price" (input)="dt.filter($event.target.value, 'price', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="value" (input)="dt.filter($event.target.value, 'value', 'contains')">
+                                    </th> -->
+                                    <th>
+                                        <input pInputText type="dateNotice" (input)="dt.filter($event.target.value, 'dateNotice', 'contains')">
+                                    </th>
+                                    <!-- <th>
+                                        <input pInputText type="dateInvoice" (input)="dt.filter($event.target.value, 'dateInvoice', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="delegate" (input)="dt.filter($event.target.value, 'delegate', 'contains')">
+                                    </th>
+                                    <th>
+                                        <input pInputText type="dateA" (input)="dt.filter($event.target.value, 'dateA', 'contains')">
+                                    </th> -->
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                <tr [pSelectableRow]="rowData" (dblclick)="onRowDblClick($event, rowData)">
+                                    <td>{{rowData['notice']}}</td>
+                                    <td>{{rowData['order']}}</td>
+                                    <td>{{rowData['name']}}</td>
+                                    <td>{{rowData['nameNp']}}</td>
+                                    <!--<td>{{rowData['matriceCode']}}</td>
+                                    <td>{{rowData['beneficiary']}}</td>
+                                    <td>{{rowData['invoice']}}</td>
+                                    <td>{{rowData['account']}}</td>
+                                    <td>{{rowData['price']}}</td>
+                                    <td>{{rowData['value']}}</td> -->
+                                    <td>{{rowData['dateNotice'] | date:'dd/MM/yyyy'}}</td>
+                                    <!-- <td>{{rowData['dateInvoice'] | date:'dd/MM/yyyy'}}</td>
+                                    <td>{{rowData['delegate']}}</td>
+                                    <td>{{rowData['dateA'] | date:'dd/MM/yyyy'}}</td> -->
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p-dialog header="Detalii" [(visible)]="displayDialog1" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="item" [width]="800">
+
+        <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+            <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item">
+                <div class="ui-grid-row">
+                    <form *ngIf="validationform" [formGroup]="validationform">
+
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id" formControlName="id">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <tabset #tabset>
+
+                                    <tab heading="General">
+                                        <div class="row">
+                                            <div class="col-lg-6 row">
+                                                <div class="form-group col-lg-6">
+                                                    <label for="notice">Aviz</label>
+                                                    <input type="text" class="form-control" id="notice" placeholder="" formControlName="notice" [ngClass]="{'is-invalid': submitted && form.notice.errors}">
+                                                    <div *ngIf="submitted && form.notice.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.notice.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-lg-6">
+                                                    <label for="dateNotice">Data aviz</label>
+                                                    <input type="date" class="form-control" id="dateNotice" placeholder="" formControlName="dateNotice" [ngClass]="{'is-invalid': submitted && form.notice.errors}">
+                                                    <div *ngIf="submitted && form.dateNotice.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.dateNotice.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-lg-6">
+                                                    <label for="order">Comanda</label>
+                                                    <input type="text" class="form-control" id="order" placeholder="" formControlName="order" [ngClass]="{'is-invalid': submitted && form.name.errors}">
+                                                    <div *ngIf="submitted && form.order.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.order.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-lg-6">
+                                                    <label for="beneficiary">Beneficiar</label>
+                                                    <input type="text" class="form-control" id="beneficiary" placeholder="" formControlName="beneficiary" [ngClass]="{'is-invalid': submitted && form.nameNp.errors}">
+                                                    <div *ngIf="submitted && form.beneficiary.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.beneficiary.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-lg-6 row">
+                                                <div class="form-group col-lg-6">
+                                                    <label for="invoice">Factura</label>
+                                                    <input type="text" class="form-control" id="invoice" placeholder="" formControlName="invoice" [ngClass]="{'is-invalid': submitted && form.notice.errors}">
+                                                    <div *ngIf="submitted && form.invoice.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.invoice.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-lg-6">
+                                                    <label for="dateInvoice">Data factura</label>
+                                                    <input type="date" class="form-control" id="dateInvoice" placeholder="" formControlName="dateInvoice" [ngClass]="{'is-invalid': submitted && form.notice.errors}">
+                                                    <div *ngIf="submitted && form.dateInvoice.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.dateInvoice.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-lg-6">
+                                                    <label for="name">Denumire</label>
+                                                    <input type="text" class="form-control" id="name" placeholder="" formControlName="name" [ngClass]="{'is-invalid': submitted && form.nameNp.errors}">
+                                                    <div *ngIf="submitted && form.name.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.name.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-lg-6">
+                                                    <label for="matriceCode">Cod matrice</label>
+                                                    <input type="text" class="form-control" id="matriceCode" placeholder="" formControlName="matriceCode" [ngClass]="{'is-invalid': submitted && form.matriceCode.errors}">
+                                                    <div *ngIf="submitted && form.matriceCode.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.matriceCode.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </tab>
+
+                                    
+                                    <tab heading="Document">
+                                        <div class="row">
+
+                                            <div class="col-lg-6 row">
+
+                                                <div class="form-group col-lg-6 ">
+                                                    <label for="docType">Tip document</label>
+                                                    <input type="text" class="form-control" id="docType" placeholder="" formControlName="docType" [ngClass]="{'is-invalid': submitted && form.docType.errors}">
+                                                    <div *ngIf="submitted && form.docType.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.docType.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-lg-6 ">
+                                                    <label for="nationalId">B.I./C.I.</label>
+                                                    <input type="text" class="form-control" id="nationalId" placeholder="" formControlName="nationalId" [ngClass]="{'is-invalid': submitted && form.nationalId.errors}">
+                                                    <div *ngIf="submitted && form.nationalId.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.nationalId.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-lg-6 ">
+                                                    <label for="value">Valoare</label>
+                                                    <input type="text" class="form-control" id="value" placeholder="" formControlName="value" [ngClass]="{'is-invalid': submitted && form.value.errors}">
+                                                    <div *ngIf="submitted && form.value.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.value.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-lg-6 ">
+                                                    <label for="transportation">Mijl. transp.</label>
+                                                    <input type="text" class="form-control" id="transportation" placeholder="" formControlName="transportation" [ngClass]="{'is-invalid': submitted && form.transportation.errors}">
+                                                    <div *ngIf="submitted && form.transportation.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.transportation.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6 row">
+
+                                                <div class="form-group col-lg-6 ">
+                                                    <label for="deliveryNotice">Nota predare</label>
+                                                    <input type="text" class="form-control" id="deliveryNotice" placeholder="" formControlName="deliveryNotice" [ngClass]="{'is-invalid': submitted && form.deliveryNotice.errors}">
+                                                    <div *ngIf="submitted && form.deliveryNotice.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.deliveryNotice.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-lg-6 ">
+                                                    <label for="police">Politia</label>
+                                                    <input type="text" class="form-control" id="police" placeholder="" formControlName="police" [ngClass]="{'is-invalid': submitted && form.police.errors}">
+                                                    <div *ngIf="submitted && form.police.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.police.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-lg-6 ">
+                                                    <label for="delegate">Delegat</label>
+                                                    <input type="text" class="form-control" id="delegate" placeholder="" formControlName="delegate" [ngClass]="{'is-invalid': submitted && form.delegate.errors}">
+                                                    <div *ngIf="submitted && form.delegate.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.delegate.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-lg-6 ">
+                                                    <label for="dateA">Data_a</label>
+                                                    <input type="date" class="form-control" id="dateA" placeholder="" formControlName="dateA" [ngClass]="{'is-invalid': submitted && form.dateA.errors}">
+                                                    <div *ngIf="submitted && form.dateA.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.dateA.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </tab>
+
+
+
+                                    <tab heading="T2">
+                                        <div class="row">
+                                            <div class="col-lg-6 row">
+
+                                                <div class="form-group col-lg-6">
+                                                    <label for="rendition">Gest predare</label>
+                                                    <input type="text" class="form-control" id="rendition" placeholder="" formControlName="rendition" [ngClass]="{'is-invalid': submitted && form.order.errors}">
+                                                    <div *ngIf="submitted && form.rendition.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.rendition.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-lg-6">
+                                                    <label for="um">U.M.</label>
+                                                    <input type="text" class="form-control" id="um" placeholder="" formControlName="um" [ngClass]="{'is-invalid': submitted && form.order.errors}">
+                                                    <div *ngIf="submitted && form.um.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.um.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-lg-6">
+                                                    <label for="reception">Gest primire</label>
+                                                    <input type="text" class="form-control" id="reception" placeholder="" formControlName="reception" [ngClass]="{'is-invalid': submitted && form.order.errors}">
+                                                    <div *ngIf="submitted && form.reception.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.reception.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-lg-6">
+                                                    <label for="qty">Cantitate</label>
+                                                    <input type="text" class="form-control" id="qty" placeholder="" formControlName="qty" [ngClass]="{'is-invalid': submitted && form.order.errors}">
+                                                    <div *ngIf="submitted && form.qty.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.qty.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6 row">
+                                                <div class="form-group col-lg-6">
+                                                    <label for="account">Cont</label>
+                                                    <input type="text" class="form-control" id="account" placeholder="" formControlName="account" [ngClass]="{'is-invalid': submitted && form.account.errors}">
+                                                    <div *ngIf="submitted && form.account.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.account.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-lg-6">
+                                                    <label for="beneficiary2" id="dot">.</label>
+                                                    <input type="text" class="form-control" id="beneficiary2" placeholder="" formControlName="beneficiary2" [ngClass]="{'is-invalid': submitted && form.invoice.errors}">
+                                                    <div *ngIf="submitted && form.beneficiary2.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.beneficiary2.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-lg-6">
+                                                    <label for="nameNp">Denumire NP</label>
+                                                    <input type="text" class="form-control" id="nameNp" placeholder="" formControlName="nameNp" [ngClass]="{'is-invalid': submitted && form.matriceCode.errors}">
+                                                    <div *ngIf="submitted && form.nameNp.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.nameNp.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-lg-6">
+                                                    <label for="price">Pret</label>
+                                                    <input type="text" class="form-control" id="price" placeholder="" formControlName="price" [ngClass]="{'is-invalid': submitted && form.price.errors}">
+                                                    <div *ngIf="submitted && form.price.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.price.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="obs">Observatii</label>
+                                                    <textarea type="textarea" class="form-control" id="obs" placeholder="" formControlName="obs" [ngClass]="{ 'is-invalid': submitted && form.obs.errors}" rows="5"></textarea>
+                                                    <div *ngIf="submitted && form.obs.errors" class="invalid-feedback">
+                                                        <span *ngIf="form.obs.errors.required">This value is required.</span>
+                                                    </div>
+                                                </div>
+                                                <button class="btn btn-primary" (click)="one()">1</button>
+                                            </div>
+
+                                        </div>
+                                    </tab>
+
+                                </tabset>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog1 = false;" label="Renunta"></button>
+                <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="onSubmit(validationform.value)" label="Salveaza"></button>
+            </div>
+        </footer>
+    </p-dialog>

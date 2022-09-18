@@ -1,0 +1,98 @@
+<div class="container-fluid">
+        <app-page-title title="Primeng module demo" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+        <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+
+<div *ngIf="!list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+<div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+    <div class="ui-widget-header ui-helper-clearfix ewoheader">
+        <actions (add)="add()" (edit)="edit()" (delete)="delete()" (export)="dt.exportCSV()"></actions>
+    </div>
+
+    <p-treeTable #dt [value]="list" [columns]="columns" selectionMode="multiple" 
+    [(selection)]="selectedItems" dataKey="denumire" (onLazyLoad)="loadNodes($event)" [loading]="loading" (onNodeExpand)="onNodeExpand($event)">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th>Denumire</th>
+                <th>Descriere</th>
+            </tr>
+            <tr class="ewoheaderfilter">
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'denumire', 'contains')">
+                </th>
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'description', 'contains')">
+                </th>  
+            </tr> 
+        </ng-template>
+        <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
+            <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode">
+                <td>
+                    <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                    {{rowData['denumire']}}
+                </td>
+                <td>
+                    {{rowData['description']}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-treeTable>
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+<p-dialog header="Detalii" [(visible)]="displayDialog1"
+          [responsive]="true" showEffect="fade" [modal]="true"
+          *ngIf="item" [width]="400">
+
+    <div class="ui-grid ui-grid-responsive ui-fluid ui-grid-pad ewoformcontent">
+
+        <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="item">
+            <div class="ui-grid-row">
+                    <form *ngIf="validationform" [formGroup]="validationform">
+        
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="id" formControlName="id">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+        
+                                <div class="form-group">
+                                    <label for="denumire">Denumire</label>
+                                    <input type="text" class="form-control" id="denumire" placeholder="Enter name" formControlName="denumire" [ngClass]="{'is-invalid': submitted && form.denumire.errors}">
+                                    <div *ngIf="submitted && form.denumire.errors" class="invalid-feedback">
+                                        <span *ngIf="form.denumire.errors.required">This value is required.</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="description">Descriere</label>
+                                    <textarea type="text" class="form-control" id="description" placeholder="Enter description" formControlName="description" [ngClass]="{'is-invalid': submitted && form.description.errors}"></textarea>
+                                    <div *ngIf="submitted && form.description.errors" class="invalid-feedback">
+                                        <span *ngIf="form.description.errors.required">This value is required.</span>
+                                     </div>
+                                 </div>
+        
+                            </div>
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+            <button type="button" class="btn-default" pButton icon="fa fa-close" (click)="displayDialog1 = false;" label="Renunta"></button>
+            <button pButton class="btn-info ewobtnsave" icon="fa fa-check" (click)="onSubmit(validationform.value)" label="Salveaza"></button>
+        </div>
+    </footer>
+</p-dialog>
+
+

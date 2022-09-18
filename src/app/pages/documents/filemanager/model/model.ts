@@ -2,7 +2,7 @@
 export class FolderFile {
     id: string;
     denumire: string;
-    parinteId: string;
+    parinteId: number;
     description: string;
     isFile:number = 0;
     nameFile:string;

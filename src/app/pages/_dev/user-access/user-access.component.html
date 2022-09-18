@@ -1,0 +1,36 @@
+<div class="row">
+    <div class="col-md-6 col-xs-12">
+        <p-table [columns]="cols" [value]="users" selectionMode="single" [(selection)]="selectedUser" dataKey="email" (onRowSelect)="selectUser($event)">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns">
+                        {{col.header}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+                    <td *ngFor="let col of columns">
+                        {{rowData[col.field]}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <div class="col-md-6 col-xs-12">
+        <p-pickList [source]="modules" [target]="targetModules" sourceHeader="List Modules" targetHeader="User Modules" [responsive]="true" filterBy="code" (onMoveToSource)="onMoveToSource($event)"
+                    (onMoveToTarget)="onMoveToTarget($event)"
+                    dragdrop="true" sourceFilterPlaceholder="Search by brand" targetFilterPlaceholder="Search by brand" [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}">
+            <ng-template let-car pTemplate="item">
+                <div class="ui-helper-clearfix">
+                    <!--      <img src="assets/showcase/images/demo/car/{{car.brand}}.png" style="display:inline-block;margin:2px 0 2px 2px" width="48">-->
+                    <div style="font-size:14px;float:left;margin:15px 5px 0 0">{{car.denumire}}</div>
+                </div>
+            </ng-template>
+        </p-pickList>
+    </div>
+</div>
+
+<div class="row">
+
+</div>

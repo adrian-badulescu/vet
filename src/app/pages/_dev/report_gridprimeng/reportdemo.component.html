@@ -1,0 +1,53 @@
+<div class="container-fluid">
+        <app-page-title title="Grid" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+        <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+
+<div *ngIf="!list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+<div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+
+    <p-table #dt [value]="list" [paginator]="true" [rows]="10" selectionMode="single" 
+    [(selection)]="selectedItems">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th [pSortableColumn]="'name'">Name
+                        <p-sortIcon [field]="'name'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'number'">Number
+                        <p-sortIcon [field]="'number'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'date'">Date
+                        <p-sortIcon [field]="'date'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </th>
+                </tr>
+                <tr class="ewoheaderfilter">
+                    <th>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'name', 'contains')">
+                    </th>
+                    <th>
+                        <input pInputText type="number" (input)="dt.filter($event.target.value, 'number', 'contains')">
+                    </th>
+                    <th>
+                        <input pInputText type="date" (input)="dt.filter($event.target.value, 'date', 'contains')">
+                    </th>    
+                </tr>    
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData" (dblclick)="onRowDblClick($event, rowData)">
+                    <td>{{rowData['name']}}</td>
+                    <td>{{rowData['number']}}</td>
+                    <td>{{rowData['date'] | date}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+

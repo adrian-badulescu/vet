@@ -1,0 +1,23 @@
+
+
+
+ <div class="container-fluid">
+  <app-page-title title="Parteneri/ Divizii" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  
+ <br>
+
+ <ngb-accordion #acc="ngbAccordion" activeIds="static-1" [closeOthers]="true">
+  <ngb-panel id="static-1" *ngFor="let task of tasks">
+      <ng-template ngbPanelTitle>
+          {{task.denumire}}
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <div *ngFor="let divizie of getdivizie(task['id']);let i=index;">
+          <span>{{i+1}}.{{divizie['divizie']}}</span>
+       </div>
+      </ng-template>
+  </ngb-panel>
+</ngb-accordion>
+
+ </div>
+  

@@ -1,0 +1,95 @@
+<div class="container-fluid">
+        <app-page-title title="Jurnal" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+        <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+
+<div *ngIf="!list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+<div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+
+    <p-table #dt [value]="list" [paginator]="true" [rows]="10" selectionMode="single" 
+    [(selection)]="selectedItems">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th [pSortableColumn]="'date'">Data
+                <p-sortIcon [field]="'date'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'number'">Numar
+                <p-sortIcon [field]="'number'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'document'">Document
+                <p-sortIcon [field]="'document'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'description'">Explicatii
+                <p-sortIcon [field]="'description'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'contd'">ContD
+                <p-sortIcon [field]="'contd'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'analiticd'">AnaliticD
+                <p-sortIcon [field]="'analiticd'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'contc'">ContC
+                <p-sortIcon [field]="'contc'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'analiticc'">AnaliticC
+                <p-sortIcon [field]="'analiticc'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'suma'">Suma
+                <p-sortIcon [field]="'suma'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+        </tr>
+        <tr class="ewoheaderfilter">
+            <th>
+                <input pInputText type="date" (input)="dt.filter($event.target.value, 'date', 'contains')">
+            </th>
+            <th>
+                <input pInputText type="number" (input)="dt.filter($event.target.value, 'number', 'contains')">
+            </th>
+            <th>
+                <input pInputText type="document" (input)="dt.filter($event.target.value, 'document', 'contains')">
+            </th>
+            <th>
+                <input pInputText type="description" (input)="dt.filter($event.target.value, 'description', 'contains')">
+            </th>
+            <th>
+                <input pInputText type="contd" (input)="dt.filter($event.target.value, 'contd', 'contains')">
+            </th>
+            <th>
+                <input pInputText type="analiticd" (input)="dt.filter($event.target.value, 'analiticd', 'contains')">
+            </th>
+            <th>
+                <input pInputText type="contc" (input)="dt.filter($event.target.value, 'contc', 'contains')">
+            </th>
+            <th>
+                <input pInputText type="analiticc" (input)="dt.filter($event.target.value, 'analiticc', 'contains')">
+            </th>
+            <th>
+                <input pInputText type="suma" (input)="dt.filter($event.target.value, 'suma', 'contains')">
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData" (dblclick)="onRowDblClick($event, rowData)">
+            <td>{{rowData['date'] | date}}</td>
+            <td>{{rowData['number']}}</td>
+            <td>{{rowData['document']}}</td>
+            <td>{{rowData['description']}}</td>
+            <td>{{rowData['contd']}}</td>
+            <td>{{rowData['analiticd']}}</td>
+            <td>{{rowData['contc']}}</td>
+            <td>{{rowData['analiticc']}}</td>
+            <td>{{rowData['suma']}}</td>
+        </tr>
+    </ng-template>
+        </p-table>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+

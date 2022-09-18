@@ -1,0 +1,71 @@
+<div class="container-fluid">
+        <app-page-title title="Plan de conturi" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+        <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+
+<div *ngIf="!list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+<div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+
+    <!-- selectionMode="multiple"  -->
+    <p-treeTable #dt [value]="list" [columns]="columns" selectionMode="single" 
+    [(selection)]="selectedItems" dataKey="denumire" (onLazyLoad)="loadNodes($event)" [loading]="loading" (onNodeExpand)="onNodeExpand($event)">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th>Cont</th>
+                <th>Denumire</th>
+                <th>Denumire scurta</th>
+                <th>Analitic</th>
+                <th>Analitic2</th>
+            </tr>
+            <tr class="ewoheaderfilter">
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'cont', 'contains')">
+                </th>
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'denumire', 'contains')">
+                </th>  
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'denumire_s', 'contains')">
+                </th> 
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'analitic', 'contains')">
+                </th>  
+                <th>
+                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'analitic2', 'contains')">
+                </th>   
+            </tr> 
+        </ng-template>
+        <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
+            <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode">
+                <td>
+                    <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                    {{rowData['cont']}}
+                </td>
+                <td>
+                    {{rowData['denumire']}}
+                </td>
+                <td>
+                    {{rowData['denumire_s']}}
+                </td>
+                <td>
+                    {{rowData['analitic']}}
+                </td>
+                <td>
+                    {{rowData['analitic2']}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-treeTable>
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+

@@ -1,7 +1,6 @@
 export const environment = {
   production: true,
-  server: {
-    
-    url:'http://localhost:3000'
+  server: {    
+    url:'https://erp-bo.azurewebsites.net:443'
   }
 };

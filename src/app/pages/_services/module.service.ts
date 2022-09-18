@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 
 import { Table, SearchResult } from '../_ewo/base/module/module.model';
 
-import { SortDirection } from '../_directives/module-sortable.directive';
+import { SortDirection } from '../_ewo/base/module-sortable.directive';
 
 interface State {
     page: number;

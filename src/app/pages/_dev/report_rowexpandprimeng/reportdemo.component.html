@@ -1,0 +1,65 @@
+<div class="container-fluid">
+        <app-page-title title="Col group" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+
+        <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+
+<div *ngIf="!list" id="loadingmodule" style="text-align: center;"><img src="../../../../assets/images/loading2.gif" style="width: 50px;"></div>
+
+<div *ngIf="list" class="ContentSideSections ewogrid" style="padding:1px 10px;">
+    <p-table [columns]="columns" [value]="list" dataKey="name">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th style="width: 3em"></th>
+                <th [pSortableColumn]="'name'">Name
+                </th>
+                <th [pSortableColumn]="'number'">Number
+                </th>
+                <th [pSortableColumn]="'date'">Date
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
+            <tr>
+                <td>
+                    <a href="#" [pRowToggler]="rowData">
+                        <i [ngClass]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
+                    </a>
+                </td>
+                <td>{{rowData['name']}}</td>
+                <td>{{rowData['number']}}</td>
+                <td>{{rowData['date'] | date}}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+            <tr>
+                <td [attr.colspan]="columns.length + 1">
+                    <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+                        <div class="ui-g-12 ui-md-3" style="text-align:center">
+                            <img [attr.alt]="rowData.brand" src="assets/showcase/images/demo/car/{{rowData.brand}}.png">
+                        </div>
+                        <div class="ui-g-12 ui-md-9">
+                            <div class="ui-g">
+                                <div class="ui-g-12">
+                                    <b>Name:</b> {{rowData.name}}
+                                </div>
+                                <div class="ui-g-12">
+                                    <b>Number:</b> {{rowData.number}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+
